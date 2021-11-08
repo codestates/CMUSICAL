@@ -1,6 +1,6 @@
 ---
 name: Issue Task Card
-about: Describe this issue template's purpose here.
+about: Use template to raise issue
 title: ''
 labels: ''
 assignees: ''
