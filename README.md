@@ -1,2 +1,2 @@
-# Culturian! :fire:
+# CMUSICAL! :fire:
 
