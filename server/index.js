@@ -3,13 +3,15 @@ const https = require('https');
 const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const routes = require('./routes');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ credentials: true, origin: true }));
-
 const PORT = 4000;
+
+app.use('/', routes);
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
