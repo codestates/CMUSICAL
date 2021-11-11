@@ -53,39 +53,37 @@ export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
   const [isHide, setHide] = useState(true);
 
   return (
-    <>
-      <Container>
-        <div className="box logo">
-          <Logo />
-        </div>
-        <div className="box">
-          <Search />
-        </div>
-        <div className="box" onClick={loginHandler}>
-          {isLogin ? (
-            <div className="submenu" onMouseOver={() => setHide(false)}>
-              <p>My Page</p>
-            </div>
-          ) : (
-            <p>Sign In</p>
-          )}
-        </div>
-        <SubNavi isHide={isHide} onMouseLeave={() => setHide(true)}>
-          <div className="menu">
-            <Link to="/favorites">
-              <span>Favorites</span>
-            </Link>
+    <Container>
+      <div className="box logo">
+        <Logo />
+      </div>
+      <div className="box">
+        <Search />
+      </div>
+      <div className="box" onClick={loginHandler}>
+        {isLogin ? (
+          <div className="submenu" onMouseOver={() => setHide(false)}>
+            <p>My Page</p>
           </div>
-          <div className="menu">
-            <Link to="/myinfo">
-              <span>My Info</span>
-            </Link>
-          </div>
-          <div className="menu">
-            <span onClick={logoutHandler}>Sign Out</span>
-          </div>
-        </SubNavi>
-      </Container>
-    </>
+        ) : (
+          <p>Sign In</p>
+        )}
+      </div>
+      <SubNavi isHide={isHide} onMouseLeave={() => setHide(true)}>
+        <div className="menu">
+          <Link to="/favorites">
+            <span>Favorites</span>
+          </Link>
+        </div>
+        <div className="menu">
+          <Link to="/myinfo">
+            <span>My Info</span>
+          </Link>
+        </div>
+        <div className="menu">
+          <span onClick={logoutHandler}>Sign Out</span>
+        </div>
+      </SubNavi>
+    </Container>
   );
 };

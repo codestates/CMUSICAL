@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigation } from '../components/Navigation';
+import { Footer } from '../components/Footer';
 
 export default function MyFavorites({ isLogin, logoutHandler }) {
   return (
@@ -8,7 +9,9 @@ export default function MyFavorites({ isLogin, logoutHandler }) {
         <Navigation isLogin={isLogin} logoutHandler={logoutHandler} />
       </div>
       <div id="body">즐겨찾기당</div>
-      <div id="footer"></div>
+      <div id="footer">
+        <Footer />
+      </div>
     </div>
   );
 }

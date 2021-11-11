@@ -26,7 +26,7 @@ export default function APP() {
   return (
     <Routes>
       <Route path="/" element={<Main isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
-      <Route path="/favorites" element={<MyFavorites isLogin={isLogin} logoutHandler={logoutHandler} />} />
+      <Route path="/favorites" element={<MyFavorites isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
       <Route path="myinfo" element={<MyInfo isLogin={isLogin} logoutHandler={logoutHandler} />} />
     </Routes>
   );
