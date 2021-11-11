@@ -1,45 +1,90 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Logo } from './Logo';
 import { Search } from './Search';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
-  border: 3px solid;
   display: flex;
+  width: auto;
+  min-height: 130px;
+  border: 3px solid;
   align-items: center;
   justify-content: center;
-  width: auto;
-  height: 130px;
-  padding: 0 30px;
+  flex-wrap: wrap;
+  position: relative;
 
   > .box {
+    display: flex;
+    flex: none;
     width: 100px;
     height: auto;
     border: 3px solid red;
-    display: flex;
     align-items: center;
+    justify-content: center;
     padding: 10px;
-    margin: 0 20px;
+    flex-wrap: wrap;
   }
 
   > .logo {
-    margin-right: 800px;
+    margin-right: auto;
   }
 `;
 
-export const Navigation = ({ isLogin, loginHandler }) => {
+export const SubNavi = styled.div`
+  display: flex;
+  display: ${(props) => (props.isHide ? 'none' : '')};
+  flex-direction: column;
+  width: 100px;
+  min-height: auto;
+  border: 3px solid blue;
+  background-color: white;
+  padding: 0 10px;
+  position: absolute;
+  right: 0%;
+
+  > .menu {
+    flex: none;
+    border: 3px solid;
+  }
+`;
+
+export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
+  const [isHide, setHide] = useState(true);
+
   return (
     <>
       <Container>
         <div className="box logo">
           <Logo />
         </div>
-        <div className="box search">
+        <div className="box">
           <Search />
         </div>
-        <div className="box text" onClick={loginHandler}>
-          {isLogin ? <p>Mypage</p> : <p>Signin</p>}
+        <div className="box" onClick={loginHandler}>
+          {isLogin ? (
+            <div className="submenu" onMouseOver={() => setHide(false)}>
+              <p>My Page</p>
+            </div>
+          ) : (
+            <p>Sign In</p>
+          )}
         </div>
+        <SubNavi isHide={isHide} onMouseLeave={() => setHide(true)}>
+          <div className="menu">
+            <Link to="/favorites">
+              <span>Favorites</span>
+            </Link>
+          </div>
+          <div className="menu">
+            <Link to="/myinfo">
+              <span>My Info</span>
+            </Link>
+          </div>
+          <div className="menu">
+            <span onClick={logoutHandler}>Sign Out</span>
+          </div>
+        </SubNavi>
       </Container>
     </>
   );
