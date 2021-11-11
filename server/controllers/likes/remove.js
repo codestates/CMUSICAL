@@ -1,6 +1,6 @@
 module.exports = {
   post: (req, res) => {
-    console.log('user isvalid');
+    console.log('likes remove');
     res.send();
   },
 };
