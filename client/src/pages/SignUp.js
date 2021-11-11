@@ -27,6 +27,10 @@ const SignUp = () => {
     setConfirmPw(e.target.value);
   };
 
+  const handleSignUp = () => {
+    console.log('Sign Up');
+  };
+
   return (
     <center>
       <h1>CMUSICAL</h1>
@@ -53,6 +57,9 @@ const SignUp = () => {
         <input type="password" value={cofirmPw} onChange={handleConfirmPw} />
         <span>비밀번호가 다릅니다.</span>
       </div>
+      <button type="button" onClick={handleSignUp}>
+        Sign Up
+      </button>
     </center>
   );
 };

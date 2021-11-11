@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SignIn = () => {
   const [userId, setUserId] = useState('');
@@ -16,6 +16,8 @@ const SignIn = () => {
     console.log('Sign In');
   };
 
+  useEffect(() => {});
+
   return (
     <div>
       <center>
@@ -28,10 +30,10 @@ const SignIn = () => {
           <span>Password</span>
           <input type="password" value={password} onChange={handlePassword} />
         </div>
-        <button type="submit" onClick={handleSignIn}>
+        <button type="button" onClick={handleSignIn}>
           Sign In
         </button>
-        <div>Sign Up</div>
+        <div>Link to Sign Up</div>
       </center>
     </div>
   );
