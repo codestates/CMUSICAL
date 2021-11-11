@@ -45,13 +45,17 @@ export const SubNavi = styled.div`
 
   > .menu {
     flex: none;
+    width: auto;
     border: 3px solid;
+
+    &:hover {
+      background: #339af0;
+    }
   }
 `;
 
 export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
   const [isHide, setHide] = useState(true);
-
   return (
     <Container>
       <div className="box logo">
@@ -61,11 +65,14 @@ export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
         <Search />
       </div>
       <div className="box" onClick={loginHandler}>
-        {isLogin ? (
+        {window.sessionStorage.getItem('loggedInfo') === 'true' && isLogin ? (
           <div className="submenu" onMouseOver={() => setHide(false)}>
             <p>My Page</p>
           </div>
         ) : (
+          // <Link to="/signin">
+          //   <p>Sign In</p>
+          // </Link>
           <p>Sign In</p>
         )}
       </div>

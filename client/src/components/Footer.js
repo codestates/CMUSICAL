@@ -44,7 +44,7 @@ export const Footer = () => {
       <div className="box">
         서비스 소개
         <Anchor href="https://github.com/codestates/cmusical" target="_blank">
-          Repogitory
+          Repository
         </Anchor>
         <Anchor href="https://github.com/codestates/CMUSICAL/wiki" target="_blank">
           Wiki
