@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom';
+
 export const Logo = () => {
   return (
     <>
-      <p>Logo Image</p>
+      <Link to="/">
+        <span>Logo Image</span>
+      </Link>
     </>
   );
 };
