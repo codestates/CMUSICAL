@@ -70,10 +70,9 @@ export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
             <p>My Page</p>
           </div>
         ) : (
-          // <Link to="/signin">
-          //   <p>Sign In</p>
-          // </Link>
-          <p>Sign In</p>
+          <Link to="/signin">
+            <p>Sign In</p>
+          </Link>
         )}
       </div>
       <SubNavi isHide={isHide} onMouseLeave={() => setHide(true)}>
