@@ -5,7 +5,7 @@ import { useNavigate, Routes, Route } from 'react-router-dom';
 import Main from './pages/Main';
 import MyFavorites from './pages/MyFavorites';
 import MyInfo from './pages/MyInfo';
-// import SignIn from './pages/SignIn';
+import SignIn from './pages/SignIn';
 
 export default function APP() {
   const navigate = useNavigate();
@@ -26,8 +26,8 @@ export default function APP() {
     <Routes>
       <Route path="/" element={<Main isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
       <Route path="/favorites" element={<MyFavorites isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
-      <Route path="myinfo" element={<MyInfo isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
-      {/* <Route path="/signin" element={<SignIn />} /> */}
+      <Route path="/myinfo" element={<MyInfo isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
+      <Route path="/signin" element={<SignIn />} />
     </Routes>
   );
 }
