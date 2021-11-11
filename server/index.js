@@ -4,6 +4,7 @@ const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes');
+const models = require('./models');
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,10 @@ app.use(cors({ credentials: true, origin: true }));
 const PORT = 4000;
 
 app.use('/', routes);
+
+models.sequelize.sync({ force: false }).then(() => {
+  console.log('success');
+});
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {

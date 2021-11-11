@@ -9,6 +9,6 @@ module.exports = {
     return verify(token, process.env.ACCESS_SECRET, (err, result) => {
       if (err) throw err;
       else return result;
-    }),
-  }
+    });
+  },
 };
