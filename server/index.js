@@ -14,9 +14,7 @@ const PORT = 4000;
 
 app.use('/', routes);
 
-models.sequelize.sync({ force: false }).then(() => {
-  console.log('success');
-});
+models.sequelize.sync({ force: false });
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
