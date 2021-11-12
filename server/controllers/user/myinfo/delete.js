@@ -1,5 +1,5 @@
 module.exports = {
-  post: (req, res) => {
+  delete: (req, res) => {
     console.log('user myinfo remove');
     res.send();
   },
