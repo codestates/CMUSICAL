@@ -22,7 +22,7 @@ export const Body = styled.div`
   }
 `;
 
-export default function Main({ isLogin, loginHandler, logoutHandler }) {
+export default function Main() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
   return (
     <div id="container">
       <div id="header">
-        <Navigation isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
+        <Navigation />
       </div>
       <Body>
         <div className="title">

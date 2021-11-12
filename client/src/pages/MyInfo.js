@@ -2,11 +2,11 @@ import React from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
-export default function MyInfo({ isLogin, loginHandler, logoutHandler }) {
+export default function MyInfo() {
   return (
     <div id="container">
       <div id="header">
-        <Navigation isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
+        <Navigation />
       </div>
       <div id="body">내정보당</div>
       <div id="footer">
