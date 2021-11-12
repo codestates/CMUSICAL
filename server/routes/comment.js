@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const add = require('../controllers/comment/add');
-const remove = require('../controllers/comment/remove');
-const edit = require('../controllers/comment/edit');
+const remove = require('../controllers/comment/delete');
+const edit = require('../controllers/comment/patch');
 const get = require('../controllers/comment/get');
 
-router.post('/add', add.post);
-router.post('/remove', remove.post);
-router.post('/edit', edit.post);
+router.post('/', add.post);
+router.delete('/', remove.delete);
+router.patch('/', edit.patch);
 router.get('/', get.get);
 
 module.exports = router;

@@ -1,7 +1,4 @@
-export const Search = () => {
-  return (
-    <>
-      <p>Search</p>
-    </>
-  );
-};
+import React from 'react';
+export default function Search() {
+  return <div>Hello Search</div>;
+}

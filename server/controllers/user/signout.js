@@ -1,6 +1,6 @@
 module.exports = {
   post: (req, res) => {
-    console.log('user signout');
-    res.send();
+    res.clearCookie('token');
+    res.status(200).send({ message: 'success' });
   },
 };

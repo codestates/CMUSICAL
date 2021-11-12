@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Logo } from './Logo';
-import { Search } from './Search';
+import Logo from './Logo';
+import Search from './Search';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Container = styled.div`
   display: flex;
@@ -54,8 +54,22 @@ export const SubNavi = styled.div`
   }
 `;
 
-export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
+export default function Navigation() {
+  const navigate = useNavigate();
   const [isHide, setHide] = useState(true);
+  const [refresh, setRefresh] = useState(false);
+
+  const loginHandler = () => {
+    window.sessionStorage.setItem('loggedInfo', true);
+    setRefresh(!refresh);
+  };
+
+  const logoutHandler = () => {
+    window.sessionStorage.setItem('loggedInfo', false);
+    navigate('/');
+    setRefresh(!refresh);
+  };
+
   return (
     <Container>
       <div className="box logo">
@@ -65,7 +79,7 @@ export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
         <Search />
       </div>
       <div className="box" onClick={loginHandler}>
-        {window.sessionStorage.getItem('loggedInfo') === 'true' && isLogin ? (
+        {window.sessionStorage.getItem('loggedInfo') === 'true' ? (
           <div className="submenu" onMouseOver={() => setHide(false)}>
             <p>My Page</p>
           </div>
@@ -92,4 +106,4 @@ export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
       </SubNavi>
     </Container>
   );
-};
+}
