@@ -39,7 +39,6 @@ export const Container = styled.div`
 export default function MusicalInfo() {
   const { id } = useParams('id'); //! id: musicalId => id를 musicalId로 바꾸는 js 문법
   const [test, setTest] = useState({});
-  // const [isExist, setIsExist] = useState(false);
 
   useEffect(() => {
     axios.get('https://localhost:4000/dummy/getitem').then((data) => {

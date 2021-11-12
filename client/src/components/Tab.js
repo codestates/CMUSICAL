@@ -6,7 +6,8 @@ export default function Tab({ images }) {
     <div>
       <div>tap1</div>
       <div>tap2</div>
-      <Posters images={images.styurl} />
+      {!images ? '로딩 이미지' : <Posters images={images.styurl} />}
+
       <Comments />
     </div>
   );
