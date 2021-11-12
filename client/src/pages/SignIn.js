@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { SignButton } from '../components/styles/SignButton.styled';
 
 const SignIn = () => {
-  const [userId, setUserId] = useState('');
+  const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleUserId = (e) => {
-    setUserId(e.target.value);
+  const handleUsername = (e) => {
+    setUserName(e.target.value);
   };
 
   const handlePassword = (e) => {
@@ -13,7 +15,13 @@ const SignIn = () => {
   };
 
   const handleSignIn = () => {
+    // TODO : 서버에 로그인을 요청하고, props로 전달된 callback을 호출하기
     console.log('Sign In');
+  };
+
+  const handleSignUp = () => {
+    // TODO : 서버에 로그인을 요청하고, props로 전달된 callback을 호출하기
+    console.log('Sign Up');
   };
 
   useEffect(() => {});
@@ -24,16 +32,18 @@ const SignIn = () => {
         <h1>CMUSICAL</h1>
         <div>
           <span>ID</span>
-          <input type="text" value={userId} onChange={handleUserId} />
+          <input type="text" value={username} onChange={handleUsername} />
         </div>
         <div>
           <span>Password</span>
           <input type="password" value={password} onChange={handlePassword} />
         </div>
-        <button type="button" onClick={handleSignIn}>
-          Sign In
-        </button>
-        <div>Link to Sign Up</div>
+        <Link to="/signin">
+          <SignButton onClick={handleSignIn}>Sign In</SignButton>
+        </Link>
+        <Link to="/signup">
+          <SignButton onClick={handleSignUp}>Sign Up</SignButton>
+        </Link>
       </center>
     </div>
   );

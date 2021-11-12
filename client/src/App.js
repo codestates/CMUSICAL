@@ -6,6 +6,8 @@ import Main from './pages/Main';
 import MyFavorites from './pages/MyFavorites';
 import MyInfo from './pages/MyInfo';
 import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+//import { Container } from './components/styles/Container.styled';
 
 export default function APP() {
   const navigate = useNavigate();
@@ -28,6 +30,7 @@ export default function APP() {
       <Route path="/favorites" element={<MyFavorites isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
       <Route path="/myinfo" element={<MyInfo isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
       <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
     </Routes>
   );
 }
