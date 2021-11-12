@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { SignButton } from '../components/styles/SignButton.styled';
 
 const SignIn = () => {
-  const [username, setUserName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleUsername = (e) => {
-    setUserName(e.target.value);
+    setUsername(e.target.value);
   };
 
   const handlePassword = (e) => {
