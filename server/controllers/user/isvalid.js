@@ -17,9 +17,9 @@ module.exports = {
       }
       // 일치하는게 없다면 중복검사 통과!
       if (!isValid) {
-        res.status(409).send({ message: 'success' });
+        res.status(200).send({ message: 'success' });
       } else {
-        res.status(200).send({ message: 'conflict information' });
+        res.status(409).send({ message: 'conflict information' });
       }
     } else {
       res.status(400).send({ message: 'empty request' });

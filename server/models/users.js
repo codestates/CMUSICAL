@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.users.belongsToMany(models.comment, { through: 'likes', foreignKey: 'userId' });
+      models.users.belongsToMany(models.comment, { through: 'likes', foreignKey: 'userId', sourceKey: 'id' });
       models.users.belongsToMany(models.items, { through: 'favorites', foreignKey: 'userId', sourceKey: 'id' });
 
       models.users.hasMany(models.comment, { foreignKey: 'userId', sourceKey: 'id', onDelete: 'cascade' });
