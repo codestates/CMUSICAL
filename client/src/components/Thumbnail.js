@@ -1,3 +1,5 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Box = styled.div`
@@ -24,13 +26,15 @@ export const Box = styled.div`
   }
 `;
 
-export const Thumbnail = ({ poster, title }) => {
+export default function Thumbnail({ poster, title, id }) {
   return (
     <Box>
       <div className="thumbnail">
-        <img src={poster} alt={title} width="300" height="400" />
+        <Link to={`/musicalinfo/${id}`}>
+          <img src={poster} alt={title} width="300" height="400" />
+        </Link>
         <div className="pick">찜꽁</div>
       </div>
     </Box>
   );
-};
+}

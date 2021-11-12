@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Navigation } from '../components/Navigation';
-import { Footer } from '../components/Footer';
-import { Thumbnail } from '../components/Thumbnail';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import Thumbnail from '../components/Thumbnail';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -27,10 +27,10 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
 
   useEffect(() => {
     axios.get('https://localhost:4000/dummy/getitems').then((data) => {
-      setList(data.data.dbs.db);
-      // console.log(data.data.dbs.db[0].poster);
+      setList(...list, data.data.dbs.db);
     });
   }, []);
+  // ? useEffect 두번째 인자로 준 [] 경고 이해하기!
 
   return (
     <div id="container">
@@ -43,7 +43,7 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
         </div>
         <div className="list">
           {list.map((el, idx) => {
-            return <Thumbnail key={idx} poster={el.poster} title={el.prfnm} />;
+            return <Thumbnail key={idx} poster={el.poster} title={el.prfnm} id={el.mt20id} />;
           })}
         </div>
       </Body>

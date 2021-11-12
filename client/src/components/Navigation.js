@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Logo } from './Logo';
-import { Search } from './Search';
+import Logo from './Logo';
+import Search from './Search';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -54,7 +54,7 @@ export const SubNavi = styled.div`
   }
 `;
 
-export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
+export default function Navigation({ isLogin, loginHandler, logoutHandler }) {
   const [isHide, setHide] = useState(true);
   return (
     <Container>
@@ -92,4 +92,4 @@ export const Navigation = ({ isLogin, loginHandler, logoutHandler }) => {
       </SubNavi>
     </Container>
   );
-};
+}

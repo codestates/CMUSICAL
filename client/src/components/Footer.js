@@ -1,5 +1,5 @@
 import React from 'react';
-import { Logo } from './Logo';
+import Logo from './Logo';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -35,7 +35,7 @@ const Anchor = styled(Span.withComponent('a'))`
   text-decoration: none;
 `;
 
-export const Footer = () => {
+export default function Footer() {
   return (
     <Container>
       <div className="box logo">
@@ -67,4 +67,4 @@ export const Footer = () => {
       </div>
     </Container>
   );
-};
+}

@@ -6,6 +6,7 @@ import Main from './pages/Main';
 import MyFavorites from './pages/MyFavorites';
 import MyInfo from './pages/MyInfo';
 import SignIn from './pages/SignIn';
+import MusicalInfo from './pages/MusicalInfo';
 
 export default function APP() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function APP() {
       <Route path="/favorites" element={<MyFavorites isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
       <Route path="/myinfo" element={<MyInfo isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
       <Route path="/signin" element={<SignIn />} />
+      <Route path="/musicalinfo/:id" element={<MusicalInfo isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
     </Routes>
   );
 }
