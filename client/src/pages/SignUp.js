@@ -1,122 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// 머지머지머지
+import styled from 'styled-components';
+import { SignButton } from '../components/styles/SignButton.styled';
+import validation from '../functions/validation';
 
 axios.defaults.withCredentials = true;
 
+export const Container = styled.div`
+  background: linear-gradient(135deg, #850c62, #f80759);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AppWrapper = styled.div`
+  background-color: #fff;
+  min-width: 350px;
+  min-width: 650px;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 5px;
+`;
+
+export const Title = styled.div`
+  color: #f80759;
+  text-align: center;
+  margin: 80px 0px 40px 0px;
+`;
+
 export default function SignUp() {
-  const [userinfo, setuserinfo] = useState({
+  const [values, setValues] = useState({
     username: '',
-    nickname: '',
     email: '',
+    nickname: '',
     password: '',
+    confirm: '',
   });
 
-  const [confirmPw, setConfirmPw] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  //const navigate = useNavigate();
+  const [formIsSubmitted, setFormIsSubmitted] = useState(false);
 
-  const handleInputValue = (key) => (e) => {
-    setuserinfo({ ...userinfo, [key]: e.target.value });
+  const submitForm = () => {
+    setFormIsSubmitted(true);
   };
 
-  const handleUsernameValidation = () => {
-    const idReg = /^[a-z][a-z0-9]{3,15}$/g;
-    if (!idReg.test(userinfo.username)) {
-      console.log('failed');
-    }
-  };
+  const [errors, setErrors] = useState({});
+  const [dataIsCorrect, setDataIsCorrect] = useState(false);
 
-  const handleNicknameValidation = () => {
-    const nicknameReg = /^[가-힣a-zA-Z0-9]{2,10}$/g;
-    if (!nicknameReg.test(userinfo.nickname)) {
-      console.log('failed');
-    }
-  };
-
-  const handleEmailValidation = () => {
-    const emailReg = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    if (!emailReg.test(userinfo.email)) {
-      console.log('failed');
-    }
-  };
-
-  const handlePasswordValidation = () => {
-    const passwordReg = /^.{8,10}$/g;
-    if (!passwordReg.test(userinfo.password)) {
-      console.log('failed');
-    }
-    if (confirmPw.length > 0) {
-      if (confirmPw === userinfo.password) {
-        console.log('비밀번호가 일치합니다.');
-      } else {
-        console.log('비밀번호가 다릅니다.');
-      }
-    }
-  };
-
-  const handleConfirmPw = (e) => {
-    setConfirmPw(e.target.value);
-    if (userinfo.password !== e.target.value) {
-      console.log('비밀번호가 다릅니다.');
-    } else {
-      console.log('비밀번호가 일치합니다.');
-    }
-  };
-
-  const handleSignUp = () => {
-    const { username, nickname, email, password, confirmPassword } = userinfo;
-    if (!username || !nickname || !email || !password || !confirmPassword) {
-      console.log('모든 항목은 필수입니다');
-    }
-    axios.post('https://localhost:4000/signup', { username, nickname, email, password, password }, { headers: { 'Content-Type': 'application/json' } }).then((res) => {
-      // console.log(res.data.message);
-      //navigate('/');
+  const handleChange = (event) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
     });
   };
 
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    setErrors(validation(values));
+    setDataIsCorrect(true);
+
+    axios.post('https://localhost:4000/token/signup', { values }, { headers: { 'Content-Type': 'application/json' } }).then((res) => {
+      // const navigate = useNavigate();
+      // navigate('/');
+    });
+  };
+
+  useEffect(() => {
+    //console.log(submitForm);
+    if (Object.keys(errors).length === 0 && dataIsCorrect) {
+      submitForm(true);
+    }
+  });
+
   return (
-    <div>
-      <center>
-        <h1>CMUSICAL</h1>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <div>
-            <span>ID</span>
-            <input type="text" onChange={handleInputValue('username')} />
-            <button type="submit" onClick={handleUsernameValidation}>
-              중복 검사
-            </button>
+    <Container>
+      <AppWrapper>
+        <Title>CMUSICAL</Title>
+        <form className="form-wrapper">
+          <div className="username">
+            <label className="label">ID</label>
+            <input className="input" type="text" name="username" value={values.username} onChange={handleChange} />
+            {errors.username && <p className="error">{errors.username}</p>}
+          </div>
+          <div className="email">
+            <label className="label">Email</label>
+            <input className="input" type="email" name="email" value={values.email} onChange={handleChange} />
+            {errors.email && <p className="error">{errors.email}</p>}
+          </div>
+          <div className="nickname">
+            <label className="label">Nickname</label>
+            <input className="input" type="text" name="nickname" value={values.nickname} onChange={handleChange} />
+            {errors.nickname && <p className="error">{errors.nickname}</p>}
+          </div>
+          <div className="password">
+            <label className="label">Password</label>
+            <input className="input" type="password" name="password" value={values.password} onChange={handleChange} />
+            {errors.password && <p className="error">{errors.password}</p>}
+          </div>
+          <div className="confirm">
+            <label className="label">Confirm</label>
+            <input className="input" type="password" name="confirm" value={values.confirm} onChange={handleChange} />
+            {errors.confirm && <p className="error">{errors.confirm}</p>}
           </div>
           <div>
-            <span>Nickname</span>
-            <input type="text" onChange={handleInputValue('nickname')} />
-            <button type="submit" onClick={handleNicknameValidation}>
-              중복 검사
-            </button>
+            <SignButton onClick={handleFormSubmit}>Sign Up</SignButton>
           </div>
-          <div>
-            <span>Email</span>
-            <input type="email" onChange={handleInputValue('email')} />
-            <button type="submit" onClick={handleEmailValidation}>
-              중복 검사
-            </button>
-          </div>
-          <div>
-            <span>Password</span>
-            <input type="password" onChange={handleInputValue('password')} />
-            <span>오류 메세지</span>
-            <div>
-              <span>Confirm Password</span>
-              <input type="password" value={confirmPw} onChange={handleConfirmPw} />
-              <span>오류 메세지</span>
-            </div>
-          </div>
-          <button type="button" onClick={handleSignUp}>
-            Sign Up
-          </button>
         </form>
-      </center>
-    </div>
+      </AppWrapper>
+    </Container>
   );
 }

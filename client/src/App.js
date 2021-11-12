@@ -6,6 +6,7 @@ import Main from './pages/Main';
 import MyFavorites from './pages/MyFavorites';
 import MyInfo from './pages/MyInfo';
 import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 import MusicalInfo from './pages/MusicalInfo';
 
 export default function APP() {
@@ -15,6 +16,7 @@ export default function APP() {
       <Route path="/favorites" element={<MyFavorites />} />
       <Route path="/myinfo" element={<MyInfo />} />
       <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
       <Route path="/musicalinfo/:id" element={<MusicalInfo />} />
     </Routes>
   );
