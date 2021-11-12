@@ -1,5 +1,5 @@
 module.exports = {
-  post: (req, res) => {
+  patch: (req, res) => {
     console.log('comment edit');
     res.send();
   },

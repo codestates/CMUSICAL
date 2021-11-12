@@ -9,10 +9,10 @@ const favoritesRouter = require('./favorites');
 const likesRouter = require('./likes');
 
 router.use('/comment', commentRouter);
+router.use('/', contentsRouter);
 router.use('/user', userRouter);
 router.use('/user/myinfo', myinfoRouter);
 router.use('/favorites', favoritesRouter);
 router.use('/likes', likesRouter);
-router.use('/', contentsRouter);
 
 module.exports = router;

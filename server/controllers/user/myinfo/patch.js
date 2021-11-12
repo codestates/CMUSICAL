@@ -1,5 +1,5 @@
 module.exports = {
-  post: (req, res) => {
+  patch: (req, res) => {
     console.log('user myinfo edit');
     res.send();
   },

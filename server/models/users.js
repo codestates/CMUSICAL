@@ -8,23 +8,38 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.users.belongsToMany(models.comment, { through: 'likes' });
-      models.users.belongsToMany(models.items, { through: 'favorites' });
+      models.users.belongsToMany(models.comment, { through: 'likes', foreignKey: 'userId' });
+      models.users.belongsToMany(models.items, { through: 'favorites', foreignKey: 'userId', sourceKey: 'id' });
 
-      models.users.hasMany(models.comment, { foreignKey: 'userId' });
+      models.users.hasMany(models.comment, { foreignKey: 'userId', sourceKey: 'id', onDelete: 'cascade' });
       // define association here
     }
   }
   users.init(
     {
-      username: DataTypes.STRING,
-      nickname: DataTypes.STRING,
-      password: DataTypes.STRING,
-      email: DataTypes.STRING,
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      nickname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,
       modelName: 'users',
+      // timestamps: true,
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     }
   );
   return users;

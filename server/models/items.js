@@ -8,29 +8,62 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.items.belongsToMany(models.users, { through: 'favorites' });
+      models.items.belongsToMany(models.users, { through: 'favorites', foreignKey: 'itemsId', sourceKey: 'id' });
 
-      models.items.hasMany(models.comment, { foreignKey: 'itemId' });
-      models.items.hasMany(models.posters, { foreignKey: 'itemId' });
+      models.items.hasMany(models.comment, {});
+      models.items.hasMany(models.posters, { foreignKey: 'itemId', sourceKey: 'id', onDelete: 'cascade' });
       // define association here
     }
   }
   items.init(
     {
-      title: DataTypes.STRING,
-      thumbnail: DataTypes.STRING,
-      theater: DataTypes.STRING,
-      price: DataTypes.STRING,
-      cast: DataTypes.STRING,
-      runtime: DataTypes.STRING,
-      showtime: DataTypes.STRING,
-      date_from: DataTypes.STRING,
-      date_to: DataTypes.STRING,
-      state: DataTypes.STRING,
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      thumbnail: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      theater: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      cast: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      runtime: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      showtime: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      dateFrom: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      dateTo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      state: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,
       modelName: 'items',
+      // timestamps: true,
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     }
   );
   return items;
