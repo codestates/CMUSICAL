@@ -13,7 +13,7 @@ app.use(cors({ credentials: true, origin: true }));
 const PORT = 4000;
 
 app.use('/', routes);
-
+//! force를 true로 바꾸면 데이터베이스 정보가 날아가니 건드리지 말 것!!
 models.sequelize.sync({ force: false });
 
 let server;
