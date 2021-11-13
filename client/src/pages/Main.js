@@ -22,34 +22,31 @@ export const Body = styled.div`
   }
 `;
 
-export default function Main() {
+export default function Main({ favoritesHandler }) {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    axios.get('https://localhost:4000/dummy/getitems').then((data) => {
-      setList(...list, data.data.dbs.db);
+    axios.get(`https://localhost:4000`).then((data) => {
+      setList(data.data.items);
     });
   }, []);
-  // ? useEffect 두번째 인자로 준 [] 경고 이해하기!
 
   return (
     <div id="container">
-      <div id="header">
-        <Navigation />
-      </div>
+      <Navigation />
       <Body>
         <div className="title">
           <h2>Musical List</h2>
         </div>
         <div className="list">
-          {list.map((el, idx) => {
-            return <Thumbnail key={idx} poster={el.poster} title={el.prfnm} id={el.mt20id} />;
-          })}
+          {list.length > 0
+            ? list.map((el, idx) => {
+                return <Thumbnail key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favoritesHandler={favoritesHandler} />;
+              })
+            : '로딩 이미지'}
         </div>
       </Body>
-      <div id="footer">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }
