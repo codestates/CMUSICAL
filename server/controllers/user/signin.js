@@ -22,7 +22,7 @@ module.exports = {
     } else {
       //todo: 유저 정보가 있다면 토큰을 만들고 토큰은 쿠키로 전달하고 success 메세지 전달
       const token = getToken(user);
-      console.log(token);
+      // console.log(token);
       res.cookie('token', token, { sameSite: 'None', secure: true, httpOnly: true });
       res.status(200).send({ message: 'success' });
     }
