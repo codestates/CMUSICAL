@@ -10,9 +10,11 @@ module.exports = {
     if (key) {
       if (key === 'username') {
         isValid = await users.findOne({ where: { username: req.body[key] } });
-      } else if (key === 'email') {
+      }
+      if (key === 'email') {
         isValid = await users.findOne({ where: { email: req.body[key] } });
-      } else if (key === 'nickname') {
+      }
+      if (key === 'nickname') {
         isValid = await users.findOne({ where: { nickname: req.body[key] } });
       }
       // 일치하는게 없다면 중복검사 통과!
