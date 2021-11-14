@@ -12,6 +12,7 @@ module.exports = {
         attributes: ['id', 'title', 'thumbnail'],
       });
 
+
       if (musicals.length > 0) {
         res.status(200).send({ items: musicals });
       } else {

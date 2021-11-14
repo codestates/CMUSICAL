@@ -5,11 +5,11 @@ node_modules/
 package-lock.json
 
 # production
-/build
+build/
 
 # misc
 .DS_Store
-.env*
+.env
 *.pem
 
 npm-debug.log*

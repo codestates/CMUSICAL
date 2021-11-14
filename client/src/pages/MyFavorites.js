@@ -1,17 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navigation from '../components/Navigation';
+import Thumbnail from '../components/Thumbnail';
 import Footer from '../components/Footer';
+import styled from 'styled-components';
+import axios from 'axios';
 
-export default function MyFavorites() {
+export const Container = styled.div`
+  width: auto;
+  min-height: auto;
+  border: 3px solid;
+
+  > #body {
+    border: 3px solid blue;
+    padding: 50px;
+  }
+`;
+
+export default function MyFavorites({ favoritesHandler, favoList }) {
+  // ? App 컴포넌트에서 추가/삭제된 favoList를 내려받아서 favoList 조회만 하면 되는데
+  // ? 굳이 GET 요청을 보내서 확인을 해야할까?
+  // useEffect(() => {
+  //   axios.get(' https://localhost:4000/favorites').then((data) => {});
+  // }, [favoList]);
+
   return (
-    <div id="container">
-      <div id="header">
-        <Navigation />
+    <Container>
+      <Navigation />
+      <div id="body">
+        {favoList.length > 0
+          ? favoList.map((el) => {
+              return <Thumbnail key={el.id} poster={el.thumbnail} title={el.title} id={el.id} favoritesHandler={favoritesHandler} />;
+            })
+          : '즐겨찾기를 추가해보세요!'}
       </div>
-      <div id="body">즐겨찾기당</div>
-      <div id="footer">
-        <Footer />
-      </div>
-    </div>
+      <Footer />
+    </Container>
   );
 }
