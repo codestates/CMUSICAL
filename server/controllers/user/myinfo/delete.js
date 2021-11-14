@@ -1,6 +1,26 @@
+const { isVerify } = require('../../tokenfunction');
+const { users } = require('../../../models');
 module.exports = {
-  delete: (req, res) => {
-    console.log('user myinfo remove');
-    res.send();
+  delete: async (req, res) => {
+    if (!req.headers.authorization) {
+      res.status(401).send({ message: 'unauthorized' });
+    } else {
+      const token = req.headers.authorization.split(' ')[1];
+      try {
+        const userInfo = isVerify(token);
+        if (userInfo) {
+          const { id } = userInfo;
+          await users.destroy({ where: { id } });
+
+          res.clearCookie('token');
+          res.status(200).send({ message: 'success' });
+        } else {
+          res.status(406).send({ message: 'invalid token' });
+        }
+      } catch (err) {
+        console.log(err);
+        res.status(500).send({ message: 'server error' });
+      }
+    }
   },
 };

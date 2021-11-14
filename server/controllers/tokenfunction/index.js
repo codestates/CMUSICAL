@@ -7,7 +7,7 @@ module.exports = {
   //todo: token 유효성 검사 함수 만들기
   isVerify: (token) => {
     return verify(token, process.env.ACCESS_SECRET, (err, result) => {
-      if (err) throw err;
+      if (err) return null;
       else return result;
     });
   },
