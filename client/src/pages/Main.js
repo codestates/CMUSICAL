@@ -26,7 +26,7 @@ export default function Main() {
   const [list, setList] = useState([]);
 
   const handleFilter = (text) => {
-    if (text !== '') {
+    if (text) {
       axios.get(`https://localhost:4000?title=${text}`).then((data) => {
         setList(data.data.items);
       });
@@ -38,9 +38,7 @@ export default function Main() {
   };
 
   useEffect(() => {
-    axios.get(`https://localhost:4000`).then((data) => {
-      setList(data.data.items);
-    });
+    handleFilter(window.sessionStorage.getItem('Keyword'));
   }, []);
 
   return (

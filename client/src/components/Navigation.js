@@ -75,6 +75,7 @@ export default function Navigation({ handleFilter }) {
   };
 
   const handleText = (e) => {
+    window.sessionStorage.setItem('Keyword', e.target.value);
     setText(e.target.value);
   };
 
@@ -88,7 +89,7 @@ export default function Navigation({ handleFilter }) {
         <Logo />
       </div>
       <div className="box search">
-        <input type="search" onChange={handleText} />
+        <input type="search" value={window.sessionStorage.getItem('Keyword')} onChange={handleText} />
         <button onClick={clickBtn}>🔍</button>
       </div>
       <div className="box" onClick={loginHandler}>
