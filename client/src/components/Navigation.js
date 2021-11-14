@@ -5,9 +5,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 //* components
 import Logo from './Logo';
-import Search from './Search';
-import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
 
 export const Container = styled.div`
   display: flex;
@@ -67,6 +64,9 @@ export default function Navigation({ handleFilter }) {
   const navigate = useNavigate();
   const [isHide, setHide] = useState(true);
   const [refresh, setRefresh] = useState(false);
+
+  // TODO: 로그인 상태 변경함수 -> 토큰 있는지 없는지로
+  const [isLogin, setIsLogin] = useState(false);
   const [text, setText] = useState('');
 
   const loginHandler = () => {
@@ -76,9 +76,9 @@ export default function Navigation({ handleFilter }) {
 
   const logoutHandler = () => {
     //! 로그아웃 요청 보내기
-    window.sessionStorage.setItem('loggedInfo', false);
-    navigate('/');
-    setRefresh(!refresh);
+    // window.sessionStorage.setItem('loggedInfo', false);
+    // navigate('/');
+    // setRefresh(!refresh);
   };
 
   // TODO: input의 상태
