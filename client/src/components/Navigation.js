@@ -74,12 +74,11 @@ export default function Navigation({ handleFilter }) {
     setRefresh(!refresh);
   };
 
-  // TODO: input의 상태
   const handleText = (e) => {
+    window.sessionStorage.setItem('Keyword', e.target.value);
     setText(e.target.value);
   };
 
-  // TODO: button 클릭 시 이벤트 발생
   const clickBtn = () => {
     handleFilter(text);
   };
@@ -90,7 +89,7 @@ export default function Navigation({ handleFilter }) {
         <Logo />
       </div>
       <div className="box search">
-        <input type="search" onChange={handleText} />
+        <input type="search" value={window.sessionStorage.getItem('Keyword')} onChange={handleText} />
         <button onClick={clickBtn}>🔍</button>
       </div>
       <div className="box" onClick={loginHandler}>

@@ -17,11 +17,7 @@ export const Container = styled.div`
 `;
 
 export default function MyFavorites({ favoritesHandler, favoList }) {
-  // ? App 컴포넌트에서 추가/삭제된 favoList를 내려받아서 favoList 조회만 하면 되는데
-  // ? 굳이 GET 요청을 보내서 확인을 해야할까?
-  // useEffect(() => {
-  //   axios.get(' https://localhost:4000/favorites').then((data) => {});
-  // }, [favoList]);
+  // TODO: useEffect() - GET 요청으로 즐겨찾기 목록 조회하기
 
   return (
     <Container>
@@ -29,7 +25,7 @@ export default function MyFavorites({ favoritesHandler, favoList }) {
       <div id="body">
         {favoList.length > 0
           ? favoList.map((el) => {
-              return <Thumbnail key={el.id} poster={el.thumbnail} title={el.title} id={el.id} favoritesHandler={favoritesHandler} />;
+              return <Thumbnail key={el.id} poster={el.thumbnail} title={el.title} id={el.id} />;
             })
           : '즐겨찾기를 추가해보세요!'}
       </div>
