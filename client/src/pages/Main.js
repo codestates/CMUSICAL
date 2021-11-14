@@ -22,7 +22,7 @@ export const Body = styled.div`
   }
 `;
 
-export default function Main({ favoritesHandler }) {
+export default function Main() {
   const [list, setList] = useState([]);
 
   const handleFilter = (text) => {
@@ -53,7 +53,7 @@ export default function Main({ favoritesHandler }) {
         <div className="list">
           {list
             ? list.map((el, idx) => {
-                return <Thumbnail key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favoritesHandler={favoritesHandler} />;
+                return <Thumbnail key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} />;
               })
             : '로딩 이미지'}
         </div>

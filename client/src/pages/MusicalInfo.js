@@ -44,7 +44,7 @@ export default function MusicalInfo() {
 
   useEffect(() => {
     axios.get(`https://localhost:4000/getitem`, { params: { id } }).then((data) => {
-      const info = data.data.items;
+      const info = data.data.item;
       setItem(info);
     });
   }, []);
