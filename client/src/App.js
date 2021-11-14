@@ -8,9 +8,6 @@ import MyInfo from './pages/MyInfo';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import MusicalInfo from './pages/MusicalInfo';
-import axios from 'axios';
-
-axios.defaults.withCredentials = true;
 
 export default function APP() {
   return (

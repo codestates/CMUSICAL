@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true;
 
 export const Body = styled.div`
   width: auto;
-  min-height: 500px;
+  min-height: auto;
   border: 3px solid green;
 
   > .list {
@@ -42,7 +42,7 @@ export default function Main() {
   }, []);
 
   return (
-    <div id="container">
+    <>
       <Navigation handleFilter={handleFilter} />
       <Body>
         <div className="title">
@@ -57,6 +57,6 @@ export default function Main() {
         </div>
       </Body>
       <Footer />
-    </div>
+    </>
   );
 }

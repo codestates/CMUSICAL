@@ -1,36 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { MdBookmarkAdd } from 'react-icons/md';
+import { MdOutlineBookmarkAdd } from 'react-icons/md';
 
 export const Box = styled.div`
   width: 300px;
-  min-height: 400px;
+  min-height: auto;
   border: 3px solid;
-  margin: 20px;
 
   > .thumbnail {
     width: auto;
-    min-height: 400px;
-    border: 1px solid red;
     position: relative;
 
     > .pick {
-      width: 30px;
-      min-height: 30px;
-      border: 3px solid blue;
+      width: 50px;
+      min-height: 50px;
       position: absolute;
       top: 0;
       right: 0;
       cursor: pointer;
-
-      &:hover {
-        background: #339af0;
-      }
     }
   }
 `;
 
 export default function Thumbnail({ thumbnail, title, id }) {
+  const [icon, setIcon] = useState(false);
   // TODO: 즐겨찾기 목록 상태 만들기
 
   const addFavorites = () => {
@@ -45,6 +40,14 @@ export default function Thumbnail({ thumbnail, title, id }) {
     }
   };
 
+  const onIcon = () => {
+    setIcon(true);
+  };
+
+  const offIcon = () => {
+    setIcon(false);
+  };
+
   return (
     <Box>
       <div className="thumbnail">
@@ -52,7 +55,7 @@ export default function Thumbnail({ thumbnail, title, id }) {
           <img src={thumbnail} alt={title} width="300" height="400" />
         </Link>
         <div className="pick" onClick={addFavorites}>
-          찜꽁
+          {icon ? <MdBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} /> : <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />}
         </div>
       </div>
     </Box>

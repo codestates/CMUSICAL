@@ -33,6 +33,10 @@ const Span = styled.span``;
 
 const Anchor = styled(Span.withComponent('a'))`
   text-decoration: none;
+
+  &:visited {
+    color: black;
+  }
 `;
 
 export default function Footer() {
