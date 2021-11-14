@@ -5,7 +5,6 @@ dotenv.config();
 
 module.exports = {
   post: async (req, res) => {
-    console.log(req.body);
     const { username, password } = req.body;
 
     // 요청과 일치하는 유저가 있는지 조회
@@ -17,14 +16,19 @@ module.exports = {
     });
     // console.log(user);
     // 없다면 비밀번호와 아이디 중 하나가 일치하지 않는 것
-    if (!user) {
-      res.status(400).send({ message: 'invalid username or password' });
-    } else {
-      //todo: 유저 정보가 있다면 토큰을 만들고 토큰은 쿠키로 전달하고 success 메세지 전달
-      const token = getToken(user);
-      // console.log(token);
-      res.cookie('token', token, { sameSite: 'None', secure: true, httpOnly: true });
-      res.status(200).send({ message: 'success' });
+    try {
+      if (!user) {
+        res.status(400).send({ message: 'invalid username or password' });
+      } else {
+        //todo: 유저 정보가 있다면 토큰을 만들고 토큰은 쿠키로 전달하고 success 메세지 전달
+        const token = getToken(user);
+        // console.log(token);
+        res.cookie('token', token, { sameSite: 'None', secure: true, httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24) });
+        res.status(200).send({ message: 'success' });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({ message: 'server error' });
     }
   },
 };
