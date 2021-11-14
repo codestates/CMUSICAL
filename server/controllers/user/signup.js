@@ -7,21 +7,21 @@ module.exports = {
     if (username && email && nickname && password) {
       // todo: 모든 정보가 들어왔다면 유효성 검사!
       if (!/^[a-z][a-z0-9]{3,15}$/g.test(username)) {
-        return res.status(406).send({ message: 'inValid username' });
+        return res.status(406).send({ message: 'invalid username' });
       }
       if (!/\S+@\S+\.\S+/.test(email)) {
-        return res.status(406).send({ message: 'inValid email' });
+        return res.status(406).send({ message: 'invalid email' });
       }
       if (!/^[가-힣a-zA-Z0-9]{2,10}$/g.test(nickname)) {
-        return res.status(406).send({ message: 'inValid nickname' });
+        return res.status(406).send({ message: 'invalid nickname' });
       }
       if (password.length < 8) {
-        return res.status(406).send({ message: 'inValid password' });
+        return res.status(406).send({ message: 'invalid password' });
       }
       // todo: 모든 유효성 검사를 통과 했다면 저장하기 전에 다시한번 중복검사!
       // 대소문자 구분을 못함...
       if (await users.findOne({ where: { username } })) {
-        return res.status(409).send({ message: 'conflict usename' });
+        return res.status(409).send({ message: 'conflict username' });
       }
       if (await users.findOne({ where: { email } })) {
         return res.status(409).send({ message: 'conflict email' });

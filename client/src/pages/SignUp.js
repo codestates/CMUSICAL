@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+//* packages
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
+//* components
 import { SignButton } from '../components/styles/SignButton.styled';
+//* functions
 import validation from '../functions/validation';
 
 axios.defaults.withCredentials = true;
@@ -31,7 +34,21 @@ export const Title = styled.div`
   margin: 80px 0px 40px 0px;
 `;
 
-export default function SignUp() {
+export const AlertBox = styled.div`
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+`;
+
+const SignUp = () => {
+  const navigate = useNavigate();
+
   const [values, setValues] = useState({
     username: '',
     email: '',
@@ -40,69 +57,84 @@ export default function SignUp() {
     confirm: '',
   });
 
-  const [formIsSubmitted, setFormIsSubmitted] = useState(false);
-
-  const submitForm = () => {
-    setFormIsSubmitted(true);
+  const handleInputValue = (key) => (e) => {
+    setValues({ ...values, [key]: e.target.value });
   };
 
-  const [errors, setErrors] = useState({});
-  const [dataIsCorrect, setDataIsCorrect] = useState(false);
+  //! 유효성 검사 안내 메세지
+  const [validationMsg, setValidationMsg] = useState({});
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
+  //! 중복 검사 안내 메세지
+  const [duplicationMsg, setDuplicationMsg] = useState('');
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    setErrors(validation(values));
-    setDataIsCorrect(true);
+    setValidationMsg(validation(values));
 
-    axios.post('https://localhost:4000/token/signup', { values }, { headers: { 'Content-Type': 'application/json' } }).then((res) => {
-      // const navigate = useNavigate();
-      // navigate('/');
-    });
+    const { username, email, nickname, password } = values;
+    axios
+      .post(
+        'https://localhost:4000/user/signup',
+        //
+        { username, email, nickname, password },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          return navigate('/signin');
+          // TODO: "회원가입이 완료되었습니다" 모달창
+        }
+      })
+      .catch((err) => {
+        // TODO: 서버에서 리팩토링 된 메세지 보고 중복안내메세지 띄우기
+        // console.log('이것은 err.response', err.response);
+        if (err.response.status === 409) {
+          if (err.response.data.message === 'conflict username') {
+            return setDuplicationMsg('중복된 아이디입니다.');
+          }
+        }
+        // if (err.response.status === 409 && err.response.data.message === 'conflict username') {
+        //   return setDuplicationMsg('중복된 아이디입니다.');
+        // } else if (err.response.status === 409 && err.response.data.message === 'conflict email') {
+        //   return setDuplicationMsg('중복된 이메일입니다.');
+        // } else if (err.response.status === 409 && err.response.data.message === 'conflict nickname') {
+        //   return setDuplicationMsg('중복된 닉네임입니다.');
+        // }
+      });
   };
-
-  useEffect(() => {
-    //console.log(submitForm);
-    if (Object.keys(errors).length === 0 && dataIsCorrect) {
-      submitForm(true);
-    }
-  });
 
   return (
     <Container>
       <AppWrapper>
-        <Title>CMUSICAL</Title>
+        <Link to="/">
+          <Title>CMUSICAL</Title>
+        </Link>
         <form className="form-wrapper">
+          <AlertBox>{duplicationMsg}</AlertBox>
           <div className="username">
             <label className="label">ID</label>
-            <input className="input" type="text" name="username" value={values.username} onChange={handleChange} />
-            {errors.username && <p className="error">{errors.username}</p>}
+            <input className="input" type="text" name="username" onChange={handleInputValue('username')} />
+            {validationMsg.username && <p className="error">{validationMsg.username}</p>}
           </div>
           <div className="email">
             <label className="label">Email</label>
-            <input className="input" type="email" name="email" value={values.email} onChange={handleChange} />
-            {errors.email && <p className="error">{errors.email}</p>}
+            <input className="input" type="email" name="email" onChange={handleInputValue('email')} />
+            {validationMsg.email && <p className="error">{validationMsg.email}</p>}
           </div>
           <div className="nickname">
             <label className="label">Nickname</label>
-            <input className="input" type="text" name="nickname" value={values.nickname} onChange={handleChange} />
-            {errors.nickname && <p className="error">{errors.nickname}</p>}
+            <input className="input" type="text" name="nickname" onChange={handleInputValue('nickname')} />
+            {validationMsg.nickname && <p className="error">{validationMsg.nickname}</p>}
           </div>
           <div className="password">
             <label className="label">Password</label>
-            <input className="input" type="password" name="password" value={values.password} onChange={handleChange} />
-            {errors.password && <p className="error">{errors.password}</p>}
+            <input className="input" type="password" name="password" onChange={handleInputValue('password')} />
+            {validationMsg.password && <p className="error">{validationMsg.password}</p>}
           </div>
           <div className="confirm">
             <label className="label">Confirm</label>
-            <input className="input" type="password" name="confirm" value={values.confirm} onChange={handleChange} />
-            {errors.confirm && <p className="error">{errors.confirm}</p>}
+            <input className="input" type="password" name="confirm" onChange={handleInputValue('confirm')} />
+            {validationMsg.confirm && <p className="error">{validationMsg.confirm}</p>}
           </div>
           <div>
             <SignButton onClick={handleFormSubmit}>Sign Up</SignButton>
@@ -111,4 +143,6 @@ export default function SignUp() {
       </AppWrapper>
     </Container>
   );
-}
+};
+
+export default SignUp;

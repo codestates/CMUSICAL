@@ -1,48 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+//* packages
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import axios from 'axios';
+//* components
 import { SignButton } from '../components/styles/SignButton.styled';
 
+axios.defaults.withCredentials = true;
+
+export const AlertBox = styled.div`
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+`;
+
 const SignIn = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [signInInfo, setSignInInfo] = useState({
+    username: '',
+    password: '',
+  });
 
-  const handleUsername = (e) => {
-    setUsername(e.target.value);
-  };
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
+  const navigate = useNavigate();
+
+  const handleInputValue = (key) => (e) => {
+    setSignInInfo({ ...signInInfo, [key]: e.target.value });
   };
 
   const handleSignIn = () => {
-    // TODO : 서버에 로그인을 요청하고, props로 전달된 callback을 호출하기
-    console.log('Sign In');
-  };
+    const { username, password } = signInInfo;
 
-  const handleSignUp = () => {
-    // TODO : 서버에 로그인을 요청하고, props로 전달된 callback을 호출하기
-    console.log('Sign Up');
-  };
+    if (!username || !password) {
+      return setErrorMessage('아이디와 비밀번호를 입력하세요');
+    }
 
-  useEffect(() => {});
+    axios
+      .post(
+        'https://localhost:4000/user/signin',
+        //
+        { username, password },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((res) => {
+        if (res.status === 400) {
+          return setErrorMessage('아이디 혹은 비밀번호를 확인하세요.');
+        }
+        if (res.status === 200) {
+          navigate('/');
+        }
+      });
+  };
 
   return (
     <div>
       <center>
         <h1>CMUSICAL</h1>
         <div>
+          <AlertBox>{errorMessage}</AlertBox>
           <span>ID</span>
-          <input type="text" value={username} onChange={handleUsername} />
+          <input type="text" onChange={handleInputValue('username')} />
         </div>
         <div>
           <span>Password</span>
-          <input type="password" value={password} onChange={handlePassword} />
+          <input type="password" onChange={handleInputValue('password')} />
         </div>
-        <Link to="/signin">
+        <div>
           <SignButton onClick={handleSignIn}>Sign In</SignButton>
-        </Link>
+        </div>
         <Link to="/signup">
-          <SignButton onClick={handleSignUp}>Sign Up</SignButton>
+          <SignButton>Sign Up</SignButton>
         </Link>
       </center>
     </div>

@@ -1,8 +1,11 @@
+//* packages
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import axios from 'axios';
+//* components
 import Logo from './Logo';
 import Search from './Search';
-import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
 
 export const Container = styled.div`
   display: flex;
@@ -65,6 +68,7 @@ export default function Navigation() {
   };
 
   const logoutHandler = () => {
+    //! 로그아웃 요청 보내기
     window.sessionStorage.setItem('loggedInfo', false);
     navigate('/');
     setRefresh(!refresh);
@@ -79,6 +83,7 @@ export default function Navigation() {
         <Search />
       </div>
       <div className="box" onClick={loginHandler}>
+        {/*여기 토큰 있는지 없는지 여부만 판단하는 코드로 대체*/}
         {window.sessionStorage.getItem('loggedInfo') === 'true' ? (
           <div className="submenu" onMouseOver={() => setHide(false)}>
             <p>My Page</p>
