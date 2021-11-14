@@ -74,12 +74,10 @@ export default function Navigation({ handleFilter }) {
     setRefresh(!refresh);
   };
 
-  // TODO: input의 상태
   const handleText = (e) => {
     setText(e.target.value);
   };
 
-  // TODO: button 클릭 시 이벤트 발생
   const clickBtn = () => {
     handleFilter(text);
   };
