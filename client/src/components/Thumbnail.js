@@ -31,12 +31,12 @@ export const Box = styled.div`
 `;
 
 export default function Thumbnail({ thumbnail, title, id, favoritesHandler }) {
-  const handled = () => {
+  const addFavorites = () => {
     if (window.sessionStorage.getItem('loggedInfo') === 'true') {
-      //! 수정: cookie에 token이 존재하는지 확인하기!!
+      // TODO: sessionStorage 대신 cookie에 token이 존재하는지 확인하기
       favoritesHandler(id);
     } else {
-      // ! 모달이든 이펙트든 로그인하고 이용하라고 보여주기
+      // TODO: 모달이든 이펙트든 로그인하고 이용하라고 보여주기
       console.log('로그인하고 이용하세요!');
     }
   };
@@ -47,7 +47,7 @@ export default function Thumbnail({ thumbnail, title, id, favoritesHandler }) {
         <Link to={`/musicalinfo/${id}`}>
           <img src={thumbnail} alt={title} width="300" height="400" />
         </Link>
-        <div className="pick" onClick={handled}>
+        <div className="pick" onClick={addFavorites}>
           찜꽁
         </div>
       </div>
