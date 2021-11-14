@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.items.belongsToMany(models.users, { through: 'favorites', foreignKey: 'itemsId', sourceKey: 'id' });
 
-      models.items.hasMany(models.comment, {});
+      models.items.hasMany(models.comment, { foreignKey: 'itemId', sourceKey: 'id', onDelete: 'cascade' });
       models.items.hasMany(models.posters, { foreignKey: 'itemId', sourceKey: 'id', onDelete: 'cascade' });
       // define association here
     }
