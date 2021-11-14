@@ -35,10 +35,6 @@ export const Title = styled.div`
 `;
 
 export const AlertBox = styled.div`
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-
   position: relative;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
@@ -57,15 +53,45 @@ const SignUp = () => {
     confirm: '',
   });
 
-  const handleInputValue = (key) => (e) => {
-    setValues({ ...values, [key]: e.target.value });
-  };
-
   //! 유효성 검사 안내 메세지
-  const [validationMsg, setValidationMsg] = useState({});
+  const [validationMsg, setValidationMsg] = useState('');
 
   //! 중복 검사 안내 메세지
-  const [duplicationMsg, setDuplicationMsg] = useState('');
+  const [duplicationMsg, setDuplicationMsg] = useState({
+    username: '',
+    email: '',
+    nickname: '',
+  });
+
+  const handleInputValue = (key) => (e) => {
+    //e.preventDefault();
+    setValues({ ...values, [key]: e.target.value });
+    setValidationMsg(validation(values)); // 유효성 검사
+    setTimeout(() => {
+      console.log('hihi');
+    }, 2000);
+    axios
+      .post(
+        'https://localhost:4000/user/isValid',
+        //
+        { [key]: e.target.value }
+      )
+      .then((res) => {
+        if (key === 'username') setDuplicationMsg({ ...duplicationMsg, [duplicationMsg.username]: '' });
+
+        //console.log('test');
+        // TODO: "회원가입이 완료되었습니다" 모달창
+      })
+      .catch((err) => {
+        // TODO: 서버에서 리팩토링 된 메세지 보고 중복안내메세지 띄우기
+        console.log('이것은 err.response', err.response);
+        if (err.response.status === 409) {
+          if (err.response.data.message === 'conflict information') {
+            if (key === 'username') setDuplicationMsg({ ...duplicationMsg, [duplicationMsg.username]: '사용중인 아이디입니다.' });
+          }
+        }
+      });
+  };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -80,26 +106,17 @@ const SignUp = () => {
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((res) => {
-        if (res.status === 200) {
-          return navigate('/signin');
-          // TODO: "회원가입이 완료되었습니다" 모달창
-        }
+        return navigate('/signin');
+        // TODO: "회원가입이 완료되었습니다" 모달창
       })
       .catch((err) => {
         // TODO: 서버에서 리팩토링 된 메세지 보고 중복안내메세지 띄우기
-        // console.log('이것은 err.response', err.response);
-        if (err.response.status === 409) {
+        console.log('이것은 err.response', err.response);
+        if (err.response.status === 406) {
           if (err.response.data.message === 'conflict username') {
             return setDuplicationMsg('중복된 아이디입니다.');
           }
         }
-        // if (err.response.status === 409 && err.response.data.message === 'conflict username') {
-        //   return setDuplicationMsg('중복된 아이디입니다.');
-        // } else if (err.response.status === 409 && err.response.data.message === 'conflict email') {
-        //   return setDuplicationMsg('중복된 이메일입니다.');
-        // } else if (err.response.status === 409 && err.response.data.message === 'conflict nickname') {
-        //   return setDuplicationMsg('중복된 닉네임입니다.');
-        // }
       });
   };
 
@@ -109,12 +126,16 @@ const SignUp = () => {
         <Link to="/">
           <Title>CMUSICAL</Title>
         </Link>
-        <form className="form-wrapper">
-          <AlertBox>{duplicationMsg}</AlertBox>
+        <div className="form-wrapper">
           <div className="username">
             <label className="label">ID</label>
             <input className="input" type="text" name="username" onChange={handleInputValue('username')} />
-            {validationMsg.username && <p className="error">{validationMsg.username}</p>}
+            {validationMsg.username && (
+              <p className="error">
+                {validationMsg.username}
+                {duplicationMsg.username}
+              </p>
+            )}
           </div>
           <div className="email">
             <label className="label">Email</label>
@@ -139,7 +160,7 @@ const SignUp = () => {
           <div>
             <SignButton onClick={handleFormSubmit}>Sign Up</SignButton>
           </div>
-        </form>
+        </div>
       </AppWrapper>
     </Container>
   );
