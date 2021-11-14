@@ -7,6 +7,8 @@ import Footer from '../components/Footer';
 import styled from 'styled-components';
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 export const Container = styled.div`
   width: auto;
   min-height: auto;
@@ -38,12 +40,12 @@ export const Container = styled.div`
 
 export default function MusicalInfo() {
   const { id } = useParams('id'); //! id: musicalId => id를 musicalId로 바꾸는 js 문법
-  const [test, setTest] = useState({});
+  const [item, setItem] = useState({});
 
   useEffect(() => {
-    axios.get('https://localhost:4000/dummy/getitem').then((data) => {
-      const info = data.data.dbs.db;
-      setTest(info);
+    axios.get(`https://localhost:4000/getitem`, { params: { id } }).then((data) => {
+      const info = data.data.items;
+      setItem(info);
     });
   }, []);
 
@@ -51,25 +53,28 @@ export default function MusicalInfo() {
     <Container>
       <Navigation />
       <div id="body">
-        <div className="top">
-          <div className="thumbnail">
-            <Thumbnail poster={test.poster} title={test.prfnm} />
+        {item ? (
+          <div className="top">
+            <div className="thumbnail">
+              <Thumbnail thumbnail={item.thumbnail} title={item.title} id={item.id} />
+            </div>
+            <div className="details">
+              <span>{item.title}</span>
+              <span>{item.theater}</span>
+              <span>{item.pcseguidance}</span>
+              <span>{item.cast}</span>
+              <span>{item.price}</span>
+              <span>{item.runtime}</span>
+              <span>{item.showtime}</span>
+              <span>{item.dateFrom}</span>
+              <span>{item.dateTo}</span>
+              <span>{item.state}</span>
+            </div>
           </div>
-          <div className="details">
-            <span>{test.prfnm}</span>
-            <span>{test.fcltynm}</span>
-            <span>{test.pcseguidance}</span>
-            <span>{test.prfcast}</span>
-            <span>{test.prfruntime}</span>
-            <span>{test.dtquidance}</span>
-            <span>{test.prfpdfrom}</span>
-            <span>{test.prfpdto}</span>
-            <span>{test.prfstate}</span>
-          </div>
-        </div>
-        <div className="bottom">
-          <Tab images={test.styurls} />
-        </div>
+        ) : (
+          '로딩 이미지'
+        )}
+        <div className="bottom">{/* 상세이미지부분 <Tab images={item.styurls} /> */}</div>
       </div>
       <Footer />
     </Container>
