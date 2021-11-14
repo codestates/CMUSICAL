@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Logo from './Logo';
-import Search from './Search';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -24,6 +23,10 @@ export const Container = styled.div`
     justify-content: center;
     padding: 10px;
     flex-wrap: wrap;
+  }
+
+  > .search {
+    width: 200px;
   }
 
   > .logo {
@@ -54,10 +57,11 @@ export const SubNavi = styled.div`
   }
 `;
 
-export default function Navigation() {
+export default function Navigation({ handleFilter }) {
   const navigate = useNavigate();
   const [isHide, setHide] = useState(true);
   const [refresh, setRefresh] = useState(false);
+  const [text, setText] = useState('');
 
   const loginHandler = () => {
     window.sessionStorage.setItem('loggedInfo', true);
@@ -70,13 +74,24 @@ export default function Navigation() {
     setRefresh(!refresh);
   };
 
+  // TODO: input의 상태
+  const handleText = (e) => {
+    setText(e.target.value);
+  };
+
+  // TODO: button 클릭 시 이벤트 발생
+  const clickBtn = () => {
+    handleFilter(text);
+  };
+
   return (
     <Container>
       <div className="box logo">
         <Logo />
       </div>
-      <div className="box">
-        <Search />
+      <div className="box search">
+        <input type="search" onChange={handleText} />
+        <button onClick={clickBtn}>🔍</button>
       </div>
       <div className="box" onClick={loginHandler}>
         {window.sessionStorage.getItem('loggedInfo') === 'true' ? (

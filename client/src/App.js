@@ -33,7 +33,6 @@ export default function APP() {
     }
   };
 
-  //! Favorites 버튼 눌렀을 때만 조회하도록 하자!! -> My Favorites 페이지에서
   useEffect(() => {
     axios.get(' https://localhost:4000/favorites').then((data) => {
       // console.log(data);

@@ -42,6 +42,21 @@ module.exports = {
         createdAt: '2021-11-13 10:57:35',
         updatedAt: '2021-11-14 10:57:35',
       },
+      {
+        id: 3,
+        title: '트루먼쇼2',
+        thumbnail: 'http://www.kopis.or.kr/upload/pfmPoster/PF_PF182726_211109_141812.gif',
+        theater: '대학로 스카이씨어터',
+        price: '30,000원',
+        cast: '이승훈',
+        runtime: '2시간',
+        showtime: '수(17:00)',
+        dateFrom: '2021.12.01',
+        dateTo: '2021.12.31',
+        state: '공연예정',
+        createdAt: '2021-11-13 10:57:35',
+        updatedAt: '2021-11-14 10:57:35',
+      },
     ]);
   },
 
