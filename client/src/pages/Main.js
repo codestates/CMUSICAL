@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true;
 
 export const Body = styled.div`
   width: auto;
-  min-height: 500px;
+  min-height: auto;
   border: 3px solid green;
 
   > .list {
@@ -22,11 +22,11 @@ export const Body = styled.div`
   }
 `;
 
-export default function Main({ favoritesHandler }) {
+export default function Main() {
   const [list, setList] = useState([]);
 
   const handleFilter = (text) => {
-    if (text !== '') {
+    if (text) {
       axios.get(`https://localhost:4000?title=${text}`).then((data) => {
         setList(data.data.items);
       });
@@ -38,13 +38,11 @@ export default function Main({ favoritesHandler }) {
   };
 
   useEffect(() => {
-    axios.get(`https://localhost:4000`).then((data) => {
-      setList(data.data.items);
-    });
+    handleFilter(window.sessionStorage.getItem('Keyword'));
   }, []);
 
   return (
-    <div id="container">
+    <>
       <Navigation handleFilter={handleFilter} />
       <Body>
         <div className="title">
@@ -53,12 +51,12 @@ export default function Main({ favoritesHandler }) {
         <div className="list">
           {list
             ? list.map((el, idx) => {
-                return <Thumbnail key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favoritesHandler={favoritesHandler} />;
+                return <Thumbnail key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} />;
               })
             : '로딩 이미지'}
         </div>
       </Body>
       <Footer />
-    </div>
+    </>
   );
 }

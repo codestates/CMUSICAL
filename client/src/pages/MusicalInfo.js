@@ -44,7 +44,7 @@ export default function MusicalInfo() {
 
   useEffect(() => {
     axios.get(`https://localhost:4000/getitem`, { params: { id } }).then((data) => {
-      const info = data.data.items;
+      const info = data.data.item;
       setItem(info);
     });
   }, []);
@@ -74,7 +74,10 @@ export default function MusicalInfo() {
         ) : (
           '로딩 이미지'
         )}
-        <div className="bottom">{/* 상세이미지부분 <Tab images={item.styurls} /> */}</div>
+        <div className="bottom">
+          {/* TODO: item의 상세 이미지 Tab 컴포넌트에 같이 넘겨주기 */}
+          <Tab />
+        </div>
       </div>
       <Footer />
     </Container>
