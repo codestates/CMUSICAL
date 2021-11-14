@@ -30,11 +30,15 @@ export const Box = styled.div`
   }
 `;
 
-export default function Thumbnail({ thumbnail, title, id, favoritesHandler }) {
+export default function Thumbnail({ thumbnail, title, id }) {
+  // TODO: 즐겨찾기 목록 상태 만들기
+
   const addFavorites = () => {
+    // TODO: sessionStorage 대신 cookie에 token이 존재하는지 확인하기
     if (window.sessionStorage.getItem('loggedInfo') === 'true') {
-      // TODO: sessionStorage 대신 cookie에 token이 존재하는지 확인하기
-      favoritesHandler(id);
+      // TODO: GET요청으로 데이터를 받아서 상태에 저장
+      // TODO: 상태 돌면서 id(props)와 같은게 있다면 DELETE 요청
+      // TODO: 상태 돌면서 id(props)와 같은게 없다면 POST 요청
     } else {
       // TODO: 모달이든 이펙트든 로그인하고 이용하라고 보여주기
       console.log('로그인하고 이용하세요!');
@@ -54,5 +58,3 @@ export default function Thumbnail({ thumbnail, title, id, favoritesHandler }) {
     </Box>
   );
 }
-
-// 로그인한 유저만 즐겨찾기 가능
