@@ -32,7 +32,7 @@ const Content = styled.div`
 
 export default function Tab({ images }) {
   const [curTab, setCurTab] = useState(0);
-
+  // TODO: MusicalInfo로부터 받아온 props(images)를 Posters 컴포넌트에 넘겨주기
   const tabArr = [
     {
       name: 'Posters',
