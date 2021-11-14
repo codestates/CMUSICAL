@@ -20,7 +20,7 @@ module.exports = {
           const userInfo = await users.findOne({ where: { id: VerifyToken.id }, raw: true });
           const { id, nickname, email, password } = userInfo;
           // 바꾸고 싶은 비밀번호가 있을때
-          if (req.body.password) {
+          if (req.body.newPassword) {
             // 현재 비밀번호를 입력하지 않았다면
             if (!req.body.oldPassword) {
               // 현재 비밀번호가 입력되지 않았다는 메세지 응답
@@ -34,7 +34,7 @@ module.exports = {
                 // 바꾸고 싶은 비밀번호도 있고 입력한 현재 비밀번호와 데이터베이스의 비밀번호와 일치하고
                 // 변경할 비밀번호가 데이터베이스에 있는 비밀번호와 겹치지 않으면 inspectData에 검사할 비밀번호 추가
                 if (req.body.password !== password) {
-                  inspectData.password = req.body.password;
+                  inspectData.password = req.body.newPassword;
                 }
               }
             }
