@@ -43,7 +43,7 @@ export default function MusicalInfo() {
   const [item, setItem] = useState({});
 
   useEffect(() => {
-    axios.get(`https://localhost:4000/getitem`, { params: { id } }).then((data) => {
+    axios.get(`process.env.REACT_APP_SERVER_ADDR/getitem`, { params: { id } }).then((data) => {
       const info = data.data.item;
       setItem(info);
     });
