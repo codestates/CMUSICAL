@@ -2,6 +2,7 @@ const { comment } = require('../../models');
 const { isVerify } = require('../tokenfunction');
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
+const db = require('../../models');
 
 module.exports = {
   //nickname, 자신이 쓴 댓글 구분해서 보내주기
@@ -24,11 +25,21 @@ module.exports = {
           if (!req.query.itemId) {
             res.status(404).send({ message: 'not found item' });
           } else {
-            const { id } = verifyToken;
-            const myComment = await comment.findOne({ where: { itemId: req.query.itemId, userId: id }, raw: true });
-            const othersComments = await comment.findAll({ where: { itemId: req.query.itemId, userId: { [Op.ne]: id } } });
+            const test = await items.findAll({
+              include: [
+                {
+                  model: db.sequelize.models.likes,
+                },
+              ],
+              where: { id: req.query.itemId },
+              raw: true,
+            });
+            console.log(test, '----------------------------');
+            // const { id } = verifyToken;
+            // const myComment = await comment.findOne({ where: { itemId: req.query.itemId, userId: id }, raw: true });
+            // const othersComments = await comment.findAll({ where: { itemId: req.query.itemId, userId: { [Op.ne]: id } } });
 
-            res.status(200).send({ data: { myComment, othersComments } });
+            res.status(200).send({ data: { test } });
           }
         }
       } catch (err) {
