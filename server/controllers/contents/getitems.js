@@ -8,7 +8,7 @@ module.exports = {
       const musicals = await items.findAll({
         //! 띄워쓰기 검색기능 구현해보기
         //! 배우나 공연장 등 어떤 검색을 해도 결과가 나오게 해주기
-        //todo: 포스터도 같이 나오게 해주기
+
         where: { title: { [Op.like]: `%${req.query.title ? req.query.title : ''}%` } },
         attributes: ['id', 'title', 'thumbnail'],
       });
