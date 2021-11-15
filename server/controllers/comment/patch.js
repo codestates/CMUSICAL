@@ -3,10 +3,10 @@ const { isVerify } = require('../tokenfunction');
 
 module.exports = {
   patch: async (req, res) => {
-    if (!req.headers.authorization) {
-      res.status(401).send({ message: 'unauthorized' });
+    if (!req.cookies.token) {
+      res.status(401).send({ message: 'not found token' });
     } else {
-      const token = req.headers.authorization.split(' ')[1];
+      const token = req.cookies.token;
 
       try {
         const verifyToken = isVerify(token);
