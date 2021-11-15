@@ -1,6 +1,6 @@
 import React from 'react';
 // import styled from 'styled-components';
-import { Container } from '../components/styles/Container.styled';
+import { Container } from './styles/Container.styled';
 
 const SignUpSuccess = () => {
   // TODO : 모달로 구현하기

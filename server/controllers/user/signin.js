@@ -24,7 +24,7 @@ module.exports = {
         const token = getToken(user);
         // console.log(token);
         res.cookie('token', token, { sameSite: 'None', secure: true, httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24) });
-        res.status(200).send({ message: 'success' });
+        res.status(200).send({ message: 'success', data: token });
       }
     } catch (err) {
       console.log(err);
