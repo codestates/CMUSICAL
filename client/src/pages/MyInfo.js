@@ -53,10 +53,12 @@ const MyInfo = () => {
     nickname: '',
   });
   const [values, setValues] = useState({
+    username: 'dummyuser',
     email: '',
     nickname: '',
     password: '',
     confirm: '',
+    oldPassword: '',
   });
 
   //! 유효성 검사 안내 메세지
@@ -70,12 +72,19 @@ const MyInfo = () => {
     email: '',
     nickname: '',
   });
+
+  const handleInputValue = key => e => {
+    // ! MyInfo에선 아이디를 받지 않아서 항상 오류가 나옴
+    setValues({ ...values, username: 'dummyuser', [key]: e.target.value });
+  };
+
   // !----------------------------------------------------------------!
   // TODO: 내 정보 가져오기
   useEffect(() => {
-    console.log('shleecloud');
     async function getMyInfoFromAsync() {
-      await getMyInfo();
+      const myInfo = await getMyInfo();
+      setValues(myInfo);
+      setMyInfo(myInfo);
     }
     getMyInfoFromAsync();
   }, []);
@@ -88,42 +97,48 @@ const MyInfo = () => {
     clearTimeout(timeWait.current);
     timeWait.current = setTimeout(() => {
       // * useEffect 안에서 비동기 실행할 때 함수
-      async function setConflictationMsgFromAsync() {
-        setConflicationMsg(await isConflict(values));
-      }
-      setConflictationMsgFromAsync();
       setValidationMsg(isValid(values));
     }, 1000);
   }, [values]);
+  // 1. 실시간 검사 안하기 👿
+  // 2. Myinfo 값과 동일하면 예외처리를 한다.
 
   // !----------------------------------------------------------------!
   // TODO: 회원 정보 수정
 
-  const handleInputValue = key => e => {
-    setValues({ ...values, [key]: e.target.value });
+  const handleEditFormSubmit = event => {
+    event.preventDefault();
+    const validMsg = isValid(values);
+    setValidationMsg(validMsg);
+    // TODO: 유효성 검사 확인 후 회원 정보 수정 요청
+    async function editMyInfoResultFromAsync() {
+      const editResult = await editMyInfo(values);
+      if (editResult) {
+        console.log('회원 정보가 수정되었습니다.');
+      } else {
+        console.log(editResult);
+      }
+    }
+    editMyInfoResultFromAsync();
   };
-
-  // const handleEditFormSubmit = event => {
-  //   event.preventDefault();
-  //   const validMsg = isValid(values);
-  //   setValidationMsg(validMsg);
-  //   // TODO: 유효성 검사 확인 후 회원 정보 수정 요청
-  //   if (Object.keys(validMsg).length !== 0) return;
-  //   async function setSignUpResultFromAsync() {
-  //     const submitMsg = await submitSignUp(values);
-  //     if (submitMsg.result) {
-  //       console.log('회원 가입을 축하합니다.');
-  //     } else {
-  //       console.log(submitMsg);
-  //       setConflicationMsg(submitMsg.conflictMsg);
-  //     }
-  //   }
-  //   setSignUpResultFromAsync();
-  // };
 
   // !----------------------------------------------------------------!
   // TODO: 회원 탈퇴
-  const handleDeleteFormSubmit = event => {};
+  const handleDeleteFormSubmit = event => {
+    event.preventDefault();
+    const validMsg = isValid(values);
+    setValidationMsg(validMsg);
+    // TODO: 유효성 검사 확인 후 회원 정보 수정 요청
+    async function deleteMyInfoResultFromAsync() {
+      const deleteResult = await deleteMyInfo(values);
+      if (deleteResult) {
+        console.log('회원 탈퇴 되었습니다.');
+      } else {
+        console.log(deleteResult);
+      }
+    }
+    deleteMyInfoResultFromAsync();
+  };
   // !----------------------------------------------------------------!
 
   return (
@@ -135,22 +150,29 @@ const MyInfo = () => {
         <div className="form-wrapper">
           <div className="email">
             <label className="label">Email</label>
-            <input className="input" type="email" name="email" onChange={handleInputValue('email')} />
+            <input className="input" type="email" name="email" value={values.email} onChange={handleInputValue('email')} />
             <p className="error">
               {validationMsg.email}
               {conflicationMsg.email}
+              {/* {values.email === myInfo.email ? '' : conflicationMsg.email} */}
             </p>
           </div>
           <div className="nickname">
             <label className="label">Nickname</label>
-            <input className="input" type="text" name="nickname" onChange={handleInputValue('nickname')} />
+            <input className="input" type="text" name="nickname" value={values.nickname} onChange={handleInputValue('nickname')} />
             <p className="error">
               {validationMsg.nickname}
               {conflicationMsg.nickname}
+              {/* {values.nickname === myInfo.nickname ? '' : conflicationMsg.nickname} */}
             </p>
           </div>
-          <div className="password">
+          <div className="oldPassword">
             <label className="label">Password</label>
+            <input className="input" type="password" name="oldPassword" onChange={handleInputValue('oldPassword')} />
+            <p className="error"></p>
+          </div>
+          <div className="password">
+            <label className="label">New Password</label>
             <input className="input" type="password" name="password" onChange={handleInputValue('password')} />
             <p className="error">
               {validationMsg.password}
@@ -158,15 +180,16 @@ const MyInfo = () => {
             </p>
           </div>
           <div className="confirm">
-            <label className="label">Confirm</label>
+            <label className="label">New Password Confirm</label>
             <input className="input" type="password" name="confirm" onChange={handleInputValue('confirm')} />
             <p className="error">
               {validationMsg.confirm}
               {/**/}
             </p>
           </div>
+
           <div>
-            <SignButton onClick={handleDeleteFormSubmit}>정보 수정</SignButton>
+            <SignButton onClick={handleEditFormSubmit}>정보 수정</SignButton>
             <SignButton onClick={handleDeleteFormSubmit}>회원 탈퇴</SignButton>
           </div>
         </div>

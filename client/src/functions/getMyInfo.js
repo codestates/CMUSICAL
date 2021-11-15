@@ -4,12 +4,11 @@ axios.defaults.withCredentials = true;
 const getMyInfo = async () => {
   return await axios
     .get(
-      'https://localhost:4000/user/myinfo', //
-      { headers: { 'Content-Type': 'application/json' } }
+      'https://localhost:4000/user/myinfo' //
     )
     .then(res => {
       // TODO: 회원 정보 가져오기 성공
-      console.log(res.data);
+      return res.data.data;
     })
     .catch(err => {
       // TODO: 회원 정보 가져오기 실패
