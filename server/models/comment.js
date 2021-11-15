@@ -10,14 +10,18 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.comment.belongsToMany(models.users, { through: 'likes', foreignKey: 'commentId', sourceKey: 'id' });
 
-      models.comment.belongsTo(models.users, { foreignKey: 'userId', sourceKey: 'id' });
-      models.comment.belongsTo(models.items, {});
+      models.comment.belongsTo(models.users, { foreignKey: 'userId', sourceKey: 'id', onDelete: 'cascade' });
+      models.comment.belongsTo(models.items, { foreignKey: 'itemId', sourceKey: 'id', onDelete: 'cascade' });
       // define association here
     }
   }
   comment.init(
     {
       comment: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      nickname: {
         type: DataTypes.STRING,
         allowNull: false,
       },
