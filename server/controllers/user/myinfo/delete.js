@@ -2,10 +2,10 @@ const { isVerify } = require('../../tokenfunction');
 const { users } = require('../../../models');
 module.exports = {
   delete: async (req, res) => {
-    if (!req.headers.authorization) {
-      res.status(401).send({ message: 'unauthorized' });
+    if (!req.cookies.token) {
+      res.status(401).send({ message: 'not found token' });
     } else {
-      const token = req.headers.authorization.split(' ')[1];
+      const token = req.cookies.token;
       try {
         const userInfo = isVerify(token);
         if (userInfo) {

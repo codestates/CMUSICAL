@@ -1,4 +1,4 @@
-const { comment } = require('../../models');
+const { comment, items } = require('../../models');
 const { isVerify } = require('../tokenfunction');
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
@@ -7,13 +7,13 @@ const db = require('../../models');
 module.exports = {
   //nickname, 자신이 쓴 댓글 구분해서 보내주기
   get: async (req, res) => {
-    if (!req.headers.authorization) {
+    if (!req.cookies.token) {
       // 로그인을 하지 않은 경우
       const allComments = await comment.findAll({ where: { itemId: req.query.itemId } });
       res.status(200).send({ data: { allComments } });
     } else {
       // 로그인 한 경우
-      const token = req.headers.authorization.split(' ')[1];
+      const token = req.cookies.token;
       try {
         const verifyToken = isVerify(token);
 
@@ -25,13 +25,8 @@ module.exports = {
           if (!req.query.itemId) {
             res.status(404).send({ message: 'not found item' });
           } else {
-            const test = await items.findAll({
-              include: [
-                {
-                  model: db.sequelize.models.likes,
-                },
-              ],
-              where: { id: req.query.itemId },
+            const allComments = await comment.findAll({
+              where: { itemId: req.query.itemId },
               raw: true,
             });
             console.log(test, '----------------------------');

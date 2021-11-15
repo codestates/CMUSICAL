@@ -4,10 +4,10 @@ const { users } = require('../../../models');
 //todo: post 요청과 쿠키를 비교해서 달라진 값만 유효성,중복검사 요청!
 module.exports = {
   patch: async (req, res) => {
-    if (!req.headers.authorization) {
-      res.status(401).send({ message: 'unauthorized' });
+    if (!req.cookies.token) {
+      res.status(401).send({ message: 'not found token' });
     } else {
-      const token = req.headers.authorization.split(' ')[1];
+      const token = req.cookies.token;
 
       try {
         const verifyToken = isVerify(token);

@@ -4,10 +4,10 @@ const db = require('../../models');
 module.exports = {
   delete: async (req, res) => {
     // 토큰이 담겨있지 않은 경우
-    if (!req.headers.authorization) {
-      return res.status(401).send({ message: 'unauthorized' });
+    if (!req.cookies.token) {
+      return res.status(401).send({ message: 'not found token' });
     }
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.cookies.token;
 
     try {
       const verifyToken = isVerify(token);
