@@ -7,8 +7,11 @@ module.exports = {
   //nickname, 자신이 쓴 댓글 구분해서 보내주기
   get: async (req, res) => {
     if (!req.headers.authorization) {
-      res.status(401).send({ message: 'unauthorized' });
+      // 로그인을 하지 않은 경우
+      const allComments = await comment.findAll({ where: { itemId: req.query.itemId } });
+      res.status(200).send({ data: { allComments } });
     } else {
+      // 로그인 한 경우
       const token = req.headers.authorization.split(' ')[1];
       try {
         const verifyToken = isVerify(token);
