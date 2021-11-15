@@ -14,28 +14,27 @@ axios.defaults.withCredentials = true;
 export const Container = styled.div`
   width: auto;
   min-height: auto;
-  border: 3px solid;
 
   > #body {
     border: 3px solid blue;
-    padding: 50px;
+    padding: 70px;
 
     > .top {
       display: flex;
-      border: 3px solid red;
-      padding: 0 50px;
+      min-height: 500px;
+      justify-content: space-evenly;
+      align-items: center;
+      border: 3px solid;
+      padding: 20px 0px;
 
-      > .thumbnail {
-        border: 3px solid;
+      .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
-
-      > .details {
-        border: 3px solid;
+      span {
+        margin: 4px 0px;
       }
-    }
-
-    > .bottom {
-      border: 3px solid green;
     }
   }
 `;
@@ -61,16 +60,15 @@ export default function MusicalInfo() {
               <Thumbnail thumbnail={item.thumbnail} title={item.title} id={item.id} />
             </div>
             <div className="details">
-              <span>{item.title}</span>
-              <span>{item.theater}</span>
-              <span>{item.pcseguidance}</span>
-              <span>{item.cast}</span>
-              <span>{item.price}</span>
-              <span>{item.runtime}</span>
-              <span>{item.showtime}</span>
-              <span>{item.dateFrom}</span>
-              <span>{item.dateTo}</span>
-              <span>{item.state}</span>
+              <span>제목: {item.title}</span>
+              <span>장소: {item.theater}</span>
+              <span>출연자: {item.cast}</span>
+              <span>가격: {item.price}</span>
+              <span>런타임: {item.runtime}</span>
+              <span>공연 시간: {item.showtime}</span>
+              <span>공연 시작 날짜: {item.dateFrom}</span>
+              <span>공연 종료 날짜: {item.dateTo}</span>
+              <span>공연 상태: {item.state}</span>
             </div>
           </div>
         ) : (
