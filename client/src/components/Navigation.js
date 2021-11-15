@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Logo from './Logo';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { StyledLink } from '../components/styles/Link.styled';
 
 export const Container = styled.div`
   display: flex;
@@ -98,21 +99,21 @@ export default function Navigation({ handleFilter }) {
             <p>My Page</p>
           </div>
         ) : (
-          <Link to="/signin">
+          <StyledLink to="/signin">
             <p>Sign In</p>
-          </Link>
+          </StyledLink>
         )}
       </div>
       <SubNavi isHide={isHide} onMouseLeave={() => setHide(true)}>
         <div className="menu">
-          <Link to="/favorites">
+          <StyledLink to="/favorites">
             <span>Favorites</span>
-          </Link>
+          </StyledLink>
         </div>
         <div className="menu">
-          <Link to="/myinfo">
+          <StyledLink to="/myinfo">
             <span>My Info</span>
-          </Link>
+          </StyledLink>
         </div>
         <div className="menu">
           <span onClick={logoutHandler}>Sign Out</span>
