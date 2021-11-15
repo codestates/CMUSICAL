@@ -4,6 +4,8 @@ import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
 import styled from 'styled-components';
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 axios.defaults.withCredentials = true;
 
@@ -27,11 +29,11 @@ export default function Main() {
 
   const handleFilter = (text) => {
     if (text) {
-      axios.get(`process.env.REACT_APP_SERVER_ADDR?title=${text}`).then((data) => {
+      axios.get(`${process.env.REACT_APP_SERVER_ADDR}/?title=${text}`).then((data) => {
         setList(data.data.items);
       });
     } else {
-      axios.get(`process.env.REACT_APP_SERVER_ADDR`).then((data) => {
+      axios.get(`${process.env.REACT_APP_SERVER_ADDR}`).then((data) => {
         setList(data.data.items);
       });
     }

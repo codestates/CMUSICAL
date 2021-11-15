@@ -4,6 +4,8 @@ import Thumbnail from '../components/Thumbnail';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const Container = styled.div`
   width: auto;

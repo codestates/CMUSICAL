@@ -19,6 +19,11 @@ const GlobalStyles = createGlobalStyle`
     text-align: center;
     margin: 30px 0;
   }
+
+  h3 {
+    font-size: 1.4rem;
+    margin: 15px 0;
+  }
 `;
 
 export default GlobalStyles;

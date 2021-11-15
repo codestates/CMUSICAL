@@ -6,6 +6,8 @@ import Tab from '../components/Tab';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 axios.defaults.withCredentials = true;
 
@@ -43,7 +45,7 @@ export default function MusicalInfo() {
   const [item, setItem] = useState({});
 
   useEffect(() => {
-    axios.get(`process.env.REACT_APP_SERVER_ADDR/getitem`, { params: { id } }).then((data) => {
+    axios.get(`${process.env.REACT_APP_SERVER_ADDR}/getitem`, { params: { id } }).then((data) => {
       const info = data.data.item;
       setItem(info);
     });

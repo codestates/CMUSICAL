@@ -7,21 +7,22 @@ export const Container = styled.div`
   width: auto;
   min-height: 150px;
   border: 3px solid;
-  align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
-  position: relative;
 
   > .box {
     display: flex;
-    flex: none;
-    width: 100px;
+    width: 300px;
     height: auto;
-    border: 3px solid red;
     align-items: center;
-    justify-content: center;
-    padding: 10px;
+    justify-content: space-evenly;
     flex-wrap: wrap;
+    margin: 0 5px;
+
+    > .box-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   > .logo {
@@ -32,6 +33,7 @@ export const Container = styled.div`
 const Span = styled.span``;
 
 const Anchor = styled(Span.withComponent('a'))`
+  padding: 4px;
   text-decoration: none;
 
   &:visited {
@@ -40,34 +42,49 @@ const Anchor = styled(Span.withComponent('a'))`
 `;
 
 export default function Footer() {
+  const infomation = [
+    { title: 'Repository', url: 'https://github.com/codestates/cmusical' },
+    { title: 'WIki', url: 'https://github.com/codestates/CMUSICAL/wiki' },
+  ];
+  const members = [
+    { name: 'Lee SeungHun', url: 'https://github.com/shleecloud' },
+    { name: 'Kim YunJin', url: 'https://github.com/yunjink' },
+    { name: 'Seo EunYu', url: 'https://github.com/EUNYUSEO' },
+    { name: 'Park JinHyuck', url: 'https://github.com/hyucki' },
+  ];
+
   return (
     <Container>
       <div className="box logo">
         <Logo />
       </div>
       <div className="box">
-        서비스 소개
-        <Anchor href="https://github.com/codestates/cmusical" target="_blank">
-          Repository
-        </Anchor>
-        <Anchor href="https://github.com/codestates/CMUSICAL/wiki" target="_blank">
-          Wiki
-        </Anchor>
+        <div className="box-header">
+          <h3>서비스 소개</h3>
+        </div>
+        <div className="box-body">
+          {infomation.map((el, idx) => {
+            return (
+              <Anchor key={idx} href={el.url} target="_blank">
+                {el.title}
+              </Anchor>
+            );
+          })}
+        </div>
       </div>
       <div className="box">
-        Team Members
-        <Anchor href="https://github.com/shleecloud" target="_blank">
-          Lee SeungHun
-        </Anchor>
-        <Anchor href="https://github.com/yunjink" target="_blank">
-          Kim YunJin
-        </Anchor>
-        <Anchor href="https://github.com/EUNYUSEO" target="_blank">
-          Seo EunYu
-        </Anchor>
-        <Anchor href="https://github.com/hyucki" target="_blank">
-          Park JinHyuck
-        </Anchor>
+        <div className="box-header">
+          <h3>Team Members</h3>
+        </div>
+        <div className="box-body">
+          {members.map((member, idx) => {
+            return (
+              <Anchor key={idx} href={member.url} target="_blank">
+                {member.name}
+              </Anchor>
+            );
+          })}
+        </div>
       </div>
     </Container>
   );
