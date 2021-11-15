@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Posters from '../components/Posters';
-import Comments from '../components/Comments';
+import Comments from './comments';
 import styled from 'styled-components';
 
 const TabMenu = styled.ul`
