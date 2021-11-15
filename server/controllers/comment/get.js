@@ -11,6 +11,7 @@ module.exports = {
       const othersComments = await comment.findAll({ where: { itemId: req.query.itemId } });
       res.status(200).send({ data: { myComment: null, othersComments } });
     } else {
+      // 로그인 한 경우
       const token = req.headers.authorization.split(' ')[1];
       try {
         const verifyToken = isVerify(token);

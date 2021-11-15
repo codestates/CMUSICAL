@@ -1,12 +1,14 @@
 //* packages
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 //* components
 import { SignButton } from '../components/styles/SignButton.styled';
 //* functions
-import validation from '../functions/validation';
+import isValid from '../functions/isValid';
+import isConflict from '../functions/isConflict';
+import submitSignUp from '../functions/submitSignUp';
 
 axios.defaults.withCredentials = true;
 
@@ -44,7 +46,6 @@ export const AlertBox = styled.div`
 
 const SignUp = () => {
   const navigate = useNavigate();
-
   const [values, setValues] = useState({
     username: '',
     email: '',
@@ -54,71 +55,60 @@ const SignUp = () => {
   });
 
   //! 유효성 검사 안내 메세지
-  const [validationMsg, setValidationMsg] = useState('');
+  const [validationMsg, setValidationMsg] = useState({
+    usernmae: '',
+    email: '',
+    nickname: '',
+  });
 
   //! 중복 검사 안내 메세지
-  const [duplicationMsg, setDuplicationMsg] = useState({
+  const [conflicationMsg, setConflicationMsg] = useState({
     username: '',
     email: '',
     nickname: '',
   });
 
-  const handleInputValue = (key) => (e) => {
-    //e.preventDefault();
+  // !----------------------------------------------------------------!
+
+  // TODO: 입력시 2초 대기 후 서버에 데이터 충돌 확인
+  const timeWait = useRef();
+  useEffect(() => {
+    clearTimeout(timeWait.current);
+    timeWait.current = setTimeout(() => {
+      // * useEffect 안에서 비동기 실행할 때 함수
+      async function setConflictationMsgFromAsync() {
+        setConflicationMsg(await isConflict(values));
+      }
+      setConflictationMsgFromAsync();
+      setValidationMsg(isValid(values));
+    }, 1000);
+  }, [values]);
+
+  // !----------------------------------------------------------------!
+
+  const handleInputValue = key => e => {
     setValues({ ...values, [key]: e.target.value });
-    setValidationMsg(validation(values)); // 유효성 검사
-    setTimeout(() => {
-      console.log('hihi');
-    }, 2000);
-    axios
-      .post(
-        'https://localhost:4000/user/isValid',
-        //
-        { [key]: e.target.value }
-      )
-      .then((res) => {
-        if (key === 'username') setDuplicationMsg({ ...duplicationMsg, [duplicationMsg.username]: '' });
-
-        //console.log('test');
-        // TODO: "회원가입이 완료되었습니다" 모달창
-      })
-      .catch((err) => {
-        // TODO: 서버에서 리팩토링 된 메세지 보고 중복안내메세지 띄우기
-        console.log('이것은 err.response', err.response);
-        if (err.response.status === 409) {
-          if (err.response.data.message === 'conflict information') {
-            if (key === 'username') setDuplicationMsg({ ...duplicationMsg, [duplicationMsg.username]: '사용중인 아이디입니다.' });
-          }
-        }
-      });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = event => {
     event.preventDefault();
-    setValidationMsg(validation(values));
-
-    const { username, email, nickname, password } = values;
-    axios
-      .post(
-        'https://localhost:4000/user/signup',
-        //
-        { username, email, nickname, password },
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((res) => {
-        return navigate('/signin');
-        // TODO: "회원가입이 완료되었습니다" 모달창
-      })
-      .catch((err) => {
-        // TODO: 서버에서 리팩토링 된 메세지 보고 중복안내메세지 띄우기
-        console.log('이것은 err.response', err.response);
-        if (err.response.status === 406) {
-          if (err.response.data.message === 'conflict username') {
-            return setDuplicationMsg('중복된 아이디입니다.');
-          }
-        }
-      });
+    const validMsg = isValid(values);
+    setValidationMsg(validMsg);
+    // TODO: 유효성 검사 확인 후 회원 가입 요청
+    if (Object.keys(validMsg).length !== 0) return;
+    async function setSignUpResultFromAsync() {
+      const submitMsg = await submitSignUp(values);
+      if (submitMsg.result) {
+        console.log('회원 가입을 축하합니다.');
+      } else {
+        console.log(submitMsg);
+        setConflicationMsg(submitMsg.conflictMsg);
+      }
+    }
+    setSignUpResultFromAsync();
   };
+
+  // !----------------------------------------------------------------!
 
   return (
     <Container>
@@ -130,32 +120,42 @@ const SignUp = () => {
           <div className="username">
             <label className="label">ID</label>
             <input className="input" type="text" name="username" onChange={handleInputValue('username')} />
-            {validationMsg.username && (
-              <p className="error">
-                {validationMsg.username}
-                {duplicationMsg.username}
-              </p>
-            )}
+            <p className="error">
+              {validationMsg.username}
+              {conflicationMsg.username}
+            </p>
           </div>
           <div className="email">
             <label className="label">Email</label>
             <input className="input" type="email" name="email" onChange={handleInputValue('email')} />
-            {validationMsg.email && <p className="error">{validationMsg.email}</p>}
+            <p className="error">
+              {validationMsg.email}
+              {conflicationMsg.email}
+            </p>
           </div>
           <div className="nickname">
             <label className="label">Nickname</label>
             <input className="input" type="text" name="nickname" onChange={handleInputValue('nickname')} />
-            {validationMsg.nickname && <p className="error">{validationMsg.nickname}</p>}
+            <p className="error">
+              {validationMsg.nickname}
+              {conflicationMsg.nickname}
+            </p>
           </div>
           <div className="password">
             <label className="label">Password</label>
             <input className="input" type="password" name="password" onChange={handleInputValue('password')} />
-            {validationMsg.password && <p className="error">{validationMsg.password}</p>}
+            <p className="error">
+              {validationMsg.password}
+              {/**/}
+            </p>
           </div>
           <div className="confirm">
             <label className="label">Confirm</label>
             <input className="input" type="password" name="confirm" onChange={handleInputValue('confirm')} />
-            {validationMsg.confirm && <p className="error">{validationMsg.confirm}</p>}
+            <p className="error">
+              {validationMsg.confirm}
+              {/**/}
+            </p>
           </div>
           <div>
             <SignButton onClick={handleFormSubmit}>Sign Up</SignButton>
