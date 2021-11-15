@@ -9,10 +9,10 @@ module.exports = {
       const token = req.headers.authorization.split(' ')[1];
       try {
         //쿠키에 토큰이 담겨왔다면 토큰을 검증 후 데이터베이스에서 일치하는 유저정보가 있다면 응답해주기
-        const userInfo = isVerify(token);
+        const verifyToken = isVerify(token);
 
-        if (userInfo) {
-          const { id, nickname, email } = userInfo;
+        if (verifyToken) {
+          const { id, nickname, email } = verifyToken;
           const isUser = await users.findOne({ where: { id } });
 
           if (!isUser) {

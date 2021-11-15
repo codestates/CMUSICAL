@@ -1,6 +1,45 @@
+const { comment, items } = require('../../models');
+const { isVerify } = require('../tokenfunction');
+
 module.exports = {
-  post: (req, res) => {
-    console.log('comment add');
-    res.send();
+  post: async (req, res) => {
+    if (!req.headers.authorization) {
+      res.status(401).send({ message: 'unauthorized' });
+    } else {
+      const token = req.headers.authorization.split(' ')[1];
+
+      try {
+        const verifyToken = isVerify(token);
+
+        if (!verifyToken) {
+          res.status(406).send({ message: 'invalid token' });
+        } else {
+          const { id, nickname } = verifyToken;
+          const validItem = await items.findOne({ where: { id: req.query.itemId }, raw: true });
+
+          //요청으로 받은 아이템아이디를 가지고 데이터베이스에 존재하는 아이템인지 확인 후
+          if (!validItem) {
+            res.status(404).send({ message: 'not found item' });
+          } else {
+            // 유저가 이미 한줄평을 남겼는지 확인
+            const getUserComment = await comment.findOne({ where: { userId: id } });
+            if (getUserComment) {
+              res.status(400).send({ message: 'user already wrote' });
+            } else {
+              //한줄평을 남기지 않았고, 존재하는 아이템이면 메세지가 입력된 채로 요청이 왔는지 확인 후 데이터 베이스에 추가
+              if (!req.body.comment) {
+                res.status(400).send({ message: 'empty comment' });
+              } else {
+                await comment.create({ userId: id, itemId: req.query.itemId, comment: req.body.comment, nickname });
+                res.status(200).send({ message: 'success' });
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.log(err);
+        res.status(500).send({ message: 'server error' });
+      }
+    }
   },
 };
