@@ -10,21 +10,21 @@ module.exports = {
       const token = req.headers.authorization.split(' ')[1];
 
       try {
-        const VerifyToken = isVerify(token);
+        const verifyToken = isVerify(token);
         // 토큰이 제대로 담겨있고 유효한 토큰이라면
-        if (VerifyToken) {
+        if (verifyToken) {
           // 유효성 검사
           const inspectData = {};
 
           // 검증한 토큰의 아이디와 같은 아이디를 가진 유저 정보를 데이터베이스에서 가져온다
-          const userInfo = await users.findOne({ where: { id: VerifyToken.id }, raw: true });
+          const userInfo = await users.findOne({ where: { id: verifyToken.id }, raw: true });
           const { id, nickname, email, password } = userInfo;
           // 바꾸고 싶은 비밀번호가 있을때
           if (req.body.newPassword) {
             // 현재 비밀번호를 입력하지 않았다면
             if (!req.body.oldPassword) {
               // 현재 비밀번호가 입력되지 않았다는 메세지 응답
-              res.status(400).send({ message: 'fill out oldPassword' });
+              res.status(400).send({ message: 'empty oldPassword' });
             } else {
               // 현재 비밀번호가 입력되었지만 데이터베이스에 있는 비밀번호와 일치하지 않을 경우
               if (req.body.oldPassword !== password) {
@@ -59,18 +59,10 @@ module.exports = {
             const key = Object.keys(inspectData);
 
             if (key.length === 0) {
-              res.status(400).send({ message: 'fill out' });
+              res.status(400).send({ message: 'empty information' });
             } else {
               key.map(async (key) => {
-                if (key === 'nickname') {
-                  await users.update({ nickname: inspectData[key] }, { where: { id } });
-                }
-                if (key === 'email') {
-                  await users.update({ email: inspectData[key] }, { where: { id } });
-                }
-                if (key === 'password') {
-                  await users.update({ password: inspectData[key] }, { where: { id } });
-                }
+                await users.update({ [key]: inspectData[key] }, { where: { id } });
               });
               res.status(200).send({ message: 'success' });
             }
