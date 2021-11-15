@@ -11,8 +11,7 @@ const submitSignUp = async values => {
   // ! 없으면 undefined 반환
   return await axios
     .post(
-      'https://localhost:4000/user/signup',
-      //
+      'https://localhost:4000/user/signup', //
       { username, email, nickname, password },
       { headers: { 'Content-Type': 'application/json' } }
     )

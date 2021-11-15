@@ -70,7 +70,7 @@ const SignUp = () => {
 
   // !----------------------------------------------------------------!
 
-  // TODO: 입력시 2초 대기 후 서버에 데이터 충돌 확인
+  // TODO: 입력시 대기 후 서버에 데이터 충돌 확인
   const timeWait = useRef();
   useEffect(() => {
     clearTimeout(timeWait.current);

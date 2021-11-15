@@ -1,24 +1,178 @@
 //* packages
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import axios from 'axios';
 //* components
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
+import { SignButton } from '../components/styles/SignButton.styled';
+//* functions
+import isValid from '../functions/isValid';
+import isConflict from '../functions/isConflict';
+import deleteMyInfo from '../functions/deleteMyInfo';
+import editMyInfo from '../functions/editMyInfo';
+import getMyInfo from '../functions/getMyInfo';
 
-// oldPassword, newPassword
-// axios.get/myinfo 닉네임, 이메일만 칸 채워져있고
-// axios.patch/myinfo 현재 비번, 새로운 비번, 새로운 비번 확인 칸은 비워놓기
-// 수정완료 -> 닉네임, 이메일, 비밀번호, 새로운 비밀번호 다 보내기
+axios.defaults.withCredentials = true;
 
-export default function MyInfo() {
+export const Container = styled.div`
+  background: linear-gradient(135deg, #850c62, #f80759);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AppWrapper = styled.div`
+  background-color: #fff;
+  min-width: 350px;
+  min-width: 650px;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 5px;
+`;
+
+export const Title = styled.div`
+  color: #f80759;
+  text-align: center;
+  margin: 80px 0px 40px 0px;
+`;
+
+export const AlertBox = styled.div`
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+`;
+
+const MyInfo = () => {
+  const navigate = useNavigate();
+  const [myInfo, setMyInfo] = useState({
+    email: '',
+    nickname: '',
+  });
+  const [values, setValues] = useState({
+    email: '',
+    nickname: '',
+    password: '',
+    confirm: '',
+  });
+
+  //! 유효성 검사 안내 메세지
+  const [validationMsg, setValidationMsg] = useState({
+    email: '',
+    nickname: '',
+  });
+
+  //! 중복 검사 안내 메세지
+  const [conflicationMsg, setConflicationMsg] = useState({
+    email: '',
+    nickname: '',
+  });
+  // !----------------------------------------------------------------!
+  // TODO: 내 정보 가져오기
+  useEffect(() => {
+    console.log('shleecloud');
+    async function getMyInfoFromAsync() {
+      await getMyInfo();
+    }
+    getMyInfoFromAsync();
+  }, []);
+
+  // !----------------------------------------------------------------!
+
+  // TODO: 입력시 대기 후 서버에 데이터 충돌 확인
+  const timeWait = useRef();
+  useEffect(() => {
+    clearTimeout(timeWait.current);
+    timeWait.current = setTimeout(() => {
+      // * useEffect 안에서 비동기 실행할 때 함수
+      async function setConflictationMsgFromAsync() {
+        setConflicationMsg(await isConflict(values));
+      }
+      setConflictationMsgFromAsync();
+      setValidationMsg(isValid(values));
+    }, 1000);
+  }, [values]);
+
+  // !----------------------------------------------------------------!
+  // TODO: 회원 정보 수정
+
+  const handleInputValue = key => e => {
+    setValues({ ...values, [key]: e.target.value });
+  };
+
+  // const handleEditFormSubmit = event => {
+  //   event.preventDefault();
+  //   const validMsg = isValid(values);
+  //   setValidationMsg(validMsg);
+  //   // TODO: 유효성 검사 확인 후 회원 정보 수정 요청
+  //   if (Object.keys(validMsg).length !== 0) return;
+  //   async function setSignUpResultFromAsync() {
+  //     const submitMsg = await submitSignUp(values);
+  //     if (submitMsg.result) {
+  //       console.log('회원 가입을 축하합니다.');
+  //     } else {
+  //       console.log(submitMsg);
+  //       setConflicationMsg(submitMsg.conflictMsg);
+  //     }
+  //   }
+  //   setSignUpResultFromAsync();
+  // };
+
+  // !----------------------------------------------------------------!
+  // TODO: 회원 탈퇴
+  const handleDeleteFormSubmit = event => {};
+  // !----------------------------------------------------------------!
+
   return (
-    <div id="container">
-      <div id="header">
-        <Navigation />
-      </div>
-      <div id="body">내정보당</div>
-      <div id="footer">
-        <Footer />
-      </div>
-    </div>
+    <Container>
+      <AppWrapper>
+        <Link to="/">
+          <Title>CMUSICAL</Title>
+        </Link>
+        <div className="form-wrapper">
+          <div className="email">
+            <label className="label">Email</label>
+            <input className="input" type="email" name="email" onChange={handleInputValue('email')} />
+            <p className="error">
+              {validationMsg.email}
+              {conflicationMsg.email}
+            </p>
+          </div>
+          <div className="nickname">
+            <label className="label">Nickname</label>
+            <input className="input" type="text" name="nickname" onChange={handleInputValue('nickname')} />
+            <p className="error">
+              {validationMsg.nickname}
+              {conflicationMsg.nickname}
+            </p>
+          </div>
+          <div className="password">
+            <label className="label">Password</label>
+            <input className="input" type="password" name="password" onChange={handleInputValue('password')} />
+            <p className="error">
+              {validationMsg.password}
+              {/**/}
+            </p>
+          </div>
+          <div className="confirm">
+            <label className="label">Confirm</label>
+            <input className="input" type="password" name="confirm" onChange={handleInputValue('confirm')} />
+            <p className="error">
+              {validationMsg.confirm}
+              {/**/}
+            </p>
+          </div>
+          <div>
+            <SignButton onClick={handleDeleteFormSubmit}>정보 수정</SignButton>
+            <SignButton onClick={handleDeleteFormSubmit}>회원 탈퇴</SignButton>
+          </div>
+        </div>
+      </AppWrapper>
+    </Container>
   );
-}
+};
+
+export default MyInfo;
