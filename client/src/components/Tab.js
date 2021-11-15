@@ -38,7 +38,7 @@ const Content = styled.div`
   min-height: auto;
 `;
 
-export default function Tab({ images }) {
+export default function Tab({ images, id }) {
   const [curTab, setCurTab] = useState(0);
   // TODO: MusicalInfo로부터 받아온 props(images)를 Posters 컴포넌트에 넘겨주기
   const tabArr = [
@@ -46,7 +46,7 @@ export default function Tab({ images }) {
       name: 'Posters',
       content: <Posters />,
     },
-    { name: 'Comment', content: <Comments /> },
+    { name: 'Comment', content: <Comments id={id} /> },
   ];
 
   const selectTabHandler = (index) => {

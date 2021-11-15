@@ -5,9 +5,11 @@ const Op = sequelize.Op;
 
 module.exports = {
   //nickname, 자신이 쓴 댓글 구분해서 보내주기
+  //todo: 로그인 한 경우, 로그인 하지 않은 경우
   get: async (req, res) => {
     if (!req.headers.authorization) {
-      res.status(401).send({ message: 'unauthorized' });
+      const othersComments = await comment.findAll({ where: { itemId: req.query.itemId } });
+      res.status(200).send({ data: { myComment: null, othersComments } });
     } else {
       const token = req.headers.authorization.split(' ')[1];
       try {
