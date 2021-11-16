@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import Posters from '../components/Posters';
-import Comments from '../components/Comments';
+import Comments from './comments';
 import styled from 'styled-components';
 
 const TabMenu = styled.ul`
   display: flex;
-  justify-content: center;
+  width: 100%;
+  min-height: 50px;
+  justify-content: space-evenly;
+  background-color: black;
   align-items: center;
-  border: 3px solid red;
+  font-weight: bold;
   list-style: none;
-  min-height: 100%;
+  color: white;
+  font-size: 1.5rem;
 
   .submenu {
-    min-height: 100%;
-    width: 100%;
+    width: 250px;
+    min-height: 3rem;
     text-align: center;
+    background-color: black;
+    padding-top: 20px;
     cursor: pointer;
     &:hover {
       opacity: 0.7;
@@ -22,15 +28,17 @@ const TabMenu = styled.ul`
   }
 
   .focused {
-    background-color: lavenderblush;
+    color: black;
+    background-color: white;
   }
 `;
 
 const Content = styled.div`
-  background-color: lavenderblush;
+  width: 100%;
+  min-height: auto;
 `;
 
-export default function Tab({ images }) {
+export default function Tab({ images, id }) {
   const [curTab, setCurTab] = useState(0);
   // TODO: MusicalInfo로부터 받아온 props(images)를 Posters 컴포넌트에 넘겨주기
   const tabArr = [
@@ -38,7 +46,7 @@ export default function Tab({ images }) {
       name: 'Posters',
       content: <Posters />,
     },
-    { name: 'Comment', content: <Comments /> },
+    { name: 'Comment', content: <Comments id={id} /> },
   ];
 
   const selectTabHandler = (index) => {

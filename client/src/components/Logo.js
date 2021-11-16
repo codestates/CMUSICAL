@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
+import { StyledLink } from '../components/styles/Link.styled';
 
 export default function Logo() {
   return (
-    <Link to="/">
+    <StyledLink to="/">
       <p>Logo Image</p>
-    </Link>
+    </StyledLink>
   );
 }

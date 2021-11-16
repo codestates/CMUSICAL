@@ -4,6 +4,8 @@ import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
 import styled from 'styled-components';
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 axios.defaults.withCredentials = true;
 

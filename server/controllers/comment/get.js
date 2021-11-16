@@ -4,7 +4,9 @@ const db = require('../../models');
 
 module.exports = {
   //nickname, 자신이 쓴 댓글 구분해서 보내주기
+  //todo: 로그인 한 경우, 로그인 하지 않은 경우
   get: async (req, res) => {
+
     //! 사용자가 클릭한 아이템에 작성된 댓글만 가져옴
     const getComments = await items.findAll({
       where: { id: req.query.itemId },
