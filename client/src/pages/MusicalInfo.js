@@ -39,12 +39,12 @@ export const Container = styled.div`
   }
 `;
 
-export default function MusicalInfo() {
+export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
   const { id } = useParams('id'); //! id: musicalId => id를 musicalId로 바꾸는 js 문법
   const [item, setItem] = useState({});
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_SERVER_ADDR}/getitem`, { params: { id } }).then(data => {
+    axios.get(`${process.env.REACT_APP_SERVER_ADDR}/getitem`, { params: { id } }).then((data) => {
       const info = data.data.item;
       setItem(info);
     });
@@ -52,7 +52,7 @@ export default function MusicalInfo() {
 
   return (
     <Container>
-      <Navigation />
+      <Navigation isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <div id="body">
         {item ? (
           <div className="top">

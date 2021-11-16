@@ -20,7 +20,7 @@ export const AlertBox = styled.div`
   border-radius: 0.25rem;
 `;
 
-const SignIn = () => {
+const SignIn = ({ loginHandler }) => {
   const [signInInfo, setSignInInfo] = useState({
     username: '',
     password: '',
@@ -30,7 +30,7 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
-  const handleInputValue = key => e => {
+  const handleInputValue = (key) => (e) => {
     setSignInInfo({ ...signInInfo, [key]: e.target.value });
   };
 
@@ -48,13 +48,9 @@ const SignIn = () => {
         { username, password },
         { headers: { 'Content-Type': 'application/json' } }
       )
-      .then(res => {
-        if (res.status === 400) {
-          return setErrorMessage('아이디 혹은 비밀번호를 확인하세요.');
-        }
-        if (res.status === 200) {
-          navigate('/');
-        }
+      .then((res) => {
+        navigate('/');
+        loginHandler();
       });
   };
 
