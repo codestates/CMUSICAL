@@ -43,7 +43,7 @@ export default function Tab({ poster, id }) {
   const [curTab, setCurTab] = useState(0);
   const [cmtList, setCmtList] = useState();
 
-  console.log(cmtList);
+  // console.log(cmtList);
 
   // TODO: MusicalInfo로부터 받아온 props(images)를 Posters 컴포넌트에 넘겨주기
   const tabArr = [

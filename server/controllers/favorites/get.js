@@ -29,7 +29,7 @@ module.exports = {
       let myFavorites = [];
       for (let i = 0; i < favoriteItems.length; i++) {
         const id = favoriteItems[i].itemId;
-        myFavorites.push(await items.findOne({ attributes: ['title', 'thumbnail'], where: { id }, raw: true }));
+        myFavorites.push(await items.findOne({ attributes: ['id', 'title', 'thumbnail'], where: { id }, raw: true }));
       }
 
       res.status(200).send({ items: myFavorites });

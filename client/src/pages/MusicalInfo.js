@@ -42,13 +42,14 @@ export const Container = styled.div`
 export default function MusicalInfo() {
   const { id } = useParams('id'); //! id: musicalId => id를 musicalId로 바꾸는 js 문법
   const [item, setItem] = useState({});
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     async function getMusicalInfoFromAsync() {
-      await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/getitem`, { params: { id } }).then(data => {
-        const info = data.data.item;
-        setItem(info);
-      });
+      const info = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/getitem`, { params: { id } });
+      const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
+      setItem(info.data.item);
+      setFavorites(favoritesList.data.items);
     }
     getMusicalInfoFromAsync();
   }, []);
@@ -60,7 +61,7 @@ export default function MusicalInfo() {
         {item ? (
           <div className="top">
             <div className="thumbnail">
-              <Thumbnail thumbnail={item.thumbnail} title={item.title} id={item.id} />
+              <Thumbnail thumbnail={item.thumbnail} title={item.title} id={item.id} favorites={favorites} />
             </div>
             <div className="details">
               <span>제목: {item.title}</span>

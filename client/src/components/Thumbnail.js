@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MdBookmarkAdd } from 'react-icons/md';
 import { MdOutlineBookmarkAdd } from 'react-icons/md';
+import axios from 'axios';
 
 export const Box = styled.div`
   width: 300px;
@@ -24,22 +25,34 @@ export const Box = styled.div`
   }
 `;
 
-export default function Thumbnail({ thumbnail, title, id }) {
+export default function Thumbnail({ thumbnail, title, id, favorites }) {
   const [icon, setIcon] = useState(false);
-  // TODO: 즐겨찾기 목록 상태 만들기
+  const [favorite, setFavorite] = useState(false);
 
-  const addFavorites = () => {
-    // TODO: sessionStorage 대신 cookie에 token이 존재하는지 확인하기
-    if (window.sessionStorage.getItem('loggedInfo') === 'true') {
-      // TODO: GET요청으로 데이터를 받아서 상태에 저장
-      // TODO: 상태 돌면서 id(props)와 같은게 있다면 DELETE 요청
-      // TODO: 상태 돌면서 id(props)와 같은게 없다면 POST 요청
+  // * 즐겨찾기 여부 확인
+  useEffect(() => {
+    const isFavorited = favorites.reduce((acc, cur) => {
+      if (cur.id === id) acc = true;
+      return acc;
+    }, false);
+    setFavorite(isFavorited);
+  }, [favorites]);
+
+  const handleFavorites = () => {
+    if (favorite) {
+      axios
+        .delete(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
+        .then(setFavorite(false))
+        .catch(console.log);
     } else {
-      // TODO: 모달이든 이펙트든 로그인하고 이용하라고 보여주기
-      console.log('로그인하고 이용하세요!');
+      axios
+        .post(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
+        .then(setFavorite(true))
+        .catch(console.log);
     }
   };
 
+  // axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`).then(console.log);
   const onIcon = () => {
     setIcon(true);
   };
@@ -54,8 +67,18 @@ export default function Thumbnail({ thumbnail, title, id }) {
         <Link to={`/musicalinfo/${id}`}>
           <img src={thumbnail} alt={title} width="300" height="400" />
         </Link>
-        <div className="pick" onClick={addFavorites}>
-          {icon ? <MdBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} /> : <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />}
+        <div className="pick" onClick={handleFavorites}>
+          {favorite ? (
+            !icon ? (
+              <MdBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />
+            ) : (
+              <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} />
+            )
+          ) : icon ? (
+            <MdBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} />
+          ) : (
+            <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />
+          )}
         </div>
       </div>
     </Box>
