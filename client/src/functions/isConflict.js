@@ -5,7 +5,7 @@ const isConflict = async values => {
   const conflictMsg = {};
   if (!!values.username) {
     await axios
-      .post('https://localhost:4000/user/isValid', { username: values.username })
+      .post(`${process.env.REACT_APP_SERVER_ADDR}/user/isValid`, { username: values.username })
       .then(res => {
         // console.log('성공 res', res);
         conflictMsg.username = '';
@@ -21,7 +21,7 @@ const isConflict = async values => {
 
   if (!!values.email) {
     await axios
-      .post('https://localhost:4000/user/isValid', { email: values.email })
+      .post(`${process.env.REACT_APP_SERVER_ADDR}/user/isValid`, { email: values.email })
       .then(res => {
         conflictMsg.email = '';
         // console.log('성공 res', res);
@@ -37,7 +37,7 @@ const isConflict = async values => {
 
   if (!!values.nickname) {
     await axios
-      .post('https://localhost:4000/user/isValid', { nickname: values.nickname })
+      .post(`${process.env.REACT_APP_SERVER_ADDR}/user/isValid`, { nickname: values.nickname })
       .then(res => {
         // console.log('성공 res', res);
         conflictMsg.nickname = '';
