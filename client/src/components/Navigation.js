@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { StyledLink } from '../components/styles/Link.styled';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 //* components
 import Logo from './Logo';
 
@@ -61,26 +60,11 @@ export const SubNavi = styled.div`
   }
 `;
 
-export default function Navigation({ handleFilter }) {
+export default function Navigation({ handleFilter, isLogin, loginHandler, logoutHandler }) {
   const navigate = useNavigate();
   const [isHide, setHide] = useState(true);
   const [refresh, setRefresh] = useState(false);
-
-  // TODO: 로그인 상태 변경함수 -> 토큰 있는지 없는지로
-  const [isLogin, setIsLogin] = useState(false);
   const [text, setText] = useState('');
-
-  const loginHandler = () => {
-    window.sessionStorage.setItem('loggedInfo', true);
-    setRefresh(!refresh);
-  };
-
-  const logoutHandler = () => {
-    //! 로그아웃 요청 보내기
-    // window.sessionStorage.setItem('loggedInfo', false);
-    // navigate('/');
-    // setRefresh(!refresh);
-  };
 
   const handleText = (e) => {
     window.sessionStorage.setItem('Keyword', e.target.value);
@@ -100,14 +84,13 @@ export default function Navigation({ handleFilter }) {
         <input type="search" value={window.sessionStorage.getItem('Keyword')} onChange={handleText} />
         <button onClick={clickBtn}>🔍</button>
       </div>
-      <div className="box" onClick={loginHandler}>
-        {/*여기 토큰 있는지 없는지 여부만 판단하는 코드로 대체*/}
-        {window.sessionStorage.getItem('loggedInfo') === 'true' ? (
+      <div className="box">
+        {isLogin ? (
           <div className="submenu" onMouseOver={() => setHide(false)}>
             <p>My Page</p>
           </div>
         ) : (
-          <StyledLink to="/signin">
+          <StyledLink to="/signin" isLogin={isLogin} loginHandler={loginHandler}>
             <p>Sign In</p>
           </StyledLink>
         )}
