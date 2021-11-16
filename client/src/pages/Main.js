@@ -26,17 +26,20 @@ export const Body = styled.div`
 
 export default function Main({ isLogin, loginHandler, logoutHandler }) {
   const [list, setList] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const isLogin = true;
 
-  const handleFilter = (text) => {
+  const handleFilter = async text => {
+    let totalList, favoritesList;
     if (text) {
-      axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`).then((data) => {
-        setList(data.data.items);
-      });
+      totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`);
     } else {
-      axios.get(`${process.env.REACT_APP_SERVER_ADDR}`).then((data) => {
-        setList(data.data.items);
-      });
+      totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}`);
     }
+    favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
+    setList(totalList.data.items);
+    setFavorites(favoritesList.data.items);
+    // TODO 로그인 안하면 Favorites 쿼리 날리지 않도록 설정
   };
 
   useEffect(() => {
@@ -51,9 +54,9 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
           <h2>Musical List</h2>
         </div>
         <div className="list">
-          {list
+          {Array.isArray(list)
             ? list.map((el, idx) => {
-                return <Thumbnail key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} />;
+                return <Thumbnail key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} />;
               })
             : '로딩 이미지'}
         </div>

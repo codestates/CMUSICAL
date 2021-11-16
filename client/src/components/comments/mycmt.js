@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function MyCmtBox({ cmtList, handleMyCmtStatus }) {
   const isMyCmt = Array.isArray(cmtList.myComment);
-  console.log(isMyCmt);
+  // console.log(isMyCmt);
   return (
     <>
       <div onClick={handleMyCmtStatus}>
