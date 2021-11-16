@@ -6,7 +6,7 @@ const editMyInfo = async values => {
 
   return await axios
     .patch(
-      'https://localhost:4000/user/myinfo', //
+      `${process.env.REACT_APP_SERVER_ADDR}/user/myinfo`, //
       {
         email: values.email, //
         nickname: values.nickname,

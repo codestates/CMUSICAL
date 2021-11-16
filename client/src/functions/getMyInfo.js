@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true;
 const getMyInfo = async () => {
   return await axios
     .get(
-      'https://localhost:4000/user/myinfo' //
+      `${process.env.REACT_APP_SERVER_ADDR}/user/myinfo` //
     )
     .then(res => {
       // TODO: 회원 정보 가져오기 성공
