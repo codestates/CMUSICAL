@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 //* components
 import Logo from './Logo';
+import axios from 'axios';
 
 export const Container = styled.div`
   display: flex;
@@ -63,7 +64,6 @@ export const SubNavi = styled.div`
 export default function Navigation({ handleFilter, isLogin, loginHandler, logoutHandler }) {
   const navigate = useNavigate();
   const [isHide, setHide] = useState(true);
-  const [refresh, setRefresh] = useState(false);
   const [text, setText] = useState('');
 
   const handleText = (e) => {
@@ -73,6 +73,14 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
 
   const clickBtn = () => {
     handleFilter(text);
+  };
+
+  const signOutBtn = () => {
+    axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then((res) => {
+      console.log('logout success');
+      logoutHandler();
+      navigate('/');
+    });
   };
 
   return (
@@ -107,7 +115,7 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
           </StyledLink>
         </div>
         <div className="menu">
-          <span onClick={logoutHandler}>Sign Out</span>
+          <span onClick={signOutBtn}>Sign Out</span>
         </div>
       </SubNavi>
     </Container>

@@ -47,9 +47,12 @@ export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
   useEffect(() => {
     async function getMusicalInfoFromAsync() {
       const info = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/getitem`, { params: { id } });
-      const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
+      if (isLogin) {
+        const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
+        setFavorites(favoritesList.data.items);
+      }
       setItem(info.data.item);
-      setFavorites(favoritesList.data.items);
+      console.log(item);
     }
     getMusicalInfoFromAsync();
   }, []);
@@ -61,7 +64,7 @@ export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
         {item ? (
           <div className="top">
             <div className="thumbnail">
-              <Thumbnail thumbnail={item.thumbnail} title={item.title} id={item.id} favorites={favorites} />
+              <Thumbnail isLogin={isLogin} thumbnail={item.thumbnail} title={item.title} id={item.id} favorites={favorites} />
             </div>
             <div className="details">
               <span>제목: {item.title}</span>
@@ -80,7 +83,7 @@ export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
         )}
         <div className="bottom">
           {/* TODO: item의 상세 이미지 Tab 컴포넌트에 같이 넘겨주기 */}
-          {Object.keys(item).length === 0 ? <div /> : <Tab id={id} poster={item.poster} />}
+          {Object.keys(item).length === 0 ? <div /> : <Tab id={id} poster={item.poster} isLogin={isLogin} />}
         </div>
       </div>
       <Footer />
