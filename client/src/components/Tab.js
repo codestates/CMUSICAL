@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Posters from '../components/Posters';
-import Comments from './comments';
+import Comments from './Comments';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const TabMenu = styled.ul`
   display: flex;
@@ -38,20 +39,31 @@ const Content = styled.div`
   min-height: auto;
 `;
 
-export default function Tab({ images, id }) {
+export default function Tab({ poster, id }) {
   const [curTab, setCurTab] = useState(0);
+  const [cmtList, setCmtList] = useState();
+
+  console.log(cmtList);
+
   // TODO: MusicalInfo로부터 받아온 props(images)를 Posters 컴포넌트에 넘겨주기
   const tabArr = [
     {
       name: 'Posters',
-      content: <Posters />,
+      content: <Posters poster={poster} />,
     },
-    { name: 'Comment', content: <Comments id={id} /> },
+    { name: 'Comment', content: <Comments cmtList={cmtList} setCmtList={setCmtList} id={id} /> },
   ];
 
-  const selectTabHandler = (index) => {
+  const selectTabHandler = index => {
     setCurTab(index);
   };
+
+  useEffect(() => {
+    async function getCmtList() {
+      setCmtList((await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`)).data.data);
+    }
+    getCmtList();
+  }, []);
 
   return (
     <div>

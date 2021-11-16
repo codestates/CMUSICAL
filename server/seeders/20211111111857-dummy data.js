@@ -15,7 +15,7 @@ module.exports = {
       'users',
       [
         {
-          id: 1,
+          id: 2,
           username: 'elsa',
           nickname: 'oalf',
           password: '12345678',
@@ -30,7 +30,7 @@ module.exports = {
       'users',
       [
         {
-          id: 2,
+          id: 3,
           username: 'kimcoding',
           nickname: '김코딩',
           password: '12345678',
@@ -45,7 +45,7 @@ module.exports = {
       'users',
       [
         {
-          id: 3,
+          id: 4,
           username: 'parkhacker',
           nickname: '박해커',
           password: '12345678',

@@ -6,7 +6,6 @@ module.exports = {
   //nickname, 자신이 쓴 댓글 구분해서 보내주기
   //todo: 로그인 한 경우, 로그인 하지 않은 경우
   get: async (req, res) => {
-
     //! 사용자가 클릭한 아이템에 작성된 댓글만 가져옴
     const getComments = await items.findAll({
       where: { id: req.query.itemId },
@@ -42,7 +41,12 @@ module.exports = {
           if (!req.query.itemId) {
             res.status(404).send({ message: 'not found item' });
           } else {
+            // todo: 사용중인 유저가 좋아요를 누른 댓글id도 같이 보내주기
             const { id } = verifyToken;
+            let commentLikes = await db.sequelize.models.likes.findAll({ where: { userId: id }, attributes: ['commentId'], raw: true });
+
+            commentLikes = commentLikes.map((el) => el.commentId);
+
             let myComment = [],
               othersComments = [];
 
@@ -54,7 +58,7 @@ module.exports = {
               }
             }
 
-            res.status(200).send({ data: { myComment, othersComments } });
+            res.status(200).send({ data: { myComment, othersComments, commentLikes } });
           }
         }
       } catch (err) {

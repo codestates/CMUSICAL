@@ -1,5 +1,6 @@
 const { users } = require('../../models');
 const { validation, confliction } = require('../inspectfunction');
+const bcrypt = require('bcryptjs');
 //! 모델 속성 자체에 유효성검사와 중복검사 부여 가능(unique, validate)
 module.exports = {
   post: async (req, res) => {

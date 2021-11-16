@@ -1,21 +1,23 @@
 import React from 'react';
 
-export default function MyCmtBox({ writeHandler }) {
-  const clickBtn = (e) => {
-    const text = e.target.value;
-    writeHandler(text);
-  };
-
+export default function MyCmtBox({ cmtList, handleMyCmtStatus }) {
+  const isMyCmt = Array.isArray(cmtList.myComment);
+  console.log(isMyCmt);
   return (
     <>
-      <div>
-        <span>My Comment</span>
-        <button value="modify" onClick={clickBtn}>
-          수정
-        </button>
-        <button value="delete" onClick={clickBtn}>
-          삭제
-        </button>
+      <div onClick={handleMyCmtStatus}>
+        <div>My Comment</div>
+        <div>
+          {isMyCmt ? ( //
+            <div>
+              <div>comment: {cmtList.myComment[0].comment}</div>
+              <div>likes: {cmtList.myComment[0].likes}</div>
+            </div>
+          ) : (
+            '작성한 한줄평이 없습니다.'
+          )}
+        </div>
+        <div>----------------------------------------------------------------</div>
       </div>
     </>
   );
