@@ -1,10 +1,12 @@
 //* packages
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 //* components
 import { SignButton } from '../components/styles/SignButton.styled';
+import Modal from '../components/Modal';
+
 //* functions
 import isValid from '../functions/isValid';
 import isConflict from '../functions/isConflict';
@@ -45,7 +47,7 @@ export const AlertBox = styled.div`
 `;
 
 const SignUp = () => {
-  const navigate = useNavigate();
+  //! 회원 가입시 입력 사항
   const [values, setValues] = useState({
     username: '',
     email: '',
@@ -68,6 +70,13 @@ const SignUp = () => {
     nickname: '',
   });
 
+  //! 모달 상태관리
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(!showModal);
+  };
+
   // !----------------------------------------------------------------!
 
   // TODO: 입력시 대기 후 서버에 데이터 충돌 확인
@@ -87,11 +96,11 @@ const SignUp = () => {
 
   // !----------------------------------------------------------------!
 
-  const handleInputValue = key => e => {
+  const handleInputValue = (key) => (e) => {
     setValues({ ...values, [key]: e.target.value });
   };
 
-  const handleFormSubmit = event => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
     const validMsg = isValid(values);
     console.log(validMsg);
@@ -102,6 +111,7 @@ const SignUp = () => {
     async function setSignUpResultFromAsync() {
       const submitMsg = await submitSignUp(values);
       if (submitMsg.result) {
+        //openModal();
         console.log('회원 가입을 축하합니다.');
       } else {
         console.log(submitMsg);
@@ -113,9 +123,11 @@ const SignUp = () => {
 
   // !----------------------------------------------------------------!
 
+  // !----------------------------------------------------------------!
+
   return (
-    <Container>
-      <AppWrapper>
+    <>
+      <Container>
         <Link to="/">
           <Title>CMUSICAL</Title>
         </Link>
@@ -164,8 +176,9 @@ const SignUp = () => {
             <SignButton onClick={handleFormSubmit}>Sign Up</SignButton>
           </div>
         </div>
-      </AppWrapper>
-    </Container>
+        <Modal showModal={showModal} setShowModal={setShowModal} />
+      </Container>
+    </>
   );
 };
 
