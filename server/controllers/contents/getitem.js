@@ -1,5 +1,4 @@
 const { items } = require('../../models');
-//todo: 포스터도 같이 나오게 해주기
 module.exports = {
   get: async (req, res) => {
     try {
@@ -7,11 +6,14 @@ module.exports = {
         where: { id: req.query.id },
         raw: true,
       });
+      if (!musical) {
+        return res.status(404).send({ message: 'not found item' });
+      }
 
-      res.status(200).send({ item: musical });
+      return res.status(200).send({ item: musical });
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: 'server error' });
+      return res.status(500).send({ message: 'server error' });
     }
   },
 };
