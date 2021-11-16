@@ -1,34 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import MyCmtBox from './mycmt';
-import OthersCmtsBox from './otherscmt';
-import WriteCmtBox from './writecmt';
+import MyCmtBox from './comments/mycmt';
+import OthersCmtsBox from './comments/otherscmt';
+import WriteCmtBox from './comments/writecmt';
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export default function Comments({ id }) {
+export default function Comments({ cmtList, setCmtList, id }) {
   const [myCmtStatus, setMyCmtStatus] = useState(false);
+  // TODO 로그인 상태 상속받기!
+  const isLogin = false;
+  // console.log(cmtList);
+  useEffect(() => {
+    if (isLogin && !!cmtList.myComment) setMyCmtStatus(true);
+  }, []);
 
-  // const writeHandler = (text, cmt) => {
-  //   if (text === 'add') {
-  //     axios.post(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`, { comment: cmt });
-  //     setWrite(true);
-  //   } else if (text === 'modify') {
-  //     // axios.patch(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`, { comment: cmt });
-  //     setWrite(false);
-  //   } else if (text === 'delete') {
-  //     axios.delete(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`);
-  //     setWrite(false);
-  //   } else {
-  //     setWrite(true);
-  //   }
-  // };
+  const handleMyCmtStatus = () => {
+    setMyCmtStatus(!myCmtStatus);
+  };
 
   return (
     <>
       <div>
-        {myCmtStatus ? <MyCmtBox /> : <WriteCmtBox />}
-        <OthersCmtsBox />
+        {isLogin ? (
+          myCmtStatus ? (
+            <MyCmtBox cmtList={cmtList} handleMyCmtStatus={handleMyCmtStatus} /> //
+          ) : (
+            <WriteCmtBox cmtList={cmtList} setCmtList={setCmtList} handleMyCmtStatus={handleMyCmtStatus} id={id} />
+          )
+        ) : (
+          <div>로그인하시오</div>
+        )}
+        <OthersCmtsBox cmtList={cmtList} setCmtList={setCmtList} id={id} />
       </div>
     </>
   );
