@@ -79,7 +79,7 @@ export default function MusicalInfo() {
         )}
         <div className="bottom">
           {/* TODO: item의 상세 이미지 Tab 컴포넌트에 같이 넘겨주기 */}
-          {Object.keys(item).length === 0 ? <div /> : <Tab id={id} posters={item.poster} />}
+          {Object.keys(item).length === 0 ? <div /> : <Tab id={id} poster={item.poster} />}
         </div>
       </div>
       <Footer />

@@ -39,7 +39,7 @@ const Content = styled.div`
   min-height: auto;
 `;
 
-export default function Tab({ posters, id }) {
+export default function Tab({ poster, id }) {
   const [curTab, setCurTab] = useState(0);
   const [cmtList, setCmtList] = useState();
 
@@ -47,7 +47,7 @@ export default function Tab({ posters, id }) {
   const tabArr = [
     {
       name: 'Posters',
-      content: <Posters />,
+      content: <Posters poster={poster} />,
     },
     { name: 'Comment', content: <Comments id={id} cmtList={cmtList} /> },
   ];
@@ -62,7 +62,6 @@ export default function Tab({ posters, id }) {
 
   useEffect(() => {
     getCmtList();
-    console.log(posters);
   }, []);
 
   return (
