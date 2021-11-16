@@ -9,9 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       models.items.belongsToMany(models.users, { through: 'favorites', foreignKey: 'itemId', sourceKey: 'id' });
-
       models.items.hasMany(models.comment, { foreignKey: 'itemId', sourceKey: 'id', onDelete: 'cascade' });
-      models.items.hasMany(models.posters, { foreignKey: 'itemId', sourceKey: 'id', onDelete: 'cascade' });
       // define association here
     }
   }
@@ -56,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
       state: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      poster: {
+        type: DataTypes.JSON,
+        allowNull: true,
       },
     },
     {

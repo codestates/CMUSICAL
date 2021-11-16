@@ -7,6 +7,7 @@ const userRouter = require('./user');
 const myinfoRouter = require('./myinfo');
 const favoritesRouter = require('./favorites');
 const likesRouter = require('./likes');
+const adminRouter = require('./admin');
 
 router.use('/comment', commentRouter);
 router.use('/', contentsRouter);
@@ -14,5 +15,6 @@ router.use('/user', userRouter);
 router.use('/user/myinfo', myinfoRouter);
 router.use('/favorites', favoritesRouter);
 router.use('/likes', likesRouter);
+router.use('/kopis/getitems', adminRouter);
 
 module.exports = router;
