@@ -1,20 +1,53 @@
 import React from 'react';
+import axios from 'axios';
 
-export default function OthersCmtsBox({ cmtList }) {
+export default function OthersCmtsBox({ cmtList, setCmtList, id }) {
+  const handleLikesClick = e => {
+    const commentId = e.target.attributes.commentId.value;
+    // console.log(commentId);
+    // TODO if (내가... 좋아요를.. 눌렀나...?) {
+    axios
+      .post(`${process.env.REACT_APP_SERVER_ADDR}/likes?commentId=${commentId}`) //
+      .then(data => {
+        async function getCmtList() {
+          setCmtList((await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`)).data.data);
+        }
+        getCmtList();
+      })
+      // TODO } else {
+      .catch(err => {
+        // TODO 좋아요 눌러져 있을 경우 분기하는 조건문이 필요함
+        axios
+          .delete(`${process.env.REACT_APP_SERVER_ADDR}/likes?commentId=${commentId}`) //
+          .then(data => {
+            async function getCmtList() {
+              setCmtList((await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`)).data.data);
+            }
+            getCmtList();
+          })
+          .catch(err => console.log);
+      });
+    // }
+  };
+
   return (
     <>
       <div>
-        {cmtList
+        {cmtList.othersComments.length !== 0
           ? cmtList.othersComments.map((el, idx) => {
               return (
                 <div key={idx}>
-                  <span>{el.comment}</span>
-                  <span>{el.nickname}</span>
-                  <span>{el.createdAt.slice(0, 10)}</span>
+                  <div>{el.comment}</div>
+                  <div>{el.nickname}</div>
+                  <div onClick={handleLikesClick} commentId={el.id}>
+                    {el.likes}
+                  </div>
+                  <div>{el.createdAt.slice(0, 10)}</div>
+                  <div>----------------------------------------------------------------</div>
                 </div>
               );
             })
-          : '로딩 이미지'}
+          : '작성된 한줄평이 없습니다.'}
       </div>
     </>
   );
