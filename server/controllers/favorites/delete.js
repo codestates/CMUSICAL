@@ -23,10 +23,10 @@ module.exports = {
         return res.status(400).send({ message: 'not found item' });
       }
       await db.sequelize.models.favorites.destroy({ where: { itemId: req.query.itemId, userId: id } });
-      res.status(200).send({ message: 'success' });
+      return res.status(200).send({ message: 'success' });
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: 'server error' });
+      return res.status(500).send({ message: 'server error' });
     }
   },
 };

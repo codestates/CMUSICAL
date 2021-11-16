@@ -24,7 +24,7 @@ export const Body = styled.div`
   }
 `;
 
-export default function Main() {
+export default function Main({ isLogin, loginHandler, logoutHandler }) {
   const [list, setList] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const isLogin = true;
@@ -48,7 +48,7 @@ export default function Main() {
 
   return (
     <>
-      <Navigation handleFilter={handleFilter} />
+      <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <Body>
         <div className="title">
           <h2>Musical List</h2>

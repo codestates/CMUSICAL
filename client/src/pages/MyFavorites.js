@@ -18,12 +18,13 @@ export const Container = styled.div`
   }
 `;
 
-export default function MyFavorites({}) {
+
+export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
   // TODO: useEffect() - GET 요청으로 즐겨찾기 목록 조회하기
 
   return (
     <Container>
-      <Navigation />
+      <Navigation isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <div id="body">
         {/* {favoList.length > 0
           ? favoList.map(el => {

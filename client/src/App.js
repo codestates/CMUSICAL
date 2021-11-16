@@ -1,7 +1,8 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-// ! react-router-dom 6.0 이상 버전에서 Switch가 Routes로 바뀜
-// ! react-router-dom 6.0 이상 버전에선 useHistory가 useNavigate로 바뀜
+//* packages
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+//* components
 import Main from './pages/Main';
 import MyFavorites from './pages/MyFavorites';
 import MyInfo from './pages/MyInfo';
@@ -10,14 +11,35 @@ import SignUp from './pages/SignUp';
 import MusicalInfo from './pages/MusicalInfo';
 
 export default function APP() {
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
+
+  const loginHandler = () => {
+    setIsLogin(true);
+  };
+
+  const logoutHandler = () => {
+    axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then((res) => {
+      console.log('logout success');
+      setIsLogin(false);
+      navigate('/');
+    });
+  };
+
+  useEffect(() => {
+    loginHandler();
+  }, []);
+
   return (
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/favorites" element={<MyFavorites />} />
-      <Route path="/myinfo" element={<MyInfo />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/musicalinfo/:id" element={<MusicalInfo />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Main isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
+        <Route path="/favorites" element={<MyFavorites isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
+        <Route path="/myinfo" element={<MyInfo />} isLogin={isLogin} />
+        <Route path="/signin" element={<SignIn isLogin={isLogin} loginHandler={loginHandler} />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/musicalinfo/:id" element={<MusicalInfo isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
+      </Routes>
+    </>
   );
 }

@@ -32,10 +32,10 @@ module.exports = {
         myFavorites.push(await items.findOne({ attributes: ['id', 'title', 'thumbnail'], where: { id }, raw: true }));
       }
 
-      res.status(200).send({ items: myFavorites });
+      return res.status(200).send({ items: myFavorites });
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: 'server error' });
+      return res.status(500).send({ message: 'server error' });
     }
   },
 };

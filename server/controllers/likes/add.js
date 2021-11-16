@@ -1,4 +1,5 @@
 const { isVerify } = require('../tokenfunction');
+const { comment } = require('../../models');
 const db = require('../../models');
 
 module.exports = {
@@ -17,14 +18,16 @@ module.exports = {
       }
       const { id } = verifyToken;
 
-      if (!req.query.commentId) {
+      const { commentId } = req.query;
+      const validComment = await comment.findOne({ where: { id: commentId } });
+
+      // 존재하지 않는 댓글인 경우
+      if (!validComment) {
         return res.status(404).send({ message: 'not found comment' });
       }
-      const { commentId } = req.query;
+      const validLike = await db.sequelize.models.likes.findOne({ where: { userId: id, commentId } });
 
-      const isLike = await db.sequelize.models.likes.findOne({ where: { userId: id, commentId } });
-
-      if (isLike) {
+      if (validLike) {
         return res.status(409).send({ message: 'conflict like' });
       }
       await db.sequelize.models.likes.create({ commentId, userId: id });
