@@ -136,6 +136,36 @@ module.exports = {
         updatedAt: '2021-11-14 10:57:35',
       },
     ]);
+    await queryInterface.bulkInsert('posters', [
+      {
+        id: 1,
+        poster: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF182867_211111_1114043.jpg',
+        itemId: 3,
+        createdAt: '2021-11-13 10:57:35',
+        updatedAt: '2021-11-14 10:57:35',
+      },
+      {
+        id: 2,
+        poster: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF182867_211111_1114042.jpg',
+        itemId: 3,
+        createdAt: '2021-11-13 10:57:35',
+        updatedAt: '2021-11-14 10:57:35',
+      },
+      {
+        id: 3,
+        poster: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF182867_211111_1114041.jpg',
+        itemId: 3,
+        createdAt: '2021-11-13 10:57:35',
+        updatedAt: '2021-11-14 10:57:35',
+      },
+      {
+        id: 4,
+        poster: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF182867_211111_1114040.jpg',
+        itemId: 3,
+        createdAt: '2021-11-13 10:57:35',
+        updatedAt: '2021-11-14 10:57:35',
+      },
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -148,5 +178,6 @@ module.exports = {
     await queryInterface.bulkDelete('items', null, {});
     await queryInterface.bulkDelete('users', null, {});
     await queryInterface.bulkDelete('comments', null, {});
+    await queryInterface.bulkDelete('posters', null, {});
   },
 };

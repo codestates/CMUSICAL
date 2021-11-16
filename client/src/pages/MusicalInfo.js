@@ -44,10 +44,13 @@ export default function MusicalInfo() {
   const [item, setItem] = useState({});
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_SERVER_ADDR}/getitem`, { params: { id } }).then(data => {
-      const info = data.data.item;
-      setItem(info);
-    });
+    async function getMusicalInfoFromAsync() {
+      await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/getitem`, { params: { id } }).then(data => {
+        const info = data.data.item;
+        setItem(info);
+      });
+    }
+    getMusicalInfoFromAsync();
   }, []);
 
   return (
@@ -76,7 +79,7 @@ export default function MusicalInfo() {
         )}
         <div className="bottom">
           {/* TODO: item의 상세 이미지 Tab 컴포넌트에 같이 넘겨주기 */}
-          <Tab id={id} />
+          {Object.keys(item).length === 0 ? <div /> : <Tab id={id} posters={item.poster} />}
         </div>
       </div>
       <Footer />

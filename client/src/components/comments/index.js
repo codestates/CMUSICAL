@@ -7,38 +7,28 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default function Comments({ id }) {
-  const [write, setWrite] = useState(false);
-  const [cmtList, setCmtList] = useState();
-  const [cmt, setCmt] = useState('');
+  const [myCmtStatus, setMyCmtStatus] = useState(false);
 
-  const writeHandler = (text, cmt) => {
-    if (text === 'add') {
-      axios.post(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`, { comment: cmt });
-      setWrite(true);
-    } else if (text === 'modify') {
-      // axios.patch(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`, { comment: cmt });
-      setWrite(false);
-    } else if (text === 'delete') {
-      axios.delete(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`);
-      setWrite(false);
-    } else {
-      setWrite(true);
-    }
-  };
-
-  const getCmtList = async () => {
-    setCmtList((await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`)).data.data);
-  };
-
-  useEffect(() => {
-    getCmtList();
-  }, []);
+  // const writeHandler = (text, cmt) => {
+  //   if (text === 'add') {
+  //     axios.post(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`, { comment: cmt });
+  //     setWrite(true);
+  //   } else if (text === 'modify') {
+  //     // axios.patch(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`, { comment: cmt });
+  //     setWrite(false);
+  //   } else if (text === 'delete') {
+  //     axios.delete(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`);
+  //     setWrite(false);
+  //   } else {
+  //     setWrite(true);
+  //   }
+  // };
 
   return (
     <>
       <div>
-        {write ? <MyCmtBox writeHandler={writeHandler} /> : <WriteCmtBox writeHandler={writeHandler} />}
-        <OthersCmtsBox cmtList={cmtList} />
+        {myCmtStatus ? <MyCmtBox /> : <WriteCmtBox />}
+        <OthersCmtsBox />
       </div>
     </>
   );
