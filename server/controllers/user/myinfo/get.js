@@ -3,10 +3,10 @@ const { users } = require('../../../models');
 
 module.exports = {
   get: async (req, res) => {
-    if (!req.headers.authorization) {
-      res.status(401).send({ message: 'unauthorized' });
+    if (!req.cookies.token) {
+      res.status(401).send({ message: 'not found token' });
     } else {
-      const token = req.headers.authorization.split(' ')[1];
+      const token = req.cookies.token;
       try {
         //쿠키에 토큰이 담겨왔다면 토큰을 검증 후 데이터베이스에서 일치하는 유저정보가 있다면 응답해주기
         const verifyToken = isVerify(token);

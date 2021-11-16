@@ -30,7 +30,7 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
-  const handleInputValue = (key) => (e) => {
+  const handleInputValue = key => e => {
     setSignInInfo({ ...signInInfo, [key]: e.target.value });
   };
 
@@ -41,16 +41,21 @@ const SignIn = () => {
       return setErrorMessage('아이디와 비밀번호를 입력하세요');
     }
 
-    axios.post('https://localhost:4000/user/signin', { username, password }, { headers: { 'Content-Type': 'application/json' } }).then((res) => {
-      const token = res.data.data;
-      if (res.status === 400) {
-        return setErrorMessage('아이디 혹은 비밀번호를 확인하세요.');
-      }
-      if (res.status === 200) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        navigate('/');
-      }
-    });
+    axios
+      .post(
+        `${process.env.REACT_APP_SERVER_ADDR}/user/signin`,
+        //
+        { username, password },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then(res => {
+        if (res.status === 400) {
+          return setErrorMessage('아이디 혹은 비밀번호를 확인하세요.');
+        }
+        if (res.status === 200) {
+          navigate('/');
+        }
+      });
   };
 
   return (

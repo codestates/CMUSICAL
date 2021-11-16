@@ -27,13 +27,13 @@ export const Body = styled.div`
 export default function Main() {
   const [list, setList] = useState([]);
 
-  const handleFilter = (text) => {
+  const handleFilter = text => {
     if (text) {
-      axios.get(`${process.env.REACT_APP_SERVER_ADDR}/?title=${text}`).then((data) => {
+      axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`).then(data => {
         setList(data.data.items);
       });
     } else {
-      axios.get(`${process.env.REACT_APP_SERVER_ADDR}`).then((data) => {
+      axios.get(`${process.env.REACT_APP_SERVER_ADDR}`).then(data => {
         setList(data.data.items);
       });
     }

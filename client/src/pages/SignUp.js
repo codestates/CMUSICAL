@@ -70,7 +70,7 @@ const SignUp = () => {
 
   // !----------------------------------------------------------------!
 
-  // TODO: 입력시 2초 대기 후 서버에 데이터 충돌 확인
+  // TODO: 입력시 대기 후 서버에 데이터 충돌 확인
   const timeWait = useRef();
   useEffect(() => {
     clearTimeout(timeWait.current);
@@ -80,6 +80,7 @@ const SignUp = () => {
         setConflicationMsg(await isConflict(values));
       }
       setConflictationMsgFromAsync();
+      console.log(isValid(values));
       setValidationMsg(isValid(values));
     }, 1000);
   }, [values]);
@@ -93,8 +94,10 @@ const SignUp = () => {
   const handleFormSubmit = event => {
     event.preventDefault();
     const validMsg = isValid(values);
+    console.log(validMsg);
     setValidationMsg(validMsg);
     // TODO: 유효성 검사 확인 후 회원 가입 요청
+    console.log(validMsg);
     if (Object.keys(validMsg).length !== 0) return;
     async function setSignUpResultFromAsync() {
       const submitMsg = await submitSignUp(values);
