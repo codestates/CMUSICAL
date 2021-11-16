@@ -1,15 +1,18 @@
 import React, { useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 
 const Background = styled.div`
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
   position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
 `;
 
 const ModalWrapper = styled.div`
@@ -21,13 +24,13 @@ const ModalWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   position: relative;
-  z-index: 10;
+  //z-index: 10;
   border-radius: 10px;
 `;
 
 const ModalImg = styled.img`
   width: 100%;
-  height: 100%;
+  height: 79%;
   border-radius: 10px 0 0 10px;
   background: #000;
 `;
@@ -40,13 +43,14 @@ const ModalContent = styled.div`
   line-height: 1.8;
   color: #141414;
   p {
-    margin-bottom: 1rem;
+    margin-bottom: 8rem;
   }
   button {
     padding: 10px 24px;
     background: #141414;
     color: #fff;
     border: none;
+    cursor: pointer;
   }
 `;
 
@@ -62,7 +66,8 @@ const CloseModalButton = styled(MdClose)`
 `;
 
 const Modal = ({ showModal, setShowModal }) => {
-  console.log('모달모달');
+  const navigate = useNavigate();
+  // console.log('모달모달');
   const modalRef = useRef();
 
   const closeModal = (e) => {
@@ -86,6 +91,10 @@ const Modal = ({ showModal, setShowModal }) => {
     return () => document.removeEventListener('keydown', keyPress);
   }, [keyPress]);
 
+  const handleButton = () => {
+    navigate('/signin');
+  };
+
   return (
     <>
       {showModal ? (
@@ -95,7 +104,7 @@ const Modal = ({ showModal, setShowModal }) => {
             <ModalContent>
               <h1>반갑습니다 :)</h1>
               <p>회원 가입이 완료 되었습니다 !</p>
-              <button>확인</button>
+              <button onClick={handleButton}>확인</button>
             </ModalContent>
             <CloseModalButton aria-label="Close modal" onClick={() => setShowModal((prev) => !prev)} />
           </ModalWrapper>

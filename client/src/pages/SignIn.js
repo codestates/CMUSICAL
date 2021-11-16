@@ -4,21 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 //* components
-import { SignButton } from '../components/styles/SignButton.styled';
+import { Button } from '../components/styles/Button.styled';
+import { StyledLink } from '../components/styles/Link.styled';
 
 axios.defaults.withCredentials = true;
-
-export const AlertBox = styled.div`
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-`;
 
 const SignIn = ({ loginHandler }) => {
   const [signInInfo, setSignInInfo] = useState({
@@ -51,27 +40,35 @@ const SignIn = ({ loginHandler }) => {
       .then((res) => {
         navigate('/');
         loginHandler();
+      })
+      .catch((err) => {
+        console.log(err.response);
+        if (err.response) {
+          return setErrorMessage('아이디 혹은 비밀번호를 확인하세요.');
+        }
       });
   };
 
   return (
     <div>
       <center>
-        <h1>CMUSICAL</h1>
+        <StyledLink to="/">
+          <h1>CMUSICAL</h1>
+        </StyledLink>
+        <div>{errorMessage}</div>
         <div>
-          <AlertBox>{errorMessage}</AlertBox>
-          <span>ID</span>
+          <span>아이디</span>
           <input type="text" onChange={handleInputValue('username')} />
         </div>
         <div>
-          <span>Password</span>
+          <span>비밀번호</span>
           <input type="password" onChange={handleInputValue('password')} />
         </div>
         <div>
-          <SignButton onClick={handleSignIn}>Sign In</SignButton>
+          <Button onClick={handleSignIn}>로그인</Button>
         </div>
         <Link to="/signup">
-          <SignButton>Sign Up</SignButton>
+          <Button>가입하기</Button>
         </Link>
       </center>
     </div>

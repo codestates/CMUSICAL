@@ -10,10 +10,10 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Arial', sans-serif;
   }
 
-  body {
+  /* body {
     box-sizing: border-box;
     text-decoration: none;
-  }
+  } */
 
   h2 {
     font-size: 2rem;

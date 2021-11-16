@@ -20,7 +20,7 @@ export default function APP() {
 
   const logoutHandler = () => {
     axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then((res) => {
-      console.log('success');
+      console.log('logout success');
       setIsLogin(false);
       navigate('/');
     });
@@ -33,56 +33,12 @@ export default function APP() {
   return (
     <>
       <Routes>
-        <>
-          <Route
-            path="/"
-            element={
-              <>
-                <Main isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
-              </>
-            }
-          />
-          <Route
-            path="/favorites"
-            element={
-              <>
-                <MyFavorites isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
-              </>
-            }
-          />
-          <Route
-            path="/myinfo"
-            element={
-              <>
-                <MyInfo />
-              </>
-            }
-          />
-          <Route
-            path="/signin"
-            element={
-              <>
-                <SignIn isLogin={isLogin} loginHandler={loginHandler} />
-              </>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <>
-                <SignUp />
-              </>
-            }
-          />
-          <Route
-            path="/musicalinfo/:id"
-            element={
-              <>
-                <MusicalInfo isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
-              </>
-            }
-          />
-        </>
+        <Route path="/" element={<Main isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
+        <Route path="/favorites" element={<MyFavorites isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
+        <Route path="/myinfo" element={<MyInfo />} isLogin={isLogin} />
+        <Route path="/signin" element={<SignIn isLogin={isLogin} loginHandler={loginHandler} />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/musicalinfo/:id" element={<MusicalInfo isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
       </Routes>
     </>
   );
