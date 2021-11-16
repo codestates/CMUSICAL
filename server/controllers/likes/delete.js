@@ -25,7 +25,7 @@ module.exports = {
       const isLike = await db.sequelize.models.likes.findOne({ where: { userId: id, commentId } });
       console.log(isLike);
       if (!isLike) {
-        return res.status(404).send({ message: 'not found' });
+        return res.status(404).send({ message: 'not found like' });
       }
       await db.sequelize.models.likes.destroy({ where: { commentId, userId: id } });
       res.status(200).send({ message: 'success' });
