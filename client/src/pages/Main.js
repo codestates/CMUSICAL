@@ -41,7 +41,7 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
       setFavorites(favoritesList.data.items);
     }
     setList(totalList.data.items);
-    // TODO 로그인 안하면 Favorites 쿼리 날리지 않도록 설정
+    // TODO 로그인 안하면 Favorites 쿼리 날리지 않도록 설정!
   };
 
   useEffect(() => {
