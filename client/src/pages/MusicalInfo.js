@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import Thumbnail from '../components/Thumbnail';
 import Tab from '../components/Tab';
@@ -41,10 +41,31 @@ export const Container = styled.div`
 `;
 
 export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
+  const navigate = useNavigate();
   //! isLogin 받아서 상태 처리 해줘야함
   const { id } = useParams('id'); //! id: musicalId => id를 musicalId로 바꾸는 js 문법
   const [item, setItem] = useState({});
   const [favorites, setFavorites] = useState([]);
+  const [list, setList] = useState([]);
+
+  const handleFilter = async (text) => {
+    let totalList, favoritesList;
+    navigate('/');
+    if (text) {
+      totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`);
+    } else {
+      totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}`);
+    }
+    await getAuth(loginHandler, logoutHandler);
+    await axios
+      .get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`)
+      .then((data) => {
+        favoritesList = data;
+        setFavorites(favoritesList.data.items);
+      })
+      .catch((err) => {});
+    setList(totalList.data.items);
+  };
 
   useEffect(() => {
     async function getMusicalInfoFromAsync() {
@@ -61,7 +82,7 @@ export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
 
   return (
     <Container>
-      <Navigation isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
+      <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <div id="body">
         {item ? (
           <div className="top">
