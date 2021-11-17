@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
+import getAuth from '../functions/getAuth';
 import styled from 'styled-components';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -34,11 +35,15 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
       totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`);
     } else {
       totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}`);
+      // console.log(isLogin);
     }
-    favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
+    const getLogin = getAuth(loginHandler, logoutHandler);
+    if (getLogin) {
+      favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
+      setFavorites(favoritesList.data.items);
+    }
     setList(totalList.data.items);
-    setFavorites(favoritesList.data.items);
-    // TODO 로그인 안하면 Favorites 쿼리 날리지 않도록 설정
+    // TODO 로그인 안하면 Favorites 쿼리 날리지 않도록 설정!
   };
 
   useEffect(() => {
@@ -55,7 +60,7 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
         <div className="list">
           {Array.isArray(list)
             ? list.map((el, idx) => {
-                return <Thumbnail key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} />;
+                return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
               })
             : '로딩 이미지'}
         </div>

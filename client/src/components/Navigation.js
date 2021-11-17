@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 //* components
 import Logo from './Logo';
+import axios from 'axios';
 
 export const Container = styled.div`
   display: flex;

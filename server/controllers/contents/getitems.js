@@ -20,7 +20,7 @@ module.exports = {
         // 시작지점
         offset,
         // 보여줄 정보의 갯수
-        limit: 8,
+        // limit: 8,
       });
 
       if (musicals.length === 0) {

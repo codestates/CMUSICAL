@@ -1,24 +1,32 @@
 import React from 'react';
 
-export default function MyCmtBox({ cmtList, handleMyCmtStatus }) {
-  const isMyCmt = Array.isArray(cmtList.myComment);
+export default function MyCmtBox({ cmtList, handleMyCmtStatus, isLogin }) {
+  const isMyCmt = cmtList.myComment.length !== 0;
   // console.log(isMyCmt);
   return (
     <>
-      <div onClick={handleMyCmtStatus}>
-        <div>My Comment</div>
-        <div>
-          {isMyCmt ? ( //
-            <div>
-              <div>comment: {cmtList.myComment[0].comment}</div>
-              <div>likes: {cmtList.myComment[0].likes}</div>
-            </div>
-          ) : (
-            '작성한 한줄평이 없습니다.'
-          )}
+      {isLogin ? (
+        <div onClick={handleMyCmtStatus}>
+          <div>My Comment</div>
+          <div>
+            {isMyCmt ? ( //
+              <div>
+                <div>comment: {cmtList.myComment[0].comment}</div>
+                <div>likes: {cmtList.myComment[0].likes}</div>
+              </div>
+            ) : (
+              '작성한 한줄평이 없습니다.'
+            )}
+          </div>
+          <div>----------------------------------------------------------------</div>
         </div>
-        <div>----------------------------------------------------------------</div>
-      </div>
+      ) : (
+        <div>
+          <div>My Comment</div>
+          <div>로그인 해주세요.</div>
+          <div>----------------------------------------------------------------</div>
+        </div>
+      )}
     </>
   );
 }

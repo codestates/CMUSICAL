@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export default function WriteCmtBox({ cmtList, setCmtList, handleMyCmtStatus, id }) {
   // cmtList.myComment ? cmtList.myComment[0].comment : ''
-  const [cmt, setCmt] = useState(!!cmtList.myComment ? cmtList.myComment[0].comment : '');
+  const [cmt, setCmt] = useState(cmtList.myComment.length !== 0 ? cmtList.myComment[0].comment : '');
 
   const inputCmt = e => {
     setCmt(e.target.value);
