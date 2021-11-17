@@ -13,5 +13,4 @@ export const SignButton = styled.button`
   outline: none;
   border: none;
   cursor: pointer;
-  transition: all 0.1s;
 `;
