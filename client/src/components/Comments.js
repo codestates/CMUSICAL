@@ -6,10 +6,10 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export default function Comments({ cmtList, setCmtList, id }) {
+export default function Comments({ cmtList, setCmtList, id, isLogin }) {
   const [myCmtStatus, setMyCmtStatus] = useState(false);
   // TODO 로그인 상태 상속받기!
-  const isLogin = true;
+  // const isLogin = true;
   // console.log(cmtList);
   useEffect(() => {
     if (isLogin && !!cmtList.myComment) setMyCmtStatus(true);

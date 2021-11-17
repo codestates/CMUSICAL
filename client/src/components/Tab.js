@@ -39,7 +39,7 @@ const Content = styled.div`
   min-height: auto;
 `;
 
-export default function Tab({ poster, id }) {
+export default function Tab({ poster, id, isLogin }) {
   const [curTab, setCurTab] = useState(0);
   const [cmtList, setCmtList] = useState();
 
@@ -51,10 +51,10 @@ export default function Tab({ poster, id }) {
       name: 'Posters',
       content: <Posters poster={poster} />,
     },
-    { name: 'Comment', content: <Comments cmtList={cmtList} setCmtList={setCmtList} id={id} /> },
+    { name: 'Comment', content: <Comments cmtList={cmtList} setCmtList={setCmtList} id={id} isLogin={isLogin} /> },
   ];
 
-  const selectTabHandler = index => {
+  const selectTabHandler = (index) => {
     setCurTab(index);
   };
 

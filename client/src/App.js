@@ -19,16 +19,12 @@ export default function APP() {
   };
 
   const logoutHandler = () => {
-    axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then((res) => {
-      console.log('logout success');
-      setIsLogin(false);
-      navigate('/');
-    });
+    setIsLogin(false);
   };
 
-  useEffect(() => {
-    loginHandler();
-  }, []);
+  // useEffect(() => {
+  //   loginHandler();
+  // }, []);
 
   return (
     <>
