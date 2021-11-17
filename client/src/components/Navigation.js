@@ -79,6 +79,7 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
     axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then((res) => {
       console.log('로그아웃 버튼');
       logoutHandler();
+      console.log('아무거나');
       navigate('/');
     });
   };
