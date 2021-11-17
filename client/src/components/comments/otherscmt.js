@@ -4,8 +4,6 @@ import axios from 'axios';
 export default function OthersCmtsBox({ cmtList, setCmtList, id }) {
   const handleLikesClick = e => {
     const commentId = e.target.attributes.commentId.value;
-    // console.log(commentId);
-    // TODO if (내가... 좋아요를.. 눌렀나...?) {
     axios
       .post(`${process.env.REACT_APP_SERVER_ADDR}/likes?commentId=${commentId}`) //
       .then(data => {
@@ -14,9 +12,8 @@ export default function OthersCmtsBox({ cmtList, setCmtList, id }) {
         }
         getCmtList();
       })
-      // TODO } else {
       .catch(err => {
-        // TODO 좋아요 눌러져 있을 경우 분기하는 조건문이 필요함
+        // TODO Refactoring: 좋아요 눌러져 있을 경우 분기하는 조건문
         axios
           .delete(`${process.env.REACT_APP_SERVER_ADDR}/likes?commentId=${commentId}`) //
           .then(data => {
