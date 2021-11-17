@@ -26,7 +26,6 @@ module.exports = {
       }
       // 사용중인 유저가 즐겨찾기 한 아이템의 아이디를 모두 가져오기 & 즐겨찾기 페이지 내에서 검색을 했다면 검색한 아이템 가져오기
       const { title } = req.query;
-      // where: { title: { [Op.like]: `%${title ? title : ''}%` } }
       const favoriteItems = await db.sequelize.models.favorites.findAll({ attributes: ['itemId'], where: { userId: id }, raw: true });
 
       // 가져온 아이디로 아이템 정보들 가져오기
