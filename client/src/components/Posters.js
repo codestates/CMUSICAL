@@ -1,6 +1,5 @@
 import React from 'react';
 export default function Posters({ posters }) {
-  console.log(posters);
   return (
     <>
       <div>상세 이미지</div>

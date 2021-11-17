@@ -1,10 +1,13 @@
-const isValid = values => {
+const isValid = (values, location) => {
   let validationMsg = {};
 
-  if (!values.username) {
-    validationMsg.username = '';
-  } else if (!/^[a-z][a-z0-9]{3,15}$/g.test(values.username)) {
-    validationMsg.username = '올바른 아이디가 아닙니다.';
+  if (location === 'MyInfo') {
+  } else {
+    if (!values.username) {
+      validationMsg.username = '';
+    } else if (!/^[a-z][a-z0-9]{3,15}$/g.test(values.username)) {
+      validationMsg.username = '올바른 아이디가 아닙니다.';
+    }
   }
 
   if (!values.email) {

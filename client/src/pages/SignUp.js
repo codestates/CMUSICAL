@@ -56,24 +56,22 @@ const SignUp = () => {
         setConflicationMsg(await isConflict(values));
       }
       setConflictationMsgFromAsync();
-      console.log(isValid(values));
       setValidationMsg(isValid(values));
     }, 1000);
   }, [values]);
 
   // !----------------------------------------------------------------!
 
-  const handleInputValue = (key) => (e) => {
+  const handleInputValue = key => e => {
     setValues({ ...values, [key]: e.target.value });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = event => {
     event.preventDefault();
     const validMsg = isValid(values);
     console.log(validMsg);
     setValidationMsg(validMsg);
     // TODO: 유효성 검사 확인 후 회원 가입 요청
-    console.log(validMsg);
     if (Object.keys(validMsg).length !== 0) return;
     async function setSignUpResultFromAsync() {
       const submitMsg = await submitSignUp(values);
@@ -81,7 +79,6 @@ const SignUp = () => {
         openModal();
         console.log('회원 가입을 축하합니다.');
       } else {
-        console.log(submitMsg);
         setConflicationMsg(submitMsg.conflictMsg);
       }
     }

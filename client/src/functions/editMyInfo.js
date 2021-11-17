@@ -1,10 +1,8 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const editMyInfo = async values => {
-  console.log(values);
-
-  return await axios
+const editMyInfo = values => {
+  return axios
     .patch(
       `${process.env.REACT_APP_SERVER_ADDR}/user/myinfo`, //
       {
@@ -16,12 +14,11 @@ const editMyInfo = async values => {
     )
     .then(res => {
       // TODO: 회원 정보 가져오기 성공
-      console.log(res);
       return true;
     })
     .catch(err => {
       // TODO: 회원 정보 가져오기 실패
-      console.log(err);
+      console.log(err.response);
       return false;
     });
 };

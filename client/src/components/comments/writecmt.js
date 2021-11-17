@@ -11,6 +11,7 @@ export default function WriteCmtBox({ cmtList, setCmtList, handleMyCmtStatus, id
 
   const handleCommentSubmit = e => {
     if (cmtList.myComment.length === 0) {
+      if (cmt.length === 0) return;
       axios
         .post(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`, { comment: cmt }) //
         .then(data => {

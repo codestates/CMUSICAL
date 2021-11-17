@@ -42,21 +42,6 @@ export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
   const [favorites, setFavorites] = useState([]);
 
   const handleFilter = async text => {
-    // let totalList;
-    // if (text) {
-    //   totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`);
-    // } else {
-    //   totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}`);
-    //   // console.log(isLogin);
-    // }
-    // let favoritesList;
-    // const getLogin = getAuth(loginHandler, logoutHandler);
-    // if (getLogin) {
-    //   favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
-    //   setFavorites(favoritesList.data.items);
-    //   setList(favoritesList.data.items);
-    // }
-
     let favoritesList;
     if (text) {
       favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites?title=${text}`);
