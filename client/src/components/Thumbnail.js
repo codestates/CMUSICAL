@@ -31,7 +31,7 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
 
   // * 즐겨찾기 여부 확인
   useEffect(() => {
-    console.log(favorites);
+    // console.log(favorites);
     const isFavorited = favorites.reduce((acc, cur) => {
       if (cur.id === id) acc = true;
       return acc;
@@ -43,10 +43,10 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
     if (favorite) {
       await axios
         .delete(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
-        .then(data => {
+        .then((data) => {
           setFavorite(false);
         })
-        .then(async data => {
+        .then(async (data) => {
           const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
           setFavorites(favoritesList.data.items);
         })
@@ -54,12 +54,12 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
     } else {
       await axios
         .post(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
-        .then(data => {
+        .then((data) => {
           setFavorite(false);
         })
-        .then(async data => {
+        .then(async (data) => {
           const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
-          console.log(favoritesList);
+          // console.log(favoritesList);
           setFavorites(favoritesList.data.items);
         })
         .catch(console.log);

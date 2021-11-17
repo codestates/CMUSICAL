@@ -43,13 +43,18 @@ export default function Tab({ poster, id, isLogin }) {
   const [curTab, setCurTab] = useState(0);
   const [cmtList, setCmtList] = useState();
 
-  // console.log(cmtList);
+  let posters = [];
+  if (poster.styurl === 'string') {
+    posters = [poster.styrul];
+  } else {
+    posters = posters.concat(poster.styurl);
+  }
 
   // TODO: MusicalInfo로부터 받아온 props(images)를 Posters 컴포넌트에 넘겨주기
   const tabArr = [
     {
       name: 'Posters',
-      content: <Posters poster={poster} />,
+      content: <Posters posters={posters} />,
     },
     { name: 'Comment', content: <Comments cmtList={cmtList} setCmtList={setCmtList} id={id} isLogin={isLogin} /> },
   ];
