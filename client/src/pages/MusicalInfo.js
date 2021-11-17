@@ -40,6 +40,7 @@ export const Container = styled.div`
 `;
 
 export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
+  //! isLogin 받아서 상태 처리 해줘야함
   const { id } = useParams('id'); //! id: musicalId => id를 musicalId로 바꾸는 js 문법
   const [item, setItem] = useState({});
   const [favorites, setFavorites] = useState([]);
