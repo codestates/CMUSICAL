@@ -71,14 +71,7 @@ module.exports = {
           dateFrom: '2021.11.01',
           dateTo: '2021.11.30',
           state: '공연중',
-          poster: {
-            styurl: [
-              'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF182867_211111_1114043.jpg',
-              'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF182867_211111_1114042.jpg',
-              'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF182867_211111_1114041.jpg',
-              'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF182867_211111_1114040.jpg',
-            ],
-          },
+          poster: null,
           createdAt: '2021-11-13 10:57:35',
           updatedAt: '2021-11-14 10:57:35',
         },
@@ -94,9 +87,7 @@ module.exports = {
           dateFrom: '2021.10.01',
           dateTo: '2021.10.31',
           state: '공연완료',
-          poster: {
-            styurl: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF182867_211111_1114043.jpg',
-          },
+          poster: null,
           createdAt: '2021-11-13 10:57:35',
           updatedAt: '2021-11-14 10:57:35',
         },
