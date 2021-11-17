@@ -5,47 +5,47 @@ export default function WriteCmtBox({ cmtList, setCmtList, handleMyCmtStatus, id
   // cmtList.myComment ? cmtList.myComment[0].comment : ''
   const [cmt, setCmt] = useState(cmtList.myComment.length !== 0 ? cmtList.myComment[0].comment : '');
 
-  const inputCmt = (e) => {
+  const inputCmt = e => {
     setCmt(e.target.value);
   };
 
-  const handleCommentSubmit = (e) => {
+  const handleCommentSubmit = e => {
     if (cmtList.myComment.length === 0) {
       axios
         .post(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`, { comment: cmt }) //
-        .then((data) => {
+        .then(data => {
           async function getCmtList() {
             setCmtList((await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`)).data.data);
           }
           getCmtList();
         })
         .then(handleMyCmtStatus())
-        .catch((err) => console.log);
+        .catch(err => console.log);
     } else {
       axios
         .patch(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`, { comment: cmt })
-        .then((data) => {
+        .then(data => {
           async function getCmtList() {
             setCmtList((await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`)).data.data);
           }
           getCmtList();
         })
         .then(handleMyCmtStatus())
-        .catch((err) => console.log);
+        .catch(err => console.log);
     }
   };
 
-  const handleCommentDelete = (e) => {
+  const handleCommentDelete = e => {
     axios
       .delete(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`)
-      .then((data) => {
+      .then(data => {
         async function getCmtList() {
           setCmtList((await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/comment?itemId=${id}`)).data.data);
         }
         getCmtList();
       })
       .then(handleMyCmtStatus())
-      .catch((err) => console.log);
+      .catch(err => console.log);
   };
 
   // const handleCommentCancle = e => {};

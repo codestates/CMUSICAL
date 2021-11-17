@@ -25,29 +25,43 @@ export const Box = styled.div`
   }
 `;
 
-export default function Thumbnail({ thumbnail, title, id, favorites }) {
+export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, setFavorites }) {
   const [icon, setIcon] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
   // * 즐겨찾기 여부 확인
   useEffect(() => {
+    console.log(favorites);
     const isFavorited = favorites.reduce((acc, cur) => {
       if (cur.id === id) acc = true;
       return acc;
     }, false);
     setFavorite(isFavorited);
-  }, [favorites]);
+  }, [favorites, favorite]);
 
-  const handleFavorites = () => {
+  const handleFavorites = async () => {
     if (favorite) {
-      axios
+      await axios
         .delete(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
-        .then(setFavorite(false))
+        .then(data => {
+          setFavorite(false);
+        })
+        .then(async data => {
+          const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
+          setFavorites(favoritesList.data.items);
+        })
         .catch(console.log);
     } else {
-      axios
+      await axios
         .post(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
-        .then(setFavorite(true))
+        .then(data => {
+          setFavorite(false);
+        })
+        .then(async data => {
+          const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
+          console.log(favoritesList);
+          setFavorites(favoritesList.data.items);
+        })
         .catch(console.log);
     }
   };
@@ -68,16 +82,20 @@ export default function Thumbnail({ thumbnail, title, id, favorites }) {
           <img src={thumbnail} alt={title} width="300" height="400" />
         </Link>
         <div className="pick" onClick={handleFavorites}>
-          {favorite ? (
-            !icon ? (
-              <MdBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />
+          {isLogin ? (
+            favorite ? (
+              !icon ? (
+                <MdBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />
+              ) : (
+                <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} />
+              )
+            ) : icon ? (
+              <MdBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} />
             ) : (
-              <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} />
+              <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />
             )
-          ) : icon ? (
-            <MdBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} />
           ) : (
-            <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />
+            ''
           )}
         </div>
       </div>

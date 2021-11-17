@@ -29,14 +29,16 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
   const [list, setList] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
-  const handleFilter = async (text) => {
+  const handleFilter = async text => {
     let totalList, favoritesList;
     if (text) {
       totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`);
     } else {
       totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}`);
+      // console.log(isLogin);
     }
-    if (isLogin) {
+    const getLogin = getAuth(loginHandler, logoutHandler);
+    if (getLogin) {
       favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
       setFavorites(favoritesList.data.items);
     }
@@ -45,7 +47,6 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
   };
 
   useEffect(() => {
-    getAuth(loginHandler, logoutHandler);
     handleFilter(window.sessionStorage.getItem('Keyword'));
   }, []);
 
@@ -59,7 +60,7 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
         <div className="list">
           {Array.isArray(list)
             ? list.map((el, idx) => {
-                return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} />;
+                return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
               })
             : '로딩 이미지'}
         </div>

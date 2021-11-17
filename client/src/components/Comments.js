@@ -7,12 +7,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default function Comments({ cmtList, setCmtList, id, isLogin }) {
-  const [myCmtStatus, setMyCmtStatus] = useState(false);
+  const [myCmtStatus, setMyCmtStatus] = useState(true);
   // TODO 로그인 상태 상속받기!
   // const isLogin = true;
   // console.log(cmtList);
   useEffect(() => {
-    if (isLogin && !!cmtList.myComment) setMyCmtStatus(true);
+    // if (isLogin && !!cmtList.myComment) setMyCmtStatus(true);
   }, []);
 
   const handleMyCmtStatus = () => {
@@ -24,7 +24,7 @@ export default function Comments({ cmtList, setCmtList, id, isLogin }) {
       <div>
         {isLogin ? (
           myCmtStatus ? (
-            <MyCmtBox cmtList={cmtList} handleMyCmtStatus={handleMyCmtStatus} /> //
+            <MyCmtBox cmtList={cmtList} handleMyCmtStatus={handleMyCmtStatus} isLogin={isLogin} /> //
           ) : (
             <WriteCmtBox cmtList={cmtList} setCmtList={setCmtList} handleMyCmtStatus={handleMyCmtStatus} id={id} />
           )
