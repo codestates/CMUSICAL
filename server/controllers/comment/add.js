@@ -22,8 +22,10 @@ module.exports = {
         return res.status(404).send({ message: 'not found item' });
       }
       // 유저가 이미 한줄평을 남겼는지 확인
-      const getUserComment = await comment.findOne({ where: { userId: id } });
+      const getUserComment = await comment.findOne({ where: { userId: id, itemId: req.query.itemId } });
       if (getUserComment) {
+        console.log(validItem);
+
         return res.status(400).send({ message: 'user already wrote' });
       }
       //한줄평을 남기지 않았고, 존재하는 아이템이면 메세지가 입력된 채로 요청이 왔는지 확인 후 데이터 베이스에 추가

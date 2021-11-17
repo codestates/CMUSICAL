@@ -15,6 +15,7 @@ export default function APP() {
   const [isLogin, setIsLogin] = useState(false);
 
   const loginHandler = () => {
+    // console.log('로그인!');
     setIsLogin(true);
   };
 

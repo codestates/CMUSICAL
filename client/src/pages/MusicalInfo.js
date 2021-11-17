@@ -6,6 +6,7 @@ import Tab from '../components/Tab';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import axios from 'axios';
+import getAuth from '../functions/getAuth';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -47,13 +48,13 @@ export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
 
   useEffect(() => {
     async function getMusicalInfoFromAsync() {
+      getAuth(loginHandler, logoutHandler);
       const info = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/getitem`, { params: { id } });
-      if (isLogin) {
+      setItem(info.data.item);
+      if (getAuth(loginHandler, logoutHandler)) {
         const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
         setFavorites(favoritesList.data.items);
       }
-      setItem(info.data.item);
-      console.log(item);
     }
     getMusicalInfoFromAsync();
   }, []);
@@ -65,7 +66,7 @@ export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
         {item ? (
           <div className="top">
             <div className="thumbnail">
-              <Thumbnail isLogin={isLogin} thumbnail={item.thumbnail} title={item.title} id={item.id} favorites={favorites} />
+              <Thumbnail isLogin={isLogin} thumbnail={item.thumbnail} title={item.title} id={item.id} favorites={favorites} setFavorites={setFavorites} />
             </div>
             <div className="details">
               <span>제목: {item.title}</span>
