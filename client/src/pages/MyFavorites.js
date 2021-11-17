@@ -3,6 +3,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
 import getAuth from '../functions/getAuth';
+import { Container } from '../components/styles/Container.styled';
 import styled from 'styled-components';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -11,32 +12,22 @@ dotenv.config();
 axios.defaults.withCredentials = true;
 
 export const Body = styled.div`
-  width: auto;
-  min-height: auto;
-  border: 3px solid green;
+  display: flex;
+  flex-direction: column;
 
-  > .list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    border: 3px solid green;
-    margin: 10px 50px;
-    padding: 10px;
+  .title {
+    margin: 5rem 0 2rem 0;
+    color: #1c1c1c;
   }
 `;
 
-export const Container = styled.div`
-  width: auto;
-  min-height: auto;
-  border: 3px solid;
-
-  > #body {
-    border: 3px solid blue;
-    padding: 50px;
-  }
+export const List = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 10px;
 `;
 
-// export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
 export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
   const [list, setList] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -60,18 +51,21 @@ export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
   return (
     <>
       <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
-      <Body>
-        <div className="title">
-          <h2>Favorites</h2>
-        </div>
-        <div className="list">
-          {Array.isArray(list)
-            ? list.map((el, idx) => {
-                return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
-              })
-            : '로딩 이미지'}
-        </div>
-      </Body>
+      <Container>
+        <Body>
+          <div className="title">
+            <h2>Favorites</h2>
+          </div>
+          <List>
+            {Array.isArray(list)
+              ? list.map((el, idx) => {
+                  return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
+                })
+              : '로딩 이미지'}
+          </List>
+        </Body>
+      </Container>
+
       <Footer />
     </>
   );

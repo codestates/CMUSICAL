@@ -10,21 +10,14 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Arial', sans-serif;
   }
 
-  /* body {
-    box-sizing: border-box;
-    text-decoration: none;
-  } */
-
   h2 {
     font-size: 2rem;
     text-align: center;
-    margin: 30px 0;
   }
 
   h3 {
     font-size: 1.4rem;
-    margin: 15px 0;
-  }
+  }  
 `;
 
 export default GlobalStyles;

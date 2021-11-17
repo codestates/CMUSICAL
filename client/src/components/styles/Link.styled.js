@@ -10,6 +10,6 @@ export const StyledLink = styled(Link)`
   &:link,
   &:active {
     text-decoration: none;
-    color: black;
+    color: white;
   }
 `;

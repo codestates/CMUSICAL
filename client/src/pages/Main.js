@@ -12,18 +12,20 @@ dotenv.config();
 axios.defaults.withCredentials = true;
 
 export const Body = styled.div`
-  width: auto;
-  min-height: auto;
-  border: 3px solid green;
+  display: flex;
+  flex-direction: column;
 
-  > .list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    border: 3px solid green;
-    margin: 10px 50px;
-    padding: 10px;
+  .title {
+    margin: 5rem 0 1rem 0;
+    color: #1c1c1c;
   }
+`;
+
+export const List = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 10px;
 `;
 
 export default function Main({ isLogin, loginHandler, logoutHandler }) {
@@ -56,16 +58,18 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
     <>
       <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <Container>
-        <div className="title">
-          <h2>Musical List</h2>
-        </div>
-        <div className="list">
-          {Array.isArray(list)
-            ? list.map((el, idx) => {
-                return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
-              })
-            : '로딩 이미지'}
-        </div>
+        <Body>
+          <div className="title">
+            <h2>Musical List</h2>
+          </div>
+          <List>
+            {Array.isArray(list)
+              ? list.map((el, idx) => {
+                  return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
+                })
+              : '로딩 이미지'}
+          </List>
+        </Body>
       </Container>
       <Footer />
     </>
