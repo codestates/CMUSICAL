@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { StyledLink } from '../components/styles/Link.styled';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 //* components
 import Logo from './Logo';
+import axios from 'axios';
 
 export const Container = styled.div`
   display: flex;
@@ -61,26 +61,10 @@ export const SubNavi = styled.div`
   }
 `;
 
-export default function Navigation({ handleFilter }) {
+export default function Navigation({ handleFilter, isLogin, loginHandler, logoutHandler }) {
   const navigate = useNavigate();
   const [isHide, setHide] = useState(true);
-  const [refresh, setRefresh] = useState(false);
-
-  // TODO: 로그인 상태 변경함수 -> 토큰 있는지 없는지로
-  const [isLogin, setIsLogin] = useState(false);
   const [text, setText] = useState('');
-
-  const loginHandler = () => {
-    window.sessionStorage.setItem('loggedInfo', true);
-    setRefresh(!refresh);
-  };
-
-  const logoutHandler = () => {
-    //! 로그아웃 요청 보내기
-    // window.sessionStorage.setItem('loggedInfo', false);
-    // navigate('/');
-    // setRefresh(!refresh);
-  };
 
   const handleText = (e) => {
     window.sessionStorage.setItem('Keyword', e.target.value);
@@ -89,6 +73,14 @@ export default function Navigation({ handleFilter }) {
 
   const clickBtn = () => {
     handleFilter(text);
+  };
+
+  const handleSignOutBtn = () => {
+    axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then((res) => {
+      console.log('로그아웃 버튼');
+      logoutHandler();
+      navigate('/');
+    });
   };
 
   return (
@@ -100,14 +92,13 @@ export default function Navigation({ handleFilter }) {
         <input type="search" value={window.sessionStorage.getItem('Keyword')} onChange={handleText} />
         <button onClick={clickBtn}>🔍</button>
       </div>
-      <div className="box" onClick={loginHandler}>
-        {/*여기 토큰 있는지 없는지 여부만 판단하는 코드로 대체*/}
-        {window.sessionStorage.getItem('loggedInfo') === 'true' ? (
+      <div className="box">
+        {isLogin ? (
           <div className="submenu" onMouseOver={() => setHide(false)}>
             <p>My Page</p>
           </div>
         ) : (
-          <StyledLink to="/signin">
+          <StyledLink to="/signin" isLogin={isLogin} loginHandler={loginHandler}>
             <p>Sign In</p>
           </StyledLink>
         )}
@@ -124,7 +115,7 @@ export default function Navigation({ handleFilter }) {
           </StyledLink>
         </div>
         <div className="menu">
-          <span onClick={logoutHandler}>Sign Out</span>
+          <span onClick={handleSignOutBtn}>Sign Out</span>
         </div>
       </SubNavi>
     </Container>

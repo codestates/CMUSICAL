@@ -1,10 +1,11 @@
 //* packages
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import axios from 'axios';
 //* components
-import { SignButton } from '../components/styles/SignButton.styled';
+import SignUpSuccessModal from '../components/Modal/SignUpSuccessModal';
+import { Button } from '../components/styles/Button.styled';
+import { StyledLink } from '../components/styles/Link.styled';
 //* functions
 import isValid from '../functions/isValid';
 import isConflict from '../functions/isConflict';
@@ -12,40 +13,8 @@ import submitSignUp from '../functions/submitSignUp';
 
 axios.defaults.withCredentials = true;
 
-export const Container = styled.div`
-  background: linear-gradient(135deg, #850c62, #f80759);
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const AppWrapper = styled.div`
-  background-color: #fff;
-  min-width: 350px;
-  min-width: 650px;
-  padding: 30px;
-  box-sizing: border-box;
-  border-radius: 5px;
-`;
-
-export const Title = styled.div`
-  color: #f80759;
-  text-align: center;
-  margin: 80px 0px 40px 0px;
-`;
-
-export const AlertBox = styled.div`
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-`;
-
 const SignUp = () => {
-  const navigate = useNavigate();
+  //! 회원 가입시 입력 사항
   const [values, setValues] = useState({
     username: '',
     email: '',
@@ -68,6 +37,13 @@ const SignUp = () => {
     nickname: '',
   });
 
+  //! 모달 상태관리
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(!showModal);
+  };
+
   // !----------------------------------------------------------------!
 
   // TODO: 입력시 대기 후 서버에 데이터 충돌 확인
@@ -87,11 +63,11 @@ const SignUp = () => {
 
   // !----------------------------------------------------------------!
 
-  const handleInputValue = key => e => {
+  const handleInputValue = (key) => (e) => {
     setValues({ ...values, [key]: e.target.value });
   };
 
-  const handleFormSubmit = event => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
     const validMsg = isValid(values);
     console.log(validMsg);
@@ -102,6 +78,7 @@ const SignUp = () => {
     async function setSignUpResultFromAsync() {
       const submitMsg = await submitSignUp(values);
       if (submitMsg.result) {
+        openModal();
         console.log('회원 가입을 축하합니다.');
       } else {
         console.log(submitMsg);
@@ -114,11 +91,11 @@ const SignUp = () => {
   // !----------------------------------------------------------------!
 
   return (
-    <Container>
-      <AppWrapper>
-        <Link to="/">
-          <Title>CMUSICAL</Title>
-        </Link>
+    <>
+      <div>
+        <StyledLink to="/">
+          <h1>CMUSICAL</h1>
+        </StyledLink>
         <div className="form-wrapper">
           <div className="username">
             <label className="label">ID</label>
@@ -161,11 +138,12 @@ const SignUp = () => {
             </p>
           </div>
           <div>
-            <SignButton onClick={handleFormSubmit}>Sign Up</SignButton>
+            <Button onClick={handleFormSubmit}>Sign Up</Button>
+            {showModal ? <SignUpSuccessModal showModal={showModal} setShowModal={setShowModal} /> : null}
           </div>
         </div>
-      </AppWrapper>
-    </Container>
+      </div>
+    </>
   );
 };
 

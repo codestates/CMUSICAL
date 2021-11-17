@@ -4,9 +4,11 @@ export default function Posters({ poster }) {
   return (
     <>
       <div>상세 이미지</div>
-      {poster.map((el, index) => {
-        return <img src={el.poster} key={index} width="800px"></img>;
-      })}
+      {Array.isArray(poster)
+        ? poster.map((el, index) => {
+            return <img src={el.poster} key={index} width="800px"></img>;
+          })
+        : ''}
     </>
   );
 }

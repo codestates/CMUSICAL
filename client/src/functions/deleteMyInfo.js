@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const deleteMyInfo = async values => {
+const deleteMyInfo = async (values) => {
   console.log(values);
 
   return await axios
@@ -13,13 +13,13 @@ const deleteMyInfo = async values => {
         password: values.oldPassword,
       }
     )
-    .then(res => {
-      // TODO: 회원 정보 가져오기 성공
+    .then((res) => {
+      // TODO: 회원 정보 지우기 성공
       console.log(res);
       return true;
     })
-    .catch(err => {
-      // TODO: 회원 정보 가져오기 실패
+    .catch((err) => {
+      // TODO: 회원 정보 지우기 실패
       console.log(err);
       return false;
     });

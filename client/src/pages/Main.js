@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
+import getAuth from '../functions/getAuth';
 import styled from 'styled-components';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -24,19 +25,25 @@ export const Body = styled.div`
   }
 `;
 
-export default function Main() {
+export default function Main({ isLogin, loginHandler, logoutHandler }) {
   const [list, setList] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
-  const handleFilter = text => {
+  const handleFilter = async (text) => {
+    let totalList, favoritesList;
     if (text) {
-      axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`).then(data => {
-        setList(data.data.items);
-      });
+      totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`);
     } else {
-      axios.get(`${process.env.REACT_APP_SERVER_ADDR}`).then(data => {
-        setList(data.data.items);
-      });
+      totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}`);
+      // console.log(isLogin);
     }
+    const getLogin = getAuth(loginHandler, logoutHandler);
+    if (getLogin) {
+      favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
+      setFavorites(favoritesList.data.items);
+    }
+    setList(totalList.data.items);
+    // TODO 로그인 안하면 Favorites 쿼리 날리지 않도록 설정!
   };
 
   useEffect(() => {
@@ -45,15 +52,15 @@ export default function Main() {
 
   return (
     <>
-      <Navigation handleFilter={handleFilter} />
+      <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <Body>
         <div className="title">
           <h2>Musical List</h2>
         </div>
         <div className="list">
-          {list
+          {Array.isArray(list)
             ? list.map((el, idx) => {
-                return <Thumbnail key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} />;
+                return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
               })
             : '로딩 이미지'}
         </div>

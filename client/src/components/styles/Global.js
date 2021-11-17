@@ -7,12 +7,13 @@ const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
+    font-family: 'Arial', sans-serif;
   }
 
-  body {
+  /* body {
     box-sizing: border-box;
     text-decoration: none;
-  }
+  } */
 
   h2 {
     font-size: 2rem;

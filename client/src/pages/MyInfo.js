@@ -1,52 +1,23 @@
 //* packages
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 //* components
-import { SignButton } from '../components/styles/SignButton.styled';
+import { Button } from '../components/styles/Button.styled';
+import { StyledLink } from '../components/styles/Link.styled';
+import EditModal from '../components/Modal/EditModal';
+import DeleteModal from '../components/Modal/DeleteModal';
+
 //* functions
 import isValid from '../functions/isValid';
-import isConflict from '../functions/isConflict';
+// import isConflict from '../functions/isConflict';
 import deleteMyInfo from '../functions/deleteMyInfo';
 import editMyInfo from '../functions/editMyInfo';
 import getMyInfo from '../functions/getMyInfo';
 
 axios.defaults.withCredentials = true;
 
-export const Container = styled.div`
-  background: linear-gradient(135deg, #850c62, #f80759);
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const AppWrapper = styled.div`
-  background-color: #fff;
-  min-width: 350px;
-  min-width: 650px;
-  padding: 30px;
-  box-sizing: border-box;
-  border-radius: 5px;
-`;
-
-export const Title = styled.div`
-  color: #f80759;
-  text-align: center;
-  margin: 80px 0px 40px 0px;
-`;
-
-export const AlertBox = styled.div`
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-`;
-
-const MyInfo = () => {
+const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
   const navigate = useNavigate();
   const [myInfo, setMyInfo] = useState({
     email: '',
@@ -73,9 +44,16 @@ const MyInfo = () => {
     nickname: '',
   });
 
-  const handleInputValue = key => e => {
+  const handleInputValue = (key) => (e) => {
     // ! MyInfo에선 아이디를 받지 않아서 항상 오류가 나옴
     setValues({ ...values, username: 'dummyuser', [key]: e.target.value });
+  };
+
+  //! 모달 상태관리
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(!showModal);
   };
 
   // !----------------------------------------------------------------!
@@ -106,7 +84,7 @@ const MyInfo = () => {
   // !----------------------------------------------------------------!
   // TODO: 회원 정보 수정
 
-  const handleEditFormSubmit = event => {
+  const handleEditFormSubmit = (event) => {
     event.preventDefault();
     const validMsg = isValid(values);
     setValidationMsg(validMsg);
@@ -115,8 +93,9 @@ const MyInfo = () => {
       const editResult = await editMyInfo(values);
       if (editResult) {
         console.log('회원 정보가 수정되었습니다.');
+        openModal();
       } else {
-        console.log(editResult);
+        console.log('edit', editResult);
       }
     }
     editMyInfoResultFromAsync();
@@ -124,7 +103,7 @@ const MyInfo = () => {
 
   // !----------------------------------------------------------------!
   // TODO: 회원 탈퇴
-  const handleDeleteFormSubmit = event => {
+  const handleDeleteFormSubmit = (event) => {
     event.preventDefault();
     const validMsg = isValid(values);
     setValidationMsg(validMsg);
@@ -133,6 +112,11 @@ const MyInfo = () => {
       const deleteResult = await deleteMyInfo(values);
       if (deleteResult) {
         console.log('회원 탈퇴 되었습니다.');
+        axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`);
+        console.log('탈퇴탈퇴');
+        console.log(typeof logoutHandler);
+        logoutHandler();
+        openModal();
       } else {
         console.log(deleteResult);
       }
@@ -142,59 +126,58 @@ const MyInfo = () => {
   // !----------------------------------------------------------------!
 
   return (
-    <Container>
-      <AppWrapper>
-        <Link to="/">
-          <Title>CMUSICAL</Title>
-        </Link>
-        <div className="form-wrapper">
-          <div className="email">
-            <label className="label">Email</label>
-            <input className="input" type="email" name="email" value={values.email} onChange={handleInputValue('email')} />
-            <p className="error">
-              {validationMsg.email}
-              {conflicationMsg.email}
-              {/* {values.email === myInfo.email ? '' : conflicationMsg.email} */}
-            </p>
-          </div>
-          <div className="nickname">
-            <label className="label">Nickname</label>
-            <input className="input" type="text" name="nickname" value={values.nickname} onChange={handleInputValue('nickname')} />
-            <p className="error">
-              {validationMsg.nickname}
-              {conflicationMsg.nickname}
-              {/* {values.nickname === myInfo.nickname ? '' : conflicationMsg.nickname} */}
-            </p>
-          </div>
-          <div className="oldPassword">
-            <label className="label">Password</label>
-            <input className="input" type="password" name="oldPassword" onChange={handleInputValue('oldPassword')} />
-            <p className="error"></p>
-          </div>
-          <div className="password">
-            <label className="label">New Password</label>
-            <input className="input" type="password" name="password" onChange={handleInputValue('password')} />
-            <p className="error">
-              {validationMsg.password}
-              {/**/}
-            </p>
-          </div>
-          <div className="confirm">
-            <label className="label">New Password Confirm</label>
-            <input className="input" type="password" name="confirm" onChange={handleInputValue('confirm')} />
-            <p className="error">
-              {validationMsg.confirm}
-              {/**/}
-            </p>
-          </div>
-
-          <div>
-            <SignButton onClick={handleEditFormSubmit}>정보 수정</SignButton>
-            <SignButton onClick={handleDeleteFormSubmit}>회원 탈퇴</SignButton>
-          </div>
+    <>
+      <StyledLink to="/">
+        <h1>CMUSICAL</h1>
+      </StyledLink>
+      <div className="form-wrapper">
+        <div className="email">
+          <label className="label">이메일</label>
+          <input className="input" type="email" name="email" value={values.email} onChange={handleInputValue('email')} />
+          <p className="error">
+            {validationMsg.email}
+            {conflicationMsg.email}
+            {/* {values.email === myInfo.email ? '' : conflicationMsg.email} */}
+          </p>
         </div>
-      </AppWrapper>
-    </Container>
+        <div className="nickname">
+          <label className="label">닉네임</label>
+          <input className="input" type="text" name="nickname" value={values.nickname} onChange={handleInputValue('nickname')} />
+          <p className="error">
+            {validationMsg.nickname}
+            {conflicationMsg.nickname}
+            {/* {values.nickname === myInfo.nickname ? '' : conflicationMsg.nickname} */}
+          </p>
+        </div>
+        <div className="oldPassword">
+          <label className="label">현재 비밀번호</label>
+          <input className="input" type="password" name="oldPassword" onChange={handleInputValue('oldPassword')} />
+          <p className="error"></p>
+        </div>
+        <div className="password">
+          <label className="label">새로운 비밀번호</label>
+          <input className="input" type="password" name="password" onChange={handleInputValue('password')} />
+          <p className="error">
+            {validationMsg.password}
+            {/**/}
+          </p>
+        </div>
+        <div className="confirm">
+          <label className="label">새로운 비밀번호 확인</label>
+          <input className="input" type="password" name="confirm" onChange={handleInputValue('confirm')} />
+          <p className="error">
+            {validationMsg.confirm}
+            {/**/}
+          </p>
+        </div>
+        <div>
+          <Button onClick={handleEditFormSubmit}>정보 수정</Button>
+          {showModal ? <EditModal showModal={showModal} setShowModal={setShowModal} /> : null}
+          <Button onClick={handleDeleteFormSubmit}>회원 탈퇴</Button>
+          {showModal ? <DeleteModal showModal={showModal} setShowModal={setShowModal} /> : null}
+        </div>
+      </div>
+    </>
   );
 };
 
