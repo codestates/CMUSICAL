@@ -63,7 +63,6 @@ export const SubNavi = styled.div`
 export default function Navigation({ handleFilter, isLogin, loginHandler, logoutHandler }) {
   const navigate = useNavigate();
   const [isHide, setHide] = useState(true);
-  const [refresh, setRefresh] = useState(false);
   const [text, setText] = useState('');
 
   const handleText = (e) => {
@@ -73,6 +72,14 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
 
   const clickBtn = () => {
     handleFilter(text);
+  };
+
+  const handleSignOutBtn = () => {
+    axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then((res) => {
+      console.log('로그아웃 버튼');
+      logoutHandler();
+      navigate('/');
+    });
   };
 
   return (
@@ -107,7 +114,7 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
           </StyledLink>
         </div>
         <div className="menu">
-          <span onClick={logoutHandler}>Sign Out</span>
+          <span onClick={handleSignOutBtn}>Sign Out</span>
         </div>
       </SubNavi>
     </Container>

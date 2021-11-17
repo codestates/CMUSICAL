@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // import styled from 'styled-components';
 import axios from 'axios';
 //* components
-import Modal from '../components/Modal';
+import SignUpSuccessModal from '../components/Modal/SignUpSuccessModal';
 import { Button } from '../components/styles/Button.styled';
 import { StyledLink } from '../components/styles/Link.styled';
 //* functions
@@ -139,7 +139,7 @@ const SignUp = () => {
           </div>
           <div>
             <Button onClick={handleFormSubmit}>Sign Up</Button>
-            {showModal ? <Modal showModal={showModal} setShowModal={setShowModal} /> : null}
+            {showModal ? <SignUpSuccessModal showModal={showModal} setShowModal={setShowModal} /> : null}
           </div>
         </div>
       </div>
