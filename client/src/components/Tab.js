@@ -44,10 +44,10 @@ export default function Tab({ poster, id, isLogin }) {
   const [cmtList, setCmtList] = useState();
 
   let posters = [];
-  if (poster.styurl === 'string') {
-    posters = [poster.styrul];
-  } else {
-    posters = posters.concat(poster.styurl);
+  // poster = null 또는 값 존재(값 = string 또는 array)
+  if (poster) {
+    if (poster.styurl === 'string') posters = [poster.styrul];
+    else posters = posters.concat(poster.styurl);
   }
 
   // TODO: MusicalInfo로부터 받아온 props(images)를 Posters 컴포넌트에 넘겨주기
