@@ -3,6 +3,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
 import getAuth from '../functions/getAuth';
+import { Container } from '../components/styles/Container.styled';
 import styled from 'styled-components';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -29,7 +30,7 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
   const [list, setList] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
-  const handleFilter = async text => {
+  const handleFilter = async (text) => {
     let totalList, favoritesList;
     if (text) {
       totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`);
@@ -39,11 +40,11 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
     await getAuth(loginHandler, logoutHandler);
     await axios
       .get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`)
-      .then(data => {
+      .then((data) => {
         favoritesList = data;
         setFavorites(favoritesList.data.items);
       })
-      .catch(err => {});
+      .catch((err) => {});
     setList(totalList.data.items);
   };
 
@@ -54,7 +55,7 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
   return (
     <>
       <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
-      <Body>
+      <Container>
         <div className="title">
           <h2>Musical List</h2>
         </div>
@@ -65,7 +66,7 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
               })
             : '로딩 이미지'}
         </div>
-      </Body>
+      </Container>
       <Footer />
     </>
   );
