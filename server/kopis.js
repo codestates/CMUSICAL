@@ -25,7 +25,7 @@ module.exports = {
       // 오픈 API를 통한 뮤지컬 기본정보 가져오기
       const apiData = (
         await axios
-          .get(`http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.KOPIS_API_KEY}&stdate=20210101&eddate=20211231&rows=50&cpage=1&shcate=AAAB`)
+          .get(`http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.KOPIS_API_KEY}&stdate=20210101&eddate=20211130&rows=50&cpage=1&shcate=AAAB`)
           .then((xmlData) => parser.parse(xmlData.data))
       ).dbs.db;
 

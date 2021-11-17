@@ -42,10 +42,10 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
     if (favorite) {
       await axios
         .delete(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
-        .then((data) => {
+        .then(data => {
           setFavorite(false);
         })
-        .then(async (data) => {
+        .then(async data => {
           const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
           setFavorites(favoritesList.data.items);
         })
@@ -53,19 +53,17 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
     } else {
       await axios
         .post(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
-        .then((data) => {
+        .then(data => {
           setFavorite(false);
         })
-        .then(async (data) => {
+        .then(async data => {
           const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
-          // console.log(favoritesList);
           setFavorites(favoritesList.data.items);
         })
         .catch(console.log);
     }
   };
 
-  // axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`).then(console.log);
   const onIcon = () => {
     setIcon(true);
   };
