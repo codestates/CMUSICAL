@@ -40,7 +40,7 @@ export const Container = styled.div`
 
 export const SubNavi = styled.div`
   display: flex;
-  display: ${(props) => (props.isHide ? 'none' : '')};
+  display: ${props => (props.isHide ? 'none' : '')};
   flex-direction: column;
   width: 100px;
   min-height: auto;
@@ -66,7 +66,7 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
   const [isHide, setHide] = useState(true);
   const [text, setText] = useState('');
 
-  const handleText = (e) => {
+  const handleText = e => {
     window.sessionStorage.setItem('Keyword', e.target.value);
     setText(e.target.value);
   };
@@ -75,11 +75,19 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
     handleFilter(text);
   };
 
+  const handleKeyUp = (e) => {
+    if (e.key === 'Enter') {
+      clickBtn();
+    }
+    if (e.key === 'Escape') {
+      setText('');
+      clickBtn();
+    }
+  };
+
   const handleSignOutBtn = () => {
-    axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then((res) => {
-      console.log('로그아웃 버튼');
+    axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then(res => {
       logoutHandler();
-      console.log('아무거나');
       navigate('/');
     });
   };
@@ -90,7 +98,7 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
         <Logo />
       </div>
       <div className="box search">
-        <input type="search" value={window.sessionStorage.getItem('Keyword')} onChange={handleText} />
+        <input type="search" value={window.sessionStorage.getItem('Keyword')} onKeyUp={handleKeyUp} onChange={handleText} />
         <button onClick={clickBtn}>🔍</button>
       </div>
       <div className="box">

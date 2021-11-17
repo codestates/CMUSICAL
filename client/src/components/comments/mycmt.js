@@ -2,7 +2,6 @@ import React from 'react';
 
 export default function MyCmtBox({ cmtList, handleMyCmtStatus, isLogin }) {
   const isMyCmt = cmtList.myComment.length !== 0;
-  // console.log(isMyCmt);
   return (
     <>
       {isLogin ? (
@@ -13,6 +12,7 @@ export default function MyCmtBox({ cmtList, handleMyCmtStatus, isLogin }) {
               <div>
                 <div>comment: {cmtList.myComment[0].comment}</div>
                 <div>likes: {cmtList.myComment[0].likes}</div>
+                <div>{cmtList.myComment[0].createdAt.slice(0, 10)}</div>
               </div>
             ) : (
               '작성한 한줄평이 없습니다.'

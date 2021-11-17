@@ -44,23 +44,22 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
     nickname: '',
   });
 
-  const handleInputValue = (key) => (e) => {
+  const handleInputValue = key => e => {
     // ! MyInfo에선 아이디를 받지 않아서 항상 오류가 나옴
     setValues({ ...values, username: 'dummyuser', [key]: e.target.value });
   };
 
   //! 모달 상태관리
-  const [showModal, setShowModal] = useState(false);
-
-  const openModal = () => {
-    setShowModal(!showModal);
-  };
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // !----------------------------------------------------------------!
   // TODO: 내 정보 가져오기
+  // * 로그인이 안된 경우 메인화면으로 돌려보냄
   useEffect(() => {
     async function getMyInfoFromAsync() {
       const myInfo = await getMyInfo();
+      if (!myInfo) navigate('/');
       setValues(myInfo);
       setMyInfo(myInfo);
     }
@@ -84,18 +83,18 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
   // !----------------------------------------------------------------!
   // TODO: 회원 정보 수정
 
-  const handleEditFormSubmit = (event) => {
+  const handleEditFormSubmit = event => {
     event.preventDefault();
-    const validMsg = isValid(values);
+    const validMsg = isValid(values, 'MyInfo');
     setValidationMsg(validMsg);
     // TODO: 유효성 검사 확인 후 회원 정보 수정 요청
     async function editMyInfoResultFromAsync() {
       const editResult = await editMyInfo(values);
       if (editResult) {
         console.log('회원 정보가 수정되었습니다.');
-        openModal();
+        setShowEditModal(true);
       } else {
-        console.log('edit', editResult);
+        console.log(editResult);
       }
     }
     editMyInfoResultFromAsync();
@@ -103,16 +102,16 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
 
   // !----------------------------------------------------------------!
   // TODO: 회원 탈퇴
-  const handleDeleteFormSubmit = (event) => {
+  const handleDeleteFormSubmit = event => {
     event.preventDefault();
-    const validMsg = isValid(values);
+    const validMsg = isValid(values, 'isMyInfo');
     setValidationMsg(validMsg);
     // TODO: 유효성 검사 확인 후 회원 정보 수정 요청
     async function deleteMyInfoResultFromAsync() {
       const deleteResult = await deleteMyInfo(values);
       if (deleteResult) {
-        logoutHandler();
-        openModal();
+        console.log('회원 탈퇴 되었습니다.');
+        setShowDeleteModal(true);
       } else {
         console.log(deleteResult);
       }
@@ -130,7 +129,7 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
       <div className="form-wrapper">
         <div className="email">
           <label className="label">이메일</label>
-          <input className="input" type="email" name="email" value={values.email} onChange={handleInputValue('email')} />
+          <input className="input" type="email" name="email" value={values ? values.email : ''} onChange={handleInputValue('email')} />
           <p className="error">
             {validationMsg.email}
             {conflicationMsg.email}
@@ -139,7 +138,7 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
         </div>
         <div className="nickname">
           <label className="label">닉네임</label>
-          <input className="input" type="text" name="nickname" value={values.nickname} onChange={handleInputValue('nickname')} />
+          <input className="input" type="text" name="nickname" value={values ? values.nickname : ''} onChange={handleInputValue('nickname')} />
           <p className="error">
             {validationMsg.nickname}
             {conflicationMsg.nickname}
@@ -169,9 +168,9 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
         </div>
         <div>
           <Button onClick={handleEditFormSubmit}>정보 수정</Button>
-          {showModal ? <EditModal showModal={showModal} setShowModal={setShowModal} /> : null}
+          {showEditModal ? <EditModal showModal={showEditModal} setShowModal={setShowEditModal} /> : null}
           <Button onClick={handleDeleteFormSubmit}>회원 탈퇴</Button>
-          {showModal ? <DeleteModal showModal={showModal} setShowModal={setShowModal} /> : null}
+          {showDeleteModal ? <DeleteModal showModal={showDeleteModal} setShowModal={setShowDeleteModal} /> : null}
         </div>
       </div>
     </>

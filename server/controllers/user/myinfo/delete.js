@@ -1,5 +1,7 @@
 const { isVerify } = require('../../tokenfunction');
 const { users } = require('../../../models');
+const bcrypt = require('bcryptjs');
+
 module.exports = {
   delete: async (req, res) => {
     if (!req.cookies.token) {
@@ -12,10 +14,20 @@ module.exports = {
         return res.status(406).send({ message: 'invalid token' });
       }
       const { id } = userInfo;
+
+      if (!req.body.oldPassword) {
+        return res.status(400).send({ message: 'empty oldPassword' });
+      }
+      const { oldPassword } = req.body;
+
       const validUser = await users.findOne({ where: id, raw: true });
 
       if (!validUser) {
         return res.status(406).send({ message: 'invalid user' });
+      }
+
+      if (!bcrypt.compareSync(oldPassword, validUser.password)) {
+        return res.status(400).send({ message: 'invalid password' });
       }
       await users.destroy({ where: { id } });
 
