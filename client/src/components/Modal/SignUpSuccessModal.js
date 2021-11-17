@@ -70,17 +70,17 @@ const Modal = ({ showModal, setShowModal }) => {
   // console.log('모달모달');
   const modalRef = useRef();
 
-  const closeModal = (e) => {
+  const closeModal = e => {
     if (modalRef.current === e.target) {
       setShowModal(false);
     }
   };
 
   const keyPress = useCallback(
-    (e) => {
+    e => {
       if (e.key === 'Escape' && showModal) {
         setShowModal(false);
-        console.log('ESC 누르면 모달 없어지지롱');
+        // console.log('ESC 누르면 모달 없어지지롱');
       }
     },
     [setShowModal, showModal]
@@ -106,7 +106,7 @@ const Modal = ({ showModal, setShowModal }) => {
               <p>회원 가입이 완료 되었습니다 !</p>
               <button onClick={handleButton}>확인</button>
             </ModalContent>
-            <CloseModalButton aria-label="Close modal" onClick={() => setShowModal((prev) => !prev)} />
+            <CloseModalButton aria-label="Close modal" onClick={() => setShowModal(prev => !prev)} />
           </ModalWrapper>
         </Background>
       ) : null}

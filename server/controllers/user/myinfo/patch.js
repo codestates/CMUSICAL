@@ -55,7 +55,7 @@ module.exports = {
       if (key.length === 0) {
         return res.status(400).send({ message: 'empty information' });
       }
-      key.map(async (key) => {
+      key.map(async key => {
         await users.update({ [key]: inspectData[key] }, { where: { id } });
       });
       return res.status(200).send({ message: 'success' });
