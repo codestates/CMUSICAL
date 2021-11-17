@@ -23,6 +23,12 @@ const SignIn = ({ loginHandler }) => {
     setSignInInfo({ ...signInInfo, [key]: e.target.value });
   };
 
+  const handleKeyUp = (e) => {
+    if (e.key === 'Enter') {
+      handleSignIn();
+    }
+  };
+
   const handleSignIn = () => {
     const { username, password } = signInInfo;
 
@@ -58,11 +64,11 @@ const SignIn = ({ loginHandler }) => {
         <div>{errorMessage}</div>
         <div>
           <span>아이디</span>
-          <input type="text" onChange={handleInputValue('username')} />
+          <input type="text" onKeyUp={handleKeyUp} onChange={handleInputValue('username')} />
         </div>
         <div>
           <span>비밀번호</span>
-          <input type="password" onChange={handleInputValue('password')} />
+          <input type="password" onKeyUp={handleKeyUp} onChange={handleInputValue('password')} />
         </div>
         <div>
           <Button onClick={handleSignIn}>로그인</Button>
