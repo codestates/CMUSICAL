@@ -12,6 +12,11 @@ module.exports = {
         return res.status(406).send({ message: 'invalid token' });
       }
       const { id } = userInfo;
+      const validUser = await users.findOne({ where: id, raw: true });
+
+      if (!validUser) {
+        return res.status(406).send({ message: 'invalid user' });
+      }
       await users.destroy({ where: { id } });
 
       res.clearCookie('token');

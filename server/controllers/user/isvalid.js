@@ -17,7 +17,7 @@ module.exports = {
       return res.status(409).send({ message: 'conflict information' });
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: 'server error' });
+      return res.status(500).send({ message: 'server error' });
     }
   },
 };
