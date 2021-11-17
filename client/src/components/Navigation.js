@@ -75,9 +75,9 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
     handleFilter(text);
   };
 
-  const signOutBtn = () => {
+  const handleSignOutBtn = () => {
     axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then((res) => {
-      console.log('logout success');
+      console.log('로그아웃 버튼');
       logoutHandler();
       navigate('/');
     });
@@ -115,7 +115,7 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
           </StyledLink>
         </div>
         <div className="menu">
-          <span onClick={signOutBtn}>Sign Out</span>
+          <span onClick={handleSignOutBtn}>Sign Out</span>
         </div>
       </SubNavi>
     </Container>

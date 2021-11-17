@@ -29,7 +29,7 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
   const [list, setList] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
-  const handleFilter = async text => {
+  const handleFilter = async (text) => {
     let totalList, favoritesList;
     if (text) {
       totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`);

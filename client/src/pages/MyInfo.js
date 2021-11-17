@@ -1,11 +1,13 @@
 //* packages
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 //* components
 import { Button } from '../components/styles/Button.styled';
 import { StyledLink } from '../components/styles/Link.styled';
+import EditModal from '../components/Modal/EditModal';
+import DeleteModal from '../components/Modal/DeleteModal';
+
 //* functions
 import isValid from '../functions/isValid';
 // import isConflict from '../functions/isConflict';
@@ -15,7 +17,7 @@ import getMyInfo from '../functions/getMyInfo';
 
 axios.defaults.withCredentials = true;
 
-const MyInfo = () => {
+const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
   const navigate = useNavigate();
   const [myInfo, setMyInfo] = useState({
     email: '',
@@ -45,6 +47,13 @@ const MyInfo = () => {
   const handleInputValue = (key) => (e) => {
     // ! MyInfo에선 아이디를 받지 않아서 항상 오류가 나옴
     setValues({ ...values, username: 'dummyuser', [key]: e.target.value });
+  };
+
+  //! 모달 상태관리
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(!showModal);
   };
 
   // !----------------------------------------------------------------!
@@ -84,8 +93,9 @@ const MyInfo = () => {
       const editResult = await editMyInfo(values);
       if (editResult) {
         console.log('회원 정보가 수정되었습니다.');
+        openModal();
       } else {
-        console.log(editResult);
+        console.log('edit', editResult);
       }
     }
     editMyInfoResultFromAsync();
@@ -102,6 +112,11 @@ const MyInfo = () => {
       const deleteResult = await deleteMyInfo(values);
       if (deleteResult) {
         console.log('회원 탈퇴 되었습니다.');
+        axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`);
+        console.log('탈퇴탈퇴');
+        console.log(typeof logoutHandler);
+        logoutHandler();
+        openModal();
       } else {
         console.log(deleteResult);
       }
@@ -157,7 +172,9 @@ const MyInfo = () => {
         </div>
         <div>
           <Button onClick={handleEditFormSubmit}>정보 수정</Button>
+          {showModal ? <EditModal showModal={showModal} setShowModal={setShowModal} /> : null}
           <Button onClick={handleDeleteFormSubmit}>회원 탈퇴</Button>
+          {showModal ? <DeleteModal showModal={showModal} setShowModal={setShowModal} /> : null}
         </div>
       </div>
     </>
