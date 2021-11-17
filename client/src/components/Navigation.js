@@ -75,6 +75,16 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
     handleFilter(text);
   };
 
+  const handleKeyUp = (e) => {
+    if (e.key === 'Enter') {
+      clickBtn();
+    }
+    if (e.key === 'Escape') {
+      setText('');
+      clickBtn();
+    }
+  };
+
   const handleSignOutBtn = () => {
     axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`).then(res => {
       logoutHandler();
@@ -88,7 +98,7 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
         <Logo />
       </div>
       <div className="box search">
-        <input type="search" value={window.sessionStorage.getItem('Keyword')} onChange={handleText} />
+        <input type="search" value={window.sessionStorage.getItem('Keyword')} onKeyUp={handleKeyUp} onChange={handleText} />
         <button onClick={clickBtn}>🔍</button>
       </div>
       <div className="box">

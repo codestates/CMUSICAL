@@ -1,6 +1,8 @@
 const { isVerify } = require('../../tokenfunction');
 const { validation, confliction } = require('../../inspectfunction');
 const { users } = require('../../../models');
+const bcrypt = require('bcryptjs');
+
 //todo: post 요청과 쿠키를 비교해서 달라진 값만 유효성,중복검사 요청!
 module.exports = {
   patch: async (req, res) => {
@@ -26,7 +28,7 @@ module.exports = {
         return res.status(400).send({ message: 'empty oldPassword' });
       }
       // 현재 비밀번호가 입력되었지만 데이터베이스에 있는 비밀번호와 일치하지 않을 경우
-      if (req.body.oldPassword !== password) {
+      if (!bcrypt.compareSync(req.body.oldPassword, password)) {
         // 유효하지 않는 비밀번호라는 메세지로 응답
         return res.status(400).send({ message: 'invalid password' });
       } else {
@@ -49,7 +51,8 @@ module.exports = {
       if (!(isValidNickname && isValidEmail && isValidPassword) || !(isConflictNickname && isConflictEmail)) {
         return res.status(406).send({ data: { isValid, isConflict } });
       }
-      // 유효성 검사와 중복검사를 통과했으면 정보수정 해주기
+      // 유효성 검사와 중복검사를 통과했으면 비밀번호 해싱 후 정보수정 해주기
+      inspectData.password = bcrypt.hashSync(inspectData.password, 10);
       const key = Object.keys(inspectData);
 
       if (key.length === 0) {
