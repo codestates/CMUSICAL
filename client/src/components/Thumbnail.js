@@ -31,7 +31,6 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
 
   // * 즐겨찾기 여부 확인
   useEffect(() => {
-    // console.log(favorites);
     const isFavorited = favorites.reduce((acc, cur) => {
       if (cur.id === id) acc = true;
       return acc;

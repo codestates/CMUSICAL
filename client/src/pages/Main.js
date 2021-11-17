@@ -29,21 +29,22 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
   const [list, setList] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
-  const handleFilter = async (text) => {
+  const handleFilter = async text => {
     let totalList, favoritesList;
     if (text) {
       totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}?title=${text}`);
     } else {
       totalList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}`);
-      // console.log(isLogin);
     }
-    const getLogin = getAuth(loginHandler, logoutHandler);
-    if (getLogin) {
-      favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
-      setFavorites(favoritesList.data.items);
-    }
+    await getAuth(loginHandler, logoutHandler);
+    await axios
+      .get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`)
+      .then(data => {
+        favoritesList = data;
+        setFavorites(favoritesList.data.items);
+      })
+      .catch(err => {});
     setList(totalList.data.items);
-    // TODO 로그인 안하면 Favorites 쿼리 날리지 않도록 설정!
   };
 
   useEffect(() => {

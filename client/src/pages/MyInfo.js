@@ -111,10 +111,6 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
     async function deleteMyInfoResultFromAsync() {
       const deleteResult = await deleteMyInfo(values);
       if (deleteResult) {
-        console.log('회원 탈퇴 되었습니다.');
-        axios.post(`${process.env.REACT_APP_SERVER_ADDR}/user/signout`);
-        console.log('탈퇴탈퇴');
-        console.log(typeof logoutHandler);
         logoutHandler();
         openModal();
       } else {
@@ -122,6 +118,7 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
       }
     }
     deleteMyInfoResultFromAsync();
+    // logoutHandler();
   };
   // !----------------------------------------------------------------!
 
