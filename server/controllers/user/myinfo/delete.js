@@ -25,7 +25,6 @@ module.exports = {
       if (!validUser) {
         return res.status(406).send({ message: 'invalid user' });
       }
-
       if (!bcrypt.compareSync(oldPassword, validUser.password)) {
         return res.status(400).send({ message: 'invalid password' });
       }
