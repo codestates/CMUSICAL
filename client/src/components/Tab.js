@@ -4,6 +4,13 @@ import Comments from './Comments';
 import styled from 'styled-components';
 import axios from 'axios';
 
+export const Container = styled.div`
+  border: 3px solid #574240;
+  border-radius: 20px;
+  margin: 0 0 4rem 0;
+  text-align: center;
+`;
+
 const TabMenu = styled.ul`
   display: flex;
   width: 100%;
@@ -76,7 +83,7 @@ export default function Tab({ poster, id, isLogin }) {
   }, []);
 
   return (
-    <div>
+    <Container>
       <TabMenu>
         {tabArr.map((el, idx) => {
           return (
@@ -87,6 +94,6 @@ export default function Tab({ poster, id, isLogin }) {
         })}
       </TabMenu>
       <Content>{tabArr[curTab].content}</Content>
-    </div>
+    </Container>
   );
 }

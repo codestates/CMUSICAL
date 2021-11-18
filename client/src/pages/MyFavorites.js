@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
 import getAuth from '../functions/getAuth';
 import { Container } from '../components/styles/Container.styled';
+import { Body } from '../components/styles/Body.styled';
 import styled from 'styled-components';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -11,16 +12,17 @@ dotenv.config();
 
 axios.defaults.withCredentials = true;
 
-export const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 30vh 8vh 30vh;
-  padding-bottom: 12rem;
+export const None = styled.div`
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding: 5rem 0 0 0;
+  font-size: 1.4rem;
+`;
 
-  .title {
-    margin: 5rem 0 2rem 0;
-    color: #1c1c1c;
-  }
+export const Title = styled.div`
+  margin: 10rem 0 3rem 0;
+  color: #1c1c1c;
 `;
 
 export const List = styled.div`
@@ -54,15 +56,17 @@ export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
       <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <Container>
         <Body>
-          <div className="title">
+          <Title>
             <h2>Favorites</h2>
-          </div>
+          </Title>
           <List>
-            {Array.isArray(list)
-              ? list.map((el, idx) => {
-                  return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
-                })
-              : '로딩 이미지'}
+            {list.length !== 0 ? (
+              list.map((el, idx) => {
+                return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
+              })
+            ) : (
+              <None>관심있는 뮤지컬을 즐겨찾기 해보세요!</None>
+            )}
           </List>
         </Body>
         <Footer />

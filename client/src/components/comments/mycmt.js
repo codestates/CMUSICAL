@@ -1,32 +1,31 @@
 import React from 'react';
+import { MyComment } from '../styles/MyComment.styled';
+import { CmtBox } from '../styles/CmtBox.styled';
+import styled from 'styled-components';
+
+export const Container = styled.div``;
 
 export default function MyCmtBox({ cmtList, handleMyCmtStatus, isLogin }) {
   const isMyCmt = cmtList.myComment.length !== 0;
   return (
     <>
-      {isLogin ? (
+      <Container>
         <div onClick={handleMyCmtStatus}>
-          <div>My Comment</div>
-          <div>
-            {isMyCmt ? ( //
-              <div>
-                <div>comment: {cmtList.myComment[0].comment}</div>
-                <div>likes: {cmtList.myComment[0].likes}</div>
-                <div>{cmtList.myComment[0].createdAt.slice(0, 10)}</div>
+          {isMyCmt ? ( //
+            <CmtBox myCmt>
+              <div className="comment">{cmtList.myComment[0].comment}</div>
+              <div className="cmtBottom">
+                <div className="like">❤️ {cmtList.myComment[0].likes}</div>
+                <div className="date">{cmtList.myComment[0].createdAt.slice(0, 10)}</div>
               </div>
-            ) : (
-              '작성한 한줄평이 없습니다.'
-            )}
-          </div>
-          <div>----------------------------------------------------------------</div>
+            </CmtBox>
+          ) : (
+            <MyComment isLogin>
+              <input type="text" placeholder=" 한줄평을 남겨보세요! :)" />
+            </MyComment>
+          )}
         </div>
-      ) : (
-        <div>
-          <div>My Comment</div>
-          <div>로그인 해주세요.</div>
-          <div>----------------------------------------------------------------</div>
-        </div>
-      )}
+      </Container>
     </>
   );
 }

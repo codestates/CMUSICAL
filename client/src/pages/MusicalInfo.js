@@ -5,6 +5,7 @@ import Thumbnail from '../components/Thumbnail';
 import Tab from '../components/Tab';
 import Footer from '../components/Footer';
 import { Container } from '../components/styles/Container.styled';
+import { Body } from '../components/styles/Body.styled';
 import styled from 'styled-components';
 import axios from 'axios';
 import getAuth from '../functions/getAuth';
@@ -13,7 +14,48 @@ dotenv.config();
 
 axios.defaults.withCredentials = true;
 
-export const Body = styled.div``;
+export const Top = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10rem 0 0 0;
+  margin-bottom: 4rem;
+
+  .title {
+    border-bottom: 3px solid #574240;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+  }
+`;
+
+export const Info = styled.div`
+  display: flex;
+  justify-content: center;
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+    height: 400px;
+    justify-content: center;
+    margin: 1rem 0 0 3rem;
+    padding: 0 0 0 2rem;
+    border: 2px solid #574240;
+    border-radius: 20px;
+  }
+`;
+
+export const Row = styled.div`
+  margin: 0.7rem 0;
+`;
+
+export const Span = styled.span`
+  display: ${({ infoT }) => (infoT ? 'inline-block' : '')};
+  font-size: ${({ title, info, infoT }) => (title ? '2.4rem' : info ? (infoT ? '1.5rem' : '1.3rem') : '1rem')};
+  padding: ${({ title, infoT }) => (title ? '0 1rem 0 0' : infoT ? '0' : '0 0 0 1rem')};
+  width: ${({ infoT }) => (infoT ? '100px' : '0')};
+  border-right: ${({ infoT }) => (infoT ? '2px solid #574240 ' : '')};
+  color: #1c1c1c;
+`;
 
 export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
   const navigate = useNavigate();
@@ -61,29 +103,60 @@ export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
       <Container>
         <Body>
           {item ? (
-            <div>
-              <div>
-                <Thumbnail isLogin={isLogin} thumbnail={item.thumbnail} title={item.title} id={item.id} favorites={favorites} setFavorites={setFavorites} />
+            <Top>
+              <div className="title">
+                <Span title>{item.title}</Span>
+                <Span>{item.state}</Span>
               </div>
-              <div>
-                <span>제목: {item.title}</span>
-                <span>장소: {item.theater}</span>
-                <span>출연자: {item.cast}</span>
-                <span>가격: {item.price}</span>
-                <span>런타임: {item.runtime}</span>
-                <span>공연 시간: {item.showtime}</span>
-                <span>공연 시작 날짜: {item.dateFrom}</span>
-                <span>공연 종료 날짜: {item.dateTo}</span>
-                <span>공연 상태: {item.state}</span>
-              </div>
-            </div>
+              <Info>
+                <div className="thumb">
+                  <Thumbnail isLogin={isLogin} thumbnail={item.thumbnail} title={item.title} id={item.id} favorites={favorites} setFavorites={setFavorites} />
+                </div>
+                <div className="info">
+                  <Row>
+                    <Span info infoT>
+                      기간
+                    </Span>
+                    <Span info>{item.dateFrom} ~</Span>
+                    <Span info> {item.dateTo}</Span>
+                  </Row>
+                  <Row>
+                    <Span info infoT>
+                      장소
+                    </Span>
+                    <Span info>{item.theater}</Span>
+                  </Row>
+                  <Row>
+                    <Span info infoT>
+                      시간
+                    </Span>
+                    <Span info>{item.showtime}</Span>
+                  </Row>
+                  <Row>
+                    <Span info infoT>
+                      가격
+                    </Span>
+                    <Span info>{item.price}</Span>
+                  </Row>
+                  <Row>
+                    <Span info infoT>
+                      출연자
+                    </Span>
+                    <Span info>{item.cast}</Span>
+                  </Row>
+                  <Row>
+                    <Span info infoT>
+                      런타임
+                    </Span>
+                    <Span info>{item.runtime}</Span>
+                  </Row>
+                </div>
+              </Info>
+            </Top>
           ) : (
-            '로딩 이미지'
+            <div>Lodding...</div>
           )}
-          <div>
-            {/* TODO: item의 상세 이미지 Tab 컴포넌트에 같이 넘겨주기 */}
-            {Object.keys(item).length === 0 ? <div /> : <Tab id={id} poster={item.poster} isLogin={isLogin} />}
-          </div>
+          <div className="bottom">{Object.keys(item).length === 0 ? <div /> : <Tab id={id} poster={item.poster} isLogin={isLogin} />}</div>
         </Body>
         <Footer />
       </Container>

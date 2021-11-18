@@ -12,6 +12,11 @@ dotenv.config();
 
 axios.defaults.withCredentials = true;
 
+export const Title = styled.div`
+  margin: 10rem 0 3rem 0;
+  color: #1c1c1c;
+`;
+
 export const List = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -49,9 +54,9 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
       <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <Container>
         <Body>
-          <div className="title">
+          <Title>
             <h2>Musical List</h2>
-          </div>
+          </Title>
           <List>
             {Array.isArray(list)
               ? list.map((el, idx) => {

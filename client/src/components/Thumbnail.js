@@ -17,15 +17,29 @@ export const Box = styled.div`
     outline: none;
     border: none;
     border-radius: 20px;
+  }
+`;
 
-    > .pick {
-      width: 50px;
-      min-height: 50px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      cursor: pointer;
-    }
+export const Pick = styled.div`
+  width: 50px;
+  min-height: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+
+  .icon {
+    width: 3.2rem;
+    height: 3.2rem;
+    color: #bfa5a3;
+  }
+
+  .on {
+    color: #bfa5a3;
+    opacity: 0.7;
   }
 `;
 
@@ -90,19 +104,21 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
         <Link to={`/musicalinfo/${id}`}>
           <Img src={thumbnail} alt={title} />
         </Link>
-        <div className="pick" onClick={handleFavorites}>
+        <div>
           {isLogin ? (
-            favorite ? (
-              !icon ? (
-                <MdBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />
+            <Pick onClick={handleFavorites}>
+              {favorite ? (
+                !icon ? (
+                  <MdBookmarkAdd className="icon on" onMouseOver={onIcon} />
+                ) : (
+                  <MdOutlineBookmarkAdd className="icon" onMouseLeave={offIcon} />
+                )
+              ) : icon ? (
+                <MdBookmarkAdd className="icon" onMouseLeave={offIcon} />
               ) : (
-                <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} />
-              )
-            ) : icon ? (
-              <MdBookmarkAdd size="3.5rem" color="yellow" onMouseLeave={offIcon} />
-            ) : (
-              <MdOutlineBookmarkAdd size="3.5rem" color="yellow" onMouseOver={onIcon} />
-            )
+                <MdOutlineBookmarkAdd className="icon on" onMouseOver={onIcon} />
+              )}
+            </Pick>
           ) : (
             ''
           )}

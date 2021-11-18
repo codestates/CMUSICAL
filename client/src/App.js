@@ -1,7 +1,5 @@
-//* packages
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-//* components
 import Main from './pages/Main';
 import MyFavorites from './pages/MyFavorites';
 import MyInfo from './pages/MyInfo';
