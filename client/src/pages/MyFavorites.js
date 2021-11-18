@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
 import getAuth from '../functions/getAuth';
 import { Container } from '../components/styles/Container.styled';
+import { Body } from '../components/styles/Body.styled';
 import styled from 'styled-components';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -11,16 +12,9 @@ dotenv.config();
 
 axios.defaults.withCredentials = true;
 
-export const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 30vh 8vh 30vh;
-  padding-bottom: 12rem;
-
-  .title {
-    margin: 5rem 0 2rem 0;
-    color: #1c1c1c;
-  }
+export const Title = styled.div`
+  margin: 5rem 0 2rem 0;
+  color: #1c1c1c;
 `;
 
 export const List = styled.div`
@@ -54,9 +48,9 @@ export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
       <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <Container>
         <Body>
-          <div className="title">
+          <Title>
             <h2>Favorites</h2>
-          </div>
+          </Title>
           <List>
             {Array.isArray(list)
               ? list.map((el, idx) => {

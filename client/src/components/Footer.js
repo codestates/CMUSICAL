@@ -3,18 +3,48 @@ import Logo from './Logo';
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  display: flex;
   width: 100%;
   height: 12rem;
   bottom: 0px;
+  justify-content: space-around;
   position: absolute;
-  border: 1px solid;
+  background-color: #bfa5a3;
+  color: #574240;
+
+  > .logo {
+    margin: 0 auto 0 15rem;
+    padding: 4rem 0 0 0;
+  }
+
+  > .box {
+    display: flex;
+    flex-direction: column;
+    margin: 0 2rem;
+    padding: 2rem 6rem 0 0;
+
+    > .list {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 `;
-const Span = styled.span``;
-const Anchor = styled(Span.withComponent('a'))``;
+
+const Span = styled.span`
+  font-size: 1rem;
+`;
+
+const Anchor = styled(Span.withComponent('a'))`
+  padding-bottom: 4px;
+  text-decoration: none;
+  color: #574240;
+  &:visited {
+    color: #574240;
+  }
+`;
 
 // export const Container = styled.div
 //   display: flex;
-//   height: 12rem;
 //   justify-content: space-around;
 //   background-color: #bfa5a3;
 //   color: #574240;
@@ -39,19 +69,6 @@ const Anchor = styled(Span.withComponent('a'))``;
 //       padding-top: 0.4rem;
 //       /* border: 1px solid; */
 //     }
-//   }
-// `;
-// TODO: 추후 적용할 Footer CSS
-// const Span = styled.span`
-//   font-size: 1rem;
-// `;
-
-// const Anchor = styled(Span.withComponent('a'))`
-//   padding-bottom: 4px;
-//   text-decoration: none;
-//   color: #574240;
-//   &:visited {
-//     color: #574240;
 //   }
 // `;
 
