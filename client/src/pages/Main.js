@@ -6,6 +6,7 @@ import getAuth from '../functions/getAuth';
 import { Container } from '../components/styles/Container.styled';
 import { Body } from '../components/styles/Body.styled';
 import styled from 'styled-components';
+import { Container } from '../components/styles/Container.styled';
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();

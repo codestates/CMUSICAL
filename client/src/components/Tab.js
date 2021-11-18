@@ -9,19 +9,24 @@ const TabMenu = styled.ul`
   width: 100%;
   min-height: 50px;
   justify-content: space-evenly;
-  background-color: black;
+  background-color: #574240;
+  border-radius: 13px;
   align-items: center;
   font-weight: bold;
   list-style: none;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.9rem;
 
   .submenu {
-    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    padding: 10px 0;
     min-height: 3rem;
     text-align: center;
-    background-color: black;
-    padding-top: 20px;
+    background-color: #574240;
+    border-radius: 10px;
     cursor: pointer;
     &:hover {
       opacity: 0.7;
