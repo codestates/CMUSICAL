@@ -51,6 +51,7 @@ export const Input = styled.input.attrs({})`
   border: none;
   border-radius: 10px;
   font-family: 'sans-serif';
+  padding: 0 0.4rem 0 0.2rem;
 `;
 
 export const Button = styled.button`
@@ -120,7 +121,7 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
         <Logo />
       </div>
       <div className="box search">
-        <Input placeholder=" 뮤지컬을 검색해보세요! :)" type="search" value={window.sessionStorage.getItem('Keyword')} onKeyUp={handleKeyUp} onChange={handleText} />
+        <Input placeholder="뮤지컬을 검색해보세요! :)" type="search" value={window.sessionStorage.getItem('Keyword')} onKeyUp={handleKeyUp} onChange={handleText} />
         <Button onClick={clickBtn}>🔍</Button>
       </div>
       <div className="box">
