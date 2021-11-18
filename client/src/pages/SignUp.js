@@ -1,17 +1,39 @@
 //* packages
 import React, { useState, useEffect, useRef } from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import axios from 'axios';
 //* components
-import SignUpSuccessModal from '../components/Modal/SignUpSuccessModal';
-import { Button } from '../components/styles/Button.styled';
 import { StyledLink } from '../components/styles/Link.styled';
+import { Container } from '../components/styles/Container.styled';
+import { Body } from '../components/styles/Body.styled';
+import { UserInfoBody } from '../components/styles/UserInfo.styled';
+import { InputContainer } from '../components/styles/UserInfo.styled';
+import { Input } from '../components/styles/UserInfo.styled';
+import { PasswordInput } from '../components/styles/UserInfo.styled';
+import { ErrorMsg } from '../components/styles/UserInfo.styled';
+import { SingleButton } from '../components/styles/Button.styled';
+import SignUpSuccessModal from '../components/Modal/SignUpSuccessModal';
+import Footer from '../components/Footer';
 //* functions
 import isValid from '../functions/isValid';
 import isConflict from '../functions/isConflict';
 import submitSignUp from '../functions/submitSignUp';
 
 axios.defaults.withCredentials = true;
+
+//! Styled Components ------------------------------------------------------------//
+
+export const SignUpTitle = styled.h2`
+  border: none;
+  align-items: flex-start;
+  height: 7vh;
+`;
+
+export const SingleButtonDiv = styled.div`
+  margin: 50px 10px;
+`;
+
+//! Pages ----------------------------------------------------------------------//
 
 const SignUp = () => {
   //! 회원 가입시 입력 사항
@@ -62,11 +84,11 @@ const SignUp = () => {
 
   // !----------------------------------------------------------------!
 
-  const handleInputValue = key => e => {
+  const handleInputValue = (key) => (e) => {
     setValues({ ...values, [key]: e.target.value });
   };
 
-  const handleFormSubmit = event => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
     const validMsg = isValid(values);
     console.log(validMsg);
@@ -89,57 +111,66 @@ const SignUp = () => {
 
   return (
     <>
-      <div>
-        <StyledLink to="/">
-          <h1>CMUSICAL</h1>
-        </StyledLink>
-        <div className="form-wrapper">
-          <div className="username">
-            <label className="label">ID</label>
-            <input className="input" type="text" name="username" onChange={handleInputValue('username')} />
-            <p className="error">
-              {validationMsg.username}
-              {conflicationMsg.username}
-            </p>
-          </div>
-          <div className="email">
-            <label className="label">Email</label>
-            <input className="input" type="email" name="email" onChange={handleInputValue('email')} />
-            <p className="error">
-              {validationMsg.email}
-              {conflicationMsg.email}
-            </p>
-          </div>
-          <div className="nickname">
-            <label className="label">Nickname</label>
-            <input className="input" type="text" name="nickname" onChange={handleInputValue('nickname')} />
-            <p className="error">
-              {validationMsg.nickname}
-              {conflicationMsg.nickname}
-            </p>
-          </div>
-          <div className="password">
-            <label className="label">Password</label>
-            <input className="input" type="password" name="password" onChange={handleInputValue('password')} />
-            <p className="error">
-              {validationMsg.password}
-              {/**/}
-            </p>
-          </div>
-          <div className="confirm">
-            <label className="label">Confirm</label>
-            <input className="input" type="password" name="confirm" onChange={handleInputValue('confirm')} />
-            <p className="error">
-              {validationMsg.confirm}
-              {/**/}
-            </p>
-          </div>
-          <div>
-            <Button onClick={handleFormSubmit}>Sign Up</Button>
-            {showModal ? <SignUpSuccessModal showModal={showModal} setShowModal={setShowModal} /> : null}
-          </div>
-        </div>
-      </div>
+      <Container>
+        <Body>
+          <UserInfoBody>
+            <SignUpTitle>
+              <StyledLink black to="/">
+                <h2>CMUSICAL</h2>
+              </StyledLink>
+            </SignUpTitle>
+            <div className="form">
+              <div className="form-userInfo">
+                <InputContainer>
+                  <label>아이디</label>
+                  <Input type="text" name="username" onChange={handleInputValue('username')} />
+                  <ErrorMsg>
+                    {validationMsg.username}
+                    {conflicationMsg.username}
+                  </ErrorMsg>
+                </InputContainer>
+                <InputContainer>
+                  <label>이메일</label>
+                  <Input type="text" name="email" onChange={handleInputValue('email')} />
+                  <ErrorMsg>
+                    {validationMsg.email}
+                    {conflicationMsg.email}
+                  </ErrorMsg>
+                </InputContainer>
+                <InputContainer>
+                  <label>닉네임</label>
+                  <Input type="text" name="nickname" onChange={handleInputValue('nickname')} />
+                  <ErrorMsg>
+                    {validationMsg.nickname}
+                    {conflicationMsg.nickname}
+                  </ErrorMsg>
+                </InputContainer>
+                <InputContainer>
+                  <label>비밀번호</label>
+                  <PasswordInput type="password" name="password" onChange={handleInputValue('password')} />
+                  <ErrorMsg>
+                    {validationMsg.password}
+                    {/**/}
+                  </ErrorMsg>
+                </InputContainer>
+                <InputContainer>
+                  <label>비밀번호 확인</label>
+                  <PasswordInput type="password" name="confirm" onChange={handleInputValue('confirm')} />
+                  <ErrorMsg>
+                    {validationMsg.confirm}
+                    {/**/}
+                  </ErrorMsg>
+                </InputContainer>
+              </div>
+              <SingleButtonDiv>
+                <SingleButton onClick={handleFormSubmit}>가입하기</SingleButton>
+                {showModal ? <SignUpSuccessModal showModal={showModal} setShowModal={setShowModal} /> : null}
+              </SingleButtonDiv>
+            </div>
+          </UserInfoBody>
+        </Body>
+        <Footer />
+      </Container>
     </>
   );
 };

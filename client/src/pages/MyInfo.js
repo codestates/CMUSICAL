@@ -1,10 +1,19 @@
 //* packages
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import axios from 'axios';
 //* components
-import { Button } from '../components/styles/Button.styled';
 import { StyledLink } from '../components/styles/Link.styled';
+import { Container } from '../components/styles/Container.styled';
+import { Body } from '../components/styles/Body.styled';
+import { UserInfoBody } from '../components/styles/UserInfo.styled';
+import { InputContainer } from '../components/styles/UserInfo.styled';
+import { Input } from '../components/styles/UserInfo.styled';
+import { PasswordInput } from '../components/styles/UserInfo.styled';
+import { ErrorMsg } from '../components/styles/UserInfo.styled';
+import { DoubleButton } from '../components/styles/Button.styled';
+import Footer from '../components/Footer';
 import EditModal from '../components/Modal/EditModal';
 import DeleteModal from '../components/Modal/DeleteModal';
 
@@ -16,6 +25,20 @@ import editMyInfo from '../functions/editMyInfo';
 import getMyInfo from '../functions/getMyInfo';
 
 axios.defaults.withCredentials = true;
+
+//! Styled Components ------------------------------------------------------------//
+
+export const MyInfoTitle = styled.h2`
+  border: none;
+  align-items: flex-start;
+  height: 7vh;
+`;
+
+export const MyInfoButtonDiv = styled.div`
+  margin: 50px;
+`;
+
+//! Pages ----------------------------------------------------------------------//
 
 const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
   const navigate = useNavigate();
@@ -44,7 +67,7 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
     nickname: '',
   });
 
-  const handleInputValue = key => e => {
+  const handleInputValue = (key) => (e) => {
     // ! MyInfo에선 아이디를 받지 않아서 항상 오류가 나옴
     setValues({ ...values, username: 'dummyuser', [key]: e.target.value });
   };
@@ -83,7 +106,7 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
   // !----------------------------------------------------------------!
   // TODO: 회원 정보 수정
 
-  const handleEditFormSubmit = event => {
+  const handleEditFormSubmit = (event) => {
     event.preventDefault();
     const validMsg = isValid(values, 'MyInfo');
     setValidationMsg(validMsg);
@@ -102,7 +125,7 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
 
   // !----------------------------------------------------------------!
   // TODO: 회원 탈퇴
-  const handleDeleteFormSubmit = event => {
+  const handleDeleteFormSubmit = (event) => {
     event.preventDefault();
     const validMsg = isValid(values, 'isMyInfo');
     setValidationMsg(validMsg);
@@ -123,56 +146,67 @@ const MyInfo = ({ isLogin, loginHandler, logoutHandler }) => {
 
   return (
     <>
-      <StyledLink to="/">
-        <h1>CMUSICAL</h1>
-      </StyledLink>
-      <div className="form-wrapper">
-        <div className="email">
-          <label className="label">이메일</label>
-          <input className="input" type="email" name="email" value={values ? values.email : ''} onChange={handleInputValue('email')} />
-          <p className="error">
-            {validationMsg.email}
-            {conflicationMsg.email}
-            {/* {values.email === myInfo.email ? '' : conflicationMsg.email} */}
-          </p>
-        </div>
-        <div className="nickname">
-          <label className="label">닉네임</label>
-          <input className="input" type="text" name="nickname" value={values ? values.nickname : ''} onChange={handleInputValue('nickname')} />
-          <p className="error">
-            {validationMsg.nickname}
-            {conflicationMsg.nickname}
-            {/* {values.nickname === myInfo.nickname ? '' : conflicationMsg.nickname} */}
-          </p>
-        </div>
-        <div className="oldPassword">
-          <label className="label">현재 비밀번호</label>
-          <input className="input" type="password" name="oldPassword" onChange={handleInputValue('oldPassword')} />
-          <p className="error"></p>
-        </div>
-        <div className="password">
-          <label className="label">새로운 비밀번호</label>
-          <input className="input" type="password" name="password" onChange={handleInputValue('password')} />
-          <p className="error">
-            {validationMsg.password}
-            {/**/}
-          </p>
-        </div>
-        <div className="confirm">
-          <label className="label">새로운 비밀번호 확인</label>
-          <input className="input" type="password" name="confirm" onChange={handleInputValue('confirm')} />
-          <p className="error">
-            {validationMsg.confirm}
-            {/**/}
-          </p>
-        </div>
-        <div>
-          <Button onClick={handleEditFormSubmit}>정보 수정</Button>
-          {showEditModal ? <EditModal showModal={showEditModal} setShowModal={setShowEditModal} /> : null}
-          <Button onClick={handleDeleteFormSubmit}>회원 탈퇴</Button>
-          {showDeleteModal ? <DeleteModal showModal={showDeleteModal} setShowModal={setShowDeleteModal} /> : null}
-        </div>
-      </div>
+      <Container>
+        <Body>
+          <UserInfoBody>
+            <MyInfoTitle>
+              <StyledLink black to="/">
+                <h2>CMUSICAL</h2>
+              </StyledLink>
+            </MyInfoTitle>
+            <div className="form">
+              <div className="form-userinfo">
+                <InputContainer>
+                  <label>이메일</label>
+                  <Input type="text" name="email" value={values ? values.email : ''} onChange={handleInputValue('email')} />
+                  <ErrorMsg>
+                    {validationMsg.email}
+                    {conflicationMsg.email}
+                    {/* {values.email === myInfo.email ? '' : conflicationMsg.email} */}
+                  </ErrorMsg>
+                </InputContainer>
+                <InputContainer>
+                  <label>닉네임</label>
+                  <Input type="text" name="nickname" value={values ? values.nickname : ''} onChange={handleInputValue('nickname')} />
+                  <ErrorMsg>
+                    {validationMsg.nickname}
+                    {conflicationMsg.nickname}
+                    {/* {values.nickname === myInfo.nickname ? '' : conflicationMsg.nickname} */}
+                  </ErrorMsg>
+                </InputContainer>
+                <InputContainer>
+                  <label>현재 비밀번호</label>
+                  <PasswordInput type="password" name="oldPassword" onChange={handleInputValue('oldPassword')} />
+                  <p className="error"></p>
+                </InputContainer>
+                <InputContainer>
+                  <label>새로운 비밀번호</label>
+                  <PasswordInput type="password" name="password" onChange={handleInputValue('password')} />
+                  <ErrorMsg>
+                    {validationMsg.password}
+                    {/**/}
+                  </ErrorMsg>
+                </InputContainer>
+                <InputContainer>
+                  <label>새로운 비밀번호 확인</label>
+                  <PasswordInput type="password" name="confirm" onChange={handleInputValue('confirm')} />
+                  <ErrorMsg>
+                    {validationMsg.confirm}
+                    {/**/}
+                  </ErrorMsg>
+                </InputContainer>
+                <MyInfoButtonDiv>
+                  <DoubleButton onClick={handleEditFormSubmit}>정보 수정</DoubleButton>
+                  {showEditModal ? <EditModal showModal={showEditModal} setShowModal={setShowEditModal} /> : null}
+                  <DoubleButton onClick={handleDeleteFormSubmit}>회원 탈퇴</DoubleButton>
+                  {showDeleteModal ? <DeleteModal showModal={showDeleteModal} setShowModal={setShowDeleteModal} /> : null}
+                </MyInfoButtonDiv>
+              </div>
+            </div>
+          </UserInfoBody>
+        </Body>
+        <Footer />
+      </Container>
     </>
   );
 };
