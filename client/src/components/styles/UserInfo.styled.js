@@ -15,12 +15,6 @@ export const Title = styled.h2`
   height: 15vh;
 `;
 
-// export const Form = styled.div``;
-
-// export const InnerForm = styled.div``;
-
-// export const Label = styled.div``;
-
 export const InputContainer = styled.div`
   margin: 30px;
   padding: auto;
