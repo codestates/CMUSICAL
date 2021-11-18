@@ -53,9 +53,10 @@ module.exports = {
       const key = Object.keys(inspectData);
 
       if (key.length === 0) {
+        console.log(req.body);
         return res.status(400).send({ message: 'empty information' });
       }
-      key.map(async key => {
+      key.map(async (key) => {
         await users.update({ [key]: inspectData[key] }, { where: { id } });
       });
       return res.status(200).send({ message: 'success' });

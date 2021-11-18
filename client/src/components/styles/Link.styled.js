@@ -10,6 +10,6 @@ export const StyledLink = styled(Link)`
   &:link,
   &:active {
     text-decoration: none;
-    color: white;
+    color: ${(props) => (props.black ? 'black' : 'white')};
   }
 `;
