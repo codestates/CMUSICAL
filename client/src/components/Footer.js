@@ -49,7 +49,7 @@ const Anchor = styled(Span.withComponent('a'))`
 export default function Footer() {
   const information = [
     { title: 'Repository', url: 'https://github.com/codestates/cmusical' },
-    { title: 'WIki', url: 'https://github.com/codestates/CMUSICAL/wiki' },
+    { title: 'Wiki', url: 'https://github.com/codestates/CMUSICAL/wiki' },
   ];
   const members = [
     { name: 'Lee SeungHoon', url: 'https://github.com/shleecloud' },
