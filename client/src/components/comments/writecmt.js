@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MyComment } from '../styles/MyComment.styled';
-import { Button } from '../styles/Button.styled';
+import { SingleButton } from '../styles/Button.styled';
 import axios from 'axios';
 
 export default function WriteCmtBox({ cmtList, setCmtList, handleMyCmtStatus, id }) {
@@ -64,15 +64,15 @@ export default function WriteCmtBox({ cmtList, setCmtList, handleMyCmtStatus, id
     <>
       <MyComment>
         <textarea type="text" onKeyUp={handleKeyUp} value={cmt} onChange={inputCmt} />
-        <Button value="add" onClick={handleCommentSubmit}>
+        <SingleButton value="add" onClick={handleCommentSubmit}>
           입력
-        </Button>
-        <Button value="undo" onClick={handleCommentDelete}>
+        </SingleButton>
+        <SingleButton value="undo" onClick={handleCommentDelete}>
           삭제
-        </Button>
-        <Button value="undo" onKeyUp={handleKeyUp} onClick={handleMyCmtStatus}>
+        </SingleButton>
+        <SingleButton value="undo" onKeyUp={handleKeyUp} onClick={handleMyCmtStatus}>
           취소
-        </Button>
+        </SingleButton>
       </MyComment>
     </>
   );

@@ -23,6 +23,8 @@ export const MyComment = styled.div`
     font-size: 1.3rem;
     resize: none;
     cursor: pointer;
+    outline: none;
+    padding: 0.2rem 0.2rem 0 0.2rem;
   }
 
   button {
