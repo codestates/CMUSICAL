@@ -33,7 +33,7 @@ module.exports = {
         return res.status(400).send({ message: 'invalid password' });
       }
       // 변경하 비밀번호가 있고 데이터베이스에 있는 비밀번호와 겹치지 않으면 inspectData에 검사할 비밀번호 추가
-      if (req.body.password && req.body.password !== password) inspectData.password = req.body.newPassword;
+      if (req.body.newPassword && req.body.newPassword !== password) inspectData.password = req.body.newPassword;
       if (req.body.nickname !== nickname) inspectData.nickname = req.body.nickname;
       if (req.body.email !== email) inspectData.email = req.body.email;
       // 유효성 검사
@@ -55,7 +55,7 @@ module.exports = {
       if (key.length === 0) {
         return res.status(400).send({ message: 'empty information' });
       }
-      key.map(async key => {
+      key.map(async (key) => {
         await users.update({ [key]: inspectData[key] }, { where: { id } });
       });
       return res.status(200).send({ message: 'success' });
