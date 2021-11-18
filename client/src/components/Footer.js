@@ -1,7 +1,6 @@
 import React from 'react';
 import Logo from './Logo';
 import styled from 'styled-components';
-import { Container } from '../components/styles/Container.styled';
 
 export const Container = styled.div`
   width: 100%;
@@ -78,7 +77,7 @@ export default function Footer() {
           <h3>Services</h3>
         </div>
         <div className="list">
-          {infomation.map((el, idx) => {
+          {information.map((el, idx) => {
             return (
               <Anchor key={idx} href={el.url} target="_blank">
                 {el.title}
