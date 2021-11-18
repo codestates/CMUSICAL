@@ -3,6 +3,8 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
 import getAuth from '../functions/getAuth';
+import { Container } from '../components/styles/Container.styled';
+import { Body } from '../components/styles/Body.styled';
 import styled from 'styled-components';
 import { Container } from '../components/styles/Container.styled';
 import axios from 'axios';
@@ -11,19 +13,10 @@ dotenv.config();
 
 axios.defaults.withCredentials = true;
 
-export const Body = styled.div`
-  width: auto;
-  min-height: auto;
-  border: 3px solid green;
-
-  > .list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    border: 3px solid green;
-    margin: 10px 50px;
-    padding: 10px;
-  }
+export const List = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 `;
 
 export default function Main({ isLogin, loginHandler, logoutHandler }) {
@@ -54,22 +47,22 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
 
   return (
     <>
+      <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
       <Container>
-        <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
         <Body>
           <div className="title">
             <h2>Musical List</h2>
           </div>
-          <div className="list">
+          <List>
             {Array.isArray(list)
               ? list.map((el, idx) => {
                   return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
                 })
               : '로딩 이미지'}
-          </div>
+          </List>
         </Body>
+        <Footer />
       </Container>
-      <Footer />
     </>
   );
 }

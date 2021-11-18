@@ -8,11 +8,15 @@ import axios from 'axios';
 export const Box = styled.div`
   width: 300px;
   min-height: auto;
-  border: 3px solid;
 
   > .thumbnail {
     width: auto;
     position: relative;
+    margin: 1rem 0;
+    box-shadow: 0 5px 5px #bfa5a3;
+    outline: none;
+    border: none;
+    border-radius: 20px;
 
     > .pick {
       width: 50px;
@@ -23,6 +27,14 @@ export const Box = styled.div`
       cursor: pointer;
     }
   }
+`;
+
+export const Img = styled.img.attrs({})`
+  width: 100%;
+  height: 25rem;
+  outline: none;
+  border: none;
+  border-radius: 20px;
 `;
 
 export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, setFavorites }) {
@@ -42,10 +54,10 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
     if (favorite) {
       await axios
         .delete(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
-        .then(data => {
+        .then((data) => {
           setFavorite(false);
         })
-        .then(async data => {
+        .then(async (data) => {
           const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
           setFavorites(favoritesList.data.items);
         })
@@ -53,10 +65,10 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
     } else {
       await axios
         .post(`${process.env.REACT_APP_SERVER_ADDR}/favorites?itemId=${id}`) //
-        .then(data => {
+        .then((data) => {
           setFavorite(false);
         })
-        .then(async data => {
+        .then(async (data) => {
           const favoritesList = await axios.get(`${process.env.REACT_APP_SERVER_ADDR}/favorites`);
           setFavorites(favoritesList.data.items);
         })
@@ -76,7 +88,7 @@ export default function Thumbnail({ isLogin, thumbnail, title, id, favorites, se
     <Box>
       <div className="thumbnail">
         <Link to={`/musicalinfo/${id}`}>
-          <img src={thumbnail} alt={title} width="300" height="400" />
+          <Img src={thumbnail} alt={title} />
         </Link>
         <div className="pick" onClick={handleFavorites}>
           {isLogin ? (

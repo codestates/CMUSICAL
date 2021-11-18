@@ -3,40 +3,58 @@ import Logo from './Logo';
 import styled from 'styled-components';
 import { Container } from '../components/styles/Container.styled';
 
-// export const Container = styled.div`
+export const Container = styled.div`
+  width: 100%;
+  height: 12rem;
+  bottom: 0px;
+  position: absolute;
+  border: 1px solid;
+`;
+const Span = styled.span``;
+const Anchor = styled(Span.withComponent('a'))``;
+
+// export const Container = styled.div
 //   display: flex;
-//   width: auto;
-//   min-height: 150px;
-//   border: 3px solid;
-//   flex-wrap: wrap;
-//   > .box {
-//     display: flex;
-//     width: 300px;
-//     height: auto;
-//     align-items: center;
-//     justify-content: space-evenly;
-//     flex-wrap: wrap;
-//     margin: 0 5px;
-//     > .box-body {
-//       display: flex;
-//       flex-direction: column;
-//       align-items: center;
-//     }
-//   }
+//   height: 12rem;
+//   justify-content: space-around;
+//   background-color: #bfa5a3;
+//   color: #574240;
+//   padding-right: 15rem;
+//   position: absolute;
+//   bottom: 0px;
+
 //   > .logo {
 //     margin-right: auto;
+//     margin-left: 250px;
+//     margin-top: 50px;
+//   }
+
+//   > .box {
+//     display: flex;
+//     flex-direction: column;
+//     margin: 0.5rem 0 0 5rem;
+//     > .list {
+//       display: flex;
+//       flex-direction: column;
+//       align-items: flex-start;
+//       padding-top: 0.4rem;
+//       /* border: 1px solid; */
+//     }
 //   }
 // `;
+// TODO: 추후 적용할 Footer CSS
+// const Span = styled.span`
+//   font-size: 1rem;
+// `;
 
-const Span = styled.span``;
-
-const Anchor = styled(Span.withComponent('a'))`
-  padding: 4px;
-  text-decoration: none;
-  &:visited {
-    color: black;
-  }
-`;
+// const Anchor = styled(Span.withComponent('a'))`
+//   padding-bottom: 4px;
+//   text-decoration: none;
+//   color: #574240;
+//   &:visited {
+//     color: #574240;
+//   }
+// `;
 
 export default function Footer() {
   const information = [
@@ -52,15 +70,15 @@ export default function Footer() {
 
   return (
     <Container>
-      <div className="box logo">
+      <div className="logo">
         <Logo />
       </div>
       <div className="box">
-        <div className="box-header">
-          <h3>서비스 소개</h3>
+        <div className="title">
+          <h3>Services</h3>
         </div>
-        <div className="box-body">
-          {information.map((el, idx) => {
+        <div className="list">
+          {infomation.map((el, idx) => {
             return (
               <Anchor key={idx} href={el.url} target="_blank">
                 {el.title}
@@ -70,10 +88,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="box">
-        <div className="box-header">
+        <div className="title">
           <h3>Team Members</h3>
         </div>
-        <div className="box-body">
+        <div className="list">
           {members.map((member, idx) => {
             return (
               <Anchor key={idx} href={member.url} target="_blank">

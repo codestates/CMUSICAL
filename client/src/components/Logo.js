@@ -1,9 +1,9 @@
 import { StyledLink } from '../components/styles/Link.styled';
 
-export default function Logo() {
+export default function Logo({ color }) {
   return (
     <StyledLink to="/">
-      <p>CMUSICAL</p>
+      <h2>CMUSICAL</h2>
     </StyledLink>
   );
 }

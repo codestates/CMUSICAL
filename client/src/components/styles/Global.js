@@ -10,22 +10,17 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Arial', sans-serif;
   }
 
-  /* body {
-    display: flex;
-    flex-direction: column;
-    padding: 0 30vh 8vh 30vh;
-  } */
-
+  body {
+    box-sizing: border-box;
+  }
 
   h2 {
     font-size: 2rem;
     text-align: center;
-    margin: 30px 0;
   }
 
   h3 {
     font-size: 1.4rem;
-    margin: 15px 0;
   }
 `;
 
