@@ -1,7 +1,6 @@
 //* packages
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 //* components
 import Main from './pages/Main';
 import MyFavorites from './pages/MyFavorites';
@@ -11,7 +10,6 @@ import SignUp from './pages/SignUp';
 import MusicalInfo from './pages/MusicalInfo';
 
 export default function APP() {
-  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
 
   const loginHandler = () => {

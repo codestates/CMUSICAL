@@ -11,9 +11,11 @@ const GlobalStyles = createGlobalStyle`
   }
 
   /* body {
-    box-sizing: border-box;
-    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0 30vh 8vh 30vh;
   } */
+
 
   h2 {
     font-size: 2rem;
