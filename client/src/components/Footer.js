@@ -1,6 +1,7 @@
 import React from 'react';
 import Logo from './Logo';
 import styled from 'styled-components';
+import { Container } from '../components/styles/Container.styled';
 
 export const Container = styled.div`
   width: 100%;
@@ -32,7 +33,6 @@ const Anchor = styled(Span.withComponent('a'))``;
 //     display: flex;
 //     flex-direction: column;
 //     margin: 0.5rem 0 0 5rem;
-
 //     > .list {
 //       display: flex;
 //       flex-direction: column;
@@ -42,7 +42,7 @@ const Anchor = styled(Span.withComponent('a'))``;
 //     }
 //   }
 // `;
-
+// TODO: 추후 적용할 Footer CSS
 // const Span = styled.span`
 //   font-size: 1rem;
 // `;
@@ -57,7 +57,7 @@ const Anchor = styled(Span.withComponent('a'))``;
 // `;
 
 export default function Footer() {
-  const infomation = [
+  const information = [
     { title: 'Repository', url: 'https://github.com/codestates/cmusical' },
     { title: 'WIki', url: 'https://github.com/codestates/CMUSICAL/wiki' },
   ];
