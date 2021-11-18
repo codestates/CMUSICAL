@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Thumbnail from '../components/Thumbnail';
 import getAuth from '../functions/getAuth';
 import { Container } from '../components/styles/Container.styled';
+import { Body } from '../components/styles/Body.styled';
 import styled from 'styled-components';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -11,21 +12,10 @@ dotenv.config();
 
 axios.defaults.withCredentials = true;
 
-export const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  .title {
-    margin: 5rem 0 1rem 0;
-    color: #1c1c1c;
-  }
-`;
-
 export const List = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding: 10px;
 `;
 
 export default function Main({ isLogin, loginHandler, logoutHandler }) {
@@ -70,8 +60,8 @@ export default function Main({ isLogin, loginHandler, logoutHandler }) {
               : '로딩 이미지'}
           </List>
         </Body>
+        <Footer />
       </Container>
-      <Footer />
     </>
   );
 }

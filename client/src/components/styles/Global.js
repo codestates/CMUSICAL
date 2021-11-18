@@ -10,6 +10,10 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Arial', sans-serif;
   }
 
+  body {
+    box-sizing: border-box;
+  }
+
   h2 {
     font-size: 2rem;
     text-align: center;
@@ -17,7 +21,7 @@ const GlobalStyles = createGlobalStyle`
 
   h3 {
     font-size: 1.4rem;
-  }  
+  }
 `;
 
 export default GlobalStyles;

@@ -14,6 +14,8 @@ axios.defaults.withCredentials = true;
 export const Body = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0 30vh 8vh 30vh;
+  padding-bottom: 12rem;
 
   .title {
     margin: 5rem 0 2rem 0;
@@ -25,7 +27,6 @@ export const List = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding: 10px;
 `;
 
 export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
@@ -64,9 +65,8 @@ export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
               : '로딩 이미지'}
           </List>
         </Body>
+        <Footer />
       </Container>
-
-      <Footer />
     </>
   );
 }

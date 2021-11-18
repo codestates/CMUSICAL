@@ -4,6 +4,7 @@ import Navigation from '../components/Navigation';
 import Thumbnail from '../components/Thumbnail';
 import Tab from '../components/Tab';
 import Footer from '../components/Footer';
+import { Container } from '../components/styles/Container.styled';
 import styled from 'styled-components';
 import axios from 'axios';
 import getAuth from '../functions/getAuth';
@@ -12,7 +13,7 @@ dotenv.config();
 
 axios.defaults.withCredentials = true;
 
-export const Container = styled.div``;
+export const Body = styled.div``;
 
 export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
   const navigate = useNavigate();
@@ -57,33 +58,35 @@ export default function MusicalInfo({ isLogin, loginHandler, logoutHandler }) {
   return (
     <>
       <Navigation handleFilter={handleFilter} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
-      <div>
-        {item ? (
+      <Container>
+        <Body>
+          {item ? (
+            <div>
+              <div>
+                <Thumbnail isLogin={isLogin} thumbnail={item.thumbnail} title={item.title} id={item.id} favorites={favorites} setFavorites={setFavorites} />
+              </div>
+              <div>
+                <span>제목: {item.title}</span>
+                <span>장소: {item.theater}</span>
+                <span>출연자: {item.cast}</span>
+                <span>가격: {item.price}</span>
+                <span>런타임: {item.runtime}</span>
+                <span>공연 시간: {item.showtime}</span>
+                <span>공연 시작 날짜: {item.dateFrom}</span>
+                <span>공연 종료 날짜: {item.dateTo}</span>
+                <span>공연 상태: {item.state}</span>
+              </div>
+            </div>
+          ) : (
+            '로딩 이미지'
+          )}
           <div>
-            <div>
-              <Thumbnail isLogin={isLogin} thumbnail={item.thumbnail} title={item.title} id={item.id} favorites={favorites} setFavorites={setFavorites} />
-            </div>
-            <div>
-              <span>제목: {item.title}</span>
-              <span>장소: {item.theater}</span>
-              <span>출연자: {item.cast}</span>
-              <span>가격: {item.price}</span>
-              <span>런타임: {item.runtime}</span>
-              <span>공연 시간: {item.showtime}</span>
-              <span>공연 시작 날짜: {item.dateFrom}</span>
-              <span>공연 종료 날짜: {item.dateTo}</span>
-              <span>공연 상태: {item.state}</span>
-            </div>
+            {/* TODO: item의 상세 이미지 Tab 컴포넌트에 같이 넘겨주기 */}
+            {Object.keys(item).length === 0 ? <div /> : <Tab id={id} poster={item.poster} isLogin={isLogin} />}
           </div>
-        ) : (
-          '로딩 이미지'
-        )}
-        <div>
-          {/* TODO: item의 상세 이미지 Tab 컴포넌트에 같이 넘겨주기 */}
-          {Object.keys(item).length === 0 ? <div /> : <Tab id={id} poster={item.poster} isLogin={isLogin} />}
-        </div>
-      </div>
-      <Footer />
+        </Body>
+        <Footer />
+      </Container>
     </>
   );
 }
