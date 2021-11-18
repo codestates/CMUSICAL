@@ -6,6 +6,8 @@ import axios from 'axios';
 //* components
 import { Button } from '../components/styles/Button.styled';
 import { StyledLink } from '../components/styles/Link.styled';
+import { Container } from '../components/styles/Container.styled';
+import Footer from '../components/Footer';
 
 axios.defaults.withCredentials = true;
 
@@ -56,28 +58,39 @@ const SignIn = ({ loginHandler }) => {
   };
 
   return (
-    <div>
-      <center>
-        <StyledLink to="/">
-          <h1>CMUSICAL</h1>
-        </StyledLink>
-        <div>{errorMessage}</div>
+    <>
+      <Container>
         <div>
-          <span>아이디</span>
-          <input type="text" onKeyUp={handleKeyUp} onChange={handleInputValue('username')} />
+          <div>
+            <StyledLink to="/">
+              <h1>CMUSICAL</h1>
+            </StyledLink>
+          </div>
+          <div>
+            <div>{errorMessage}</div>
+            <div>
+              <span>아이디</span>
+            </div>
+            <div>
+              <input type="text" onKeyUp={handleKeyUp} onChange={handleInputValue('username')} />
+            </div>
+            <div>
+              <span>비밀번호</span>
+            </div>
+            <div>
+              <input type="password" onKeyUp={handleKeyUp} onChange={handleInputValue('password')} />
+            </div>
+            <div>
+              <Button onClick={handleSignIn}>로그인</Button>
+              <Link to="/signup">
+                <Button>가입하기</Button>
+              </Link>
+            </div>
+          </div>
         </div>
-        <div>
-          <span>비밀번호</span>
-          <input type="password" onKeyUp={handleKeyUp} onChange={handleInputValue('password')} />
-        </div>
-        <div>
-          <Button onClick={handleSignIn}>로그인</Button>
-        </div>
-        <Link to="/signup">
-          <Button>가입하기</Button>
-        </Link>
-      </center>
-    </div>
+      </Container>
+      <Footer />
+    </>
   );
 };
 
