@@ -5,27 +5,30 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   width: 100%;
-  height: 12rem;
+  height: 10rem;
   bottom: 0px;
-  justify-content: space-around;
+  justify-content: center;
   position: absolute;
   background-color: #bfa5a3;
   color: #574240;
+  padding: 1rem 0 0 0;
 
   > .logo {
-    margin: 0 auto 0 15rem;
-    padding: 4rem 0 0 0;
+    margin: 0 40rem 0 0;
+    h2 {
+      text-align: left;
+    }
   }
 
   > .box {
     display: flex;
     flex-direction: column;
-    margin: 0 2rem;
-    padding: 2rem 6rem 0 0;
+    padding: 0 3rem 0 0;
 
     > .list {
       display: flex;
       flex-direction: column;
+      padding-top: 0.7rem;
     }
   }
 `;
@@ -43,42 +46,13 @@ const Anchor = styled(Span.withComponent('a'))`
   }
 `;
 
-// export const Container = styled.div
-//   display: flex;
-//   justify-content: space-around;
-//   background-color: #bfa5a3;
-//   color: #574240;
-//   padding-right: 15rem;
-//   position: absolute;
-//   bottom: 0px;
-
-//   > .logo {
-//     margin-right: auto;
-//     margin-left: 250px;
-//     margin-top: 50px;
-//   }
-
-//   > .box {
-//     display: flex;
-//     flex-direction: column;
-//     margin: 0.5rem 0 0 5rem;
-//     > .list {
-//       display: flex;
-//       flex-direction: column;
-//       align-items: flex-start;
-//       padding-top: 0.4rem;
-//       /* border: 1px solid; */
-//     }
-//   }
-// `;
-
 export default function Footer() {
   const information = [
     { title: 'Repository', url: 'https://github.com/codestates/cmusical' },
     { title: 'WIki', url: 'https://github.com/codestates/CMUSICAL/wiki' },
   ];
   const members = [
-    { name: 'Lee SeungHun', url: 'https://github.com/shleecloud' },
+    { name: 'Lee SeungHoon', url: 'https://github.com/shleecloud' },
     { name: 'Kim YunJin', url: 'https://github.com/yunjink' },
     { name: 'Seo EunYu', url: 'https://github.com/EUNYUSEO' },
     { name: 'Park JinHyuck', url: 'https://github.com/hyucki' },
@@ -88,10 +62,11 @@ export default function Footer() {
     <Container>
       <div className="logo">
         <Logo />
+        <div>자료 출처: (재)예술경영지원센터 공연예술통합전산망(www.kopis.or.kr)</div>
       </div>
       <div className="box">
         <div className="title">
-          <h3>Services</h3>
+          <h3>About us</h3>
         </div>
         <div className="list">
           {information.map((el, idx) => {

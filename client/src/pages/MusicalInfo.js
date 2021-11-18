@@ -17,7 +17,7 @@ axios.defaults.withCredentials = true;
 export const Top = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 5rem 0 0 0;
+  padding: 10rem 0 0 0;
   margin-bottom: 4rem;
 
   .title {
@@ -38,7 +38,7 @@ export const Info = styled.div`
     height: 400px;
     justify-content: center;
     margin: 1rem 0 0 3rem;
-    padding: 0 0 0 1rem;
+    padding: 0 0 0 2rem;
     border: 2px solid #574240;
     border-radius: 20px;
   }
@@ -50,7 +50,7 @@ export const Row = styled.div`
 
 export const Span = styled.span`
   display: ${({ infoT }) => (infoT ? 'inline-block' : '')};
-  font-size: ${({ title, info, infoT }) => (title ? '3rem' : info ? (infoT ? '1.5rem' : '1.3rem') : '1rem')};
+  font-size: ${({ title, info, infoT }) => (title ? '2.4rem' : info ? (infoT ? '1.5rem' : '1.3rem') : '1rem')};
   padding: ${({ title, infoT }) => (title ? '0 1rem 0 0' : infoT ? '0' : '0 0 0 1rem')};
   width: ${({ infoT }) => (infoT ? '100px' : '0')};
   border-right: ${({ infoT }) => (infoT ? '2px solid #574240 ' : '')};

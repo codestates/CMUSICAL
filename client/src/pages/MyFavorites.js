@@ -12,8 +12,16 @@ dotenv.config();
 
 axios.defaults.withCredentials = true;
 
+export const None = styled.div`
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding: 5rem 0 0 0;
+  font-size: 1.4rem;
+`;
+
 export const Title = styled.div`
-  margin: 5rem 0 2rem 0;
+  margin: 10rem 0 3rem 0;
   color: #1c1c1c;
 `;
 
@@ -52,11 +60,13 @@ export default function MyFavorites({ isLogin, loginHandler, logoutHandler }) {
             <h2>Favorites</h2>
           </Title>
           <List>
-            {Array.isArray(list)
-              ? list.map((el, idx) => {
-                  return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
-                })
-              : '로딩 이미지'}
+            {list.length !== 0 ? (
+              list.map((el, idx) => {
+                return <Thumbnail isLogin={isLogin} key={idx} thumbnail={el.thumbnail} title={el.title} id={el.id} favorites={favorites} setFavorites={setFavorites} />;
+              })
+            ) : (
+              <None>관심있는 뮤지컬을 즐겨찾기 해보세요!</None>
+            )}
           </List>
         </Body>
         <Footer />

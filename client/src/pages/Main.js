@@ -13,7 +13,7 @@ dotenv.config();
 axios.defaults.withCredentials = true;
 
 export const Title = styled.div`
-  margin: 5rem 0 2rem 0;
+  margin: 10rem 0 3rem 0;
   color: #1c1c1c;
 `;
 

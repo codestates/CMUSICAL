@@ -6,12 +6,14 @@ import Logo from './Logo';
 import axios from 'axios';
 
 export const Container = styled.div`
+  position: fixed;
+  z-index: 1;
   display: flex;
+  width: 100%;
   height: 7vh;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 0 250px;
   background-color: #8d1323;
 
   > .box {
@@ -24,10 +26,11 @@ export const Container = styled.div`
 
   > .logo {
     margin-right: auto;
+    margin: 0 40rem 0 0;
   }
 
   .search {
-    margin-right: 2vh;
+    margin-right: 2rem;
   }
 
   .submenu {
@@ -46,7 +49,8 @@ export const Input = styled.input.attrs({})`
   min-height: 27px;
   outline: none;
   border: none;
-  border-radius: 20px;
+  border-radius: 10px;
+  font-family: 'sans-serif';
 `;
 
 export const Button = styled.button`
@@ -116,7 +120,7 @@ export default function Navigation({ handleFilter, isLogin, loginHandler, logout
         <Logo />
       </div>
       <div className="box search">
-        <Input type="search" value={window.sessionStorage.getItem('Keyword')} onKeyUp={handleKeyUp} onChange={handleText} />
+        <Input placeholder=" 뮤지컬을 검색해보세요! :)" type="search" value={window.sessionStorage.getItem('Keyword')} onKeyUp={handleKeyUp} onChange={handleText} />
         <Button onClick={clickBtn}>🔍</Button>
       </div>
       <div className="box">

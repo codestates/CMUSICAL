@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { MyComment } from '../styles/MyComment.styled';
+import { Button } from '../styles/Button.styled';
 import axios from 'axios';
 
 export default function WriteCmtBox({ cmtList, setCmtList, handleMyCmtStatus, id }) {
-  // cmtList.myComment ? cmtList.myComment[0].comment : ''
   const [cmt, setCmt] = useState(cmtList.myComment.length !== 0 ? cmtList.myComment[0].comment : '');
 
   const inputCmt = (e) => {
@@ -61,18 +62,18 @@ export default function WriteCmtBox({ cmtList, setCmtList, handleMyCmtStatus, id
   // const handleCommentCancle = e => {};
   return (
     <>
-      <div>
-        <input type="text" onKeyUp={handleKeyUp} value={cmt} onChange={inputCmt} />
-        <button value="add" onClick={handleCommentSubmit}>
+      <MyComment>
+        <textarea type="text" onKeyUp={handleKeyUp} value={cmt} onChange={inputCmt} />
+        <Button value="add" onClick={handleCommentSubmit}>
           입력
-        </button>
-        <button value="undo" onClick={handleCommentDelete}>
+        </Button>
+        <Button value="undo" onClick={handleCommentDelete}>
           삭제
-        </button>
-        <button value="undo" onKeyUp={handleKeyUp} onClick={handleMyCmtStatus}>
+        </Button>
+        <Button value="undo" onKeyUp={handleKeyUp} onClick={handleMyCmtStatus}>
           취소
-        </button>
-      </div>
+        </Button>
+      </MyComment>
     </>
   );
 }
