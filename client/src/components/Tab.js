@@ -65,7 +65,7 @@ export default function Tab({ poster, id, isLogin }) {
   // TODO: MusicalInfo로부터 받아온 props(images)를 Posters 컴포넌트에 넘겨주기
   const tabArr = [
     {
-      name: 'Posters',
+      name: 'Poster',
       content: <Posters posters={posters} />,
     },
     { name: 'Comment', content: <Comments cmtList={cmtList} setCmtList={setCmtList} id={id} isLogin={isLogin} /> },
