@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Main from './pages/Main';
+import MyFavorites from './pages/MyFavorites';
+import MyInfo from './pages/MyInfo';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import MusicalInfo from './pages/MusicalInfo';
 
-function App() {
+export default function APP() {
+  const [isLogin, setIsLogin] = useState(false);
+
+  const loginHandler = () => {
+    setIsLogin(true);
+  };
+
+  const logoutHandler = () => {
+    setIsLogin(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Main isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
+        <Route path="/favorites" element={<MyFavorites isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
+        <Route path="/myinfo" element={<MyInfo />} isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />
+        <Route path="/signin" element={<SignIn isLogin={isLogin} loginHandler={loginHandler} />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/musicalinfo/:id" element={<MusicalInfo isLogin={isLogin} loginHandler={loginHandler} logoutHandler={logoutHandler} />} />
+      </Routes>
+    </>
   );
 }
-
-export default App;
